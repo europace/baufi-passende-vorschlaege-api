@@ -13,35 +13,188 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ConsumerData"
+              $ref: "#/components/schemas/CustomerData"
       responses:
         "200":
           $ref: "#/components/schemas/Offer"
         "400":
           description: "Bad request"
         "404":
-          description: "Not found (will be returned if input is valid but no offer could be created anyway"
+          description: "Not found (will be returned if input is valid but no offer could be created anyway)"
         "405":
           description: "Invalid input"
         "500":
           description: "Internal server error"
 components:
   schemas:
-    ConsumerData:
+    CustomerData:
       type: object
       properties:
-        aPropertyName:
-          type: string
-          description: 'a description'
-          example: 'an example value'
+        customer:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        household:
+          type: array
+          items:
+            $ref: '#/components/schemas/Household'
+        realEstate:
+          $ref: '#/components/schemas/RealEstate'
+        preferences:
+          $ref: '#/components/schemas/Preferences'
       required:
-        - aRequiredProperty
+        - Customer
+        - Household
+        - RealEstate
+    Customer:
+      type: object
+      properties:
+        selfEmployed:
+          type: boolean
+        employedSince:
+          type: string
+          format: date
+      required:
+        - selfEmployed
+    Household:
+      type: object
+      properties:
+        bankSparGuthabenSummeInEuro:
+          type: number
+        sonstigeEinnahmenSummeInEuro:
+          type: number
+    RealEstate:
+      type: object
+      properties:
+        propertyType:
+          enum:
+            - EINFAMILIEN_HAUS
+            - MEHRFAMILIEN_HAUS
+        rented:
+          type: boolean
+    Preferences:
+      type: object
+      properties:
+        laufzeit:
+          type: integer
+          description: 'in years. 0 means: as soon as possible'
+        wunschRate:
+          type: number
+        einzugsDatum:
+          type: string
+          format: date
+        entscheidungsBisDatum:
+          type: string
+          format: date
     Offer:
       type: object
       properties:
-        aPropertyName:
+        annahmeFrist:
           type: string
-          description: 'a description'
-          example: 'an example value'
-      required:
-        - aRequiredProperty
+          format: date-time
+        bausparAngebote:
+          type: array
+          items:
+            $ref: '#/definitions/BausparAngebot'
+        darlehen:
+          type: array
+          items:
+            $ref: '#/definitions/Darlehen'
+        darlehensSumme:
+          type: number
+        sollZins:
+          type: number
+        effektivZins:
+          type: number
+        kennung:
+          type: string
+    BausparAngebot:
+      type: object
+    Darlehen:
+      type: object
+      properties:
+        auszahlungsBetrag:
+          type: number
+          description: Der Auszahlungsbetrag ist der Nettodarlehensbetrag
+        auszahlungsDatum:
+          type: string
+          format: date
+        darlehensBetrag:
+          type: number
+        effektivZins:
+          type: number
+        finanzierenderProduktAnbieter:
+          description: Kann z.B. bei KfW abweichen vom produktAnbieter
+          type: string
+        gesamtkosten:
+          type: number
+        gesamtlaufzeitInMonaten:
+          type: integer
+          format: int32
+        id:
+          type: string
+        produktAnbieter:
+          type: string
+        rateMonatlich:
+          type: number
+        sollZins:
+          type: number
+        tilgung:
+          type: number
+        typ:
+          type: string
+          enum:
+            - ANNUITAETEN_DARLEHEN
+            - FORWARD_DARLEHEN
+            - REGIONAL_FOERDER_DARLEHEN
+            - KFW_DARLEHEN
+            - PRIVAT_DARLEHEN
+            - ZWISCHEN_FINANZIERUNG
+            - VARIABLES_DARLEHEN
+            - BAUSPARVERTRAG
+        zinsBindung:
+          type: integer
+        zinsZahlungsBeginnAm:
+          type: string
+          format: date
+      title: Darlehen
+
+
+#
+# "antragsteller": [{"selbstaendiger": false,"imJobSeit": "2013-06-15","arbeitBefristet": false,"nettoEinkommenInEuro": 3000,"geburtsdatum": "1984-11-01","beschaeftigungsart": "ANGESTELLTER"}],
+# "haushalt": {"bankSparGuthabenSummeInEuro": 20000,"sonstigeEinnahmenSummeInEuro": 0,"summeNichtabgeloestePrivatedarlehenRestschuld" : 0,"summeNichtabgeloesteRatenkrediteRestschuld": 0},
+# "immobilie": {"objektart":"EFH","vermietet": false,"baujahr": 1995,"gewerbeeinheiten": false,"plz": "10179","wohnflaecheGesamt": 145.45,"grundstueckKaufpreis": 100000,"kaufpreis": 300000,"herstellungskostenklusiveEigenleistung": 0,"modernisierungsKostenklEigenleistungen": 10000   }
+#
+#  Folgende Werte sind bisher nur über Präferenzen erfasst worden und müssen zukünftig als zentrale Parameter eines Finanzierungswunsches berücksichtigt werden
+#
+#  Laufzeit (als Stichtag falls gewünscht)
+#
+#  Wunschrate
+#
+#  Einzugsdatum/Fertigstellung
+#
+#  Entscheidung bis Datum
+#
+#  Für eine valide Market Engine-Anfrgae werden dann noch folgende Werte benötigt, die aus den Eingabedaten berechnet werden können
+#
+#Darlehensbetrag: Kaufpreis+Nebenkosten-Eigenkapital
+#
+#BZ-Zeit: Einzugsdatum - Entscheidungsdatum
+#
+#Tilgung:  Tigungsplan-Rechner
+#
+#Förderfähig: Neubau, eigengenutzt, kein Gewerbe - KfW55,
+#
+#Nebenkosten: Bundesland (Makler/Grunderwerb/Notar)
+#
+#  Lage (RedShift-Geodaten-Service, urban, Küste)
+#
+#  SoTi (eigentlich immer JA)
+
+# TODO:
+# - weitere In-Felder definieren
+# - Präferenzen mit Jens klären
+# - brauchen wir Machbarkeiten? Oder Erfolgsaussicht?
+# - welche Felder sind must have - welche nice to have?
+# - brauchen wir für v0.1 Meldungen?
+# - Darlehen and BausparAngebot definieren
