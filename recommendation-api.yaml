@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  description: API for getting recommended mortgage offers.
+  version: 0.0.1
+  title: Recommended offers API
+paths:
+  /offers:
+    post:
+      summary: "Get recommended offers based on consumer data (currently 1)"
+      operationId: "getOffers"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConsumerData"
+      responses:
+        "200":
+          $ref: "#/components/schemas/Offer"
+        "400":
+          description: "Bad request"
+        "404":
+          description: "Not found (will be returned if input is valid but no offer could be created anyway"
+        "405":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+components:
+  schemas:
+    ConsumerData:
+      type: object
+      properties:
+        aPropertyName:
+          type: string
+          description: 'a description'
+          example: 'an example value'
+      required:
+        - aRequiredProperty
+    Offer:
+      type: object
+      properties:
+        aPropertyName:
+          type: string
+          description: 'a description'
+          example: 'an example value'
+      required:
+        - aRequiredProperty
