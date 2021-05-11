@@ -77,10 +77,18 @@ components:
     Household:
       type: object
       properties:
-        bankSparGuthabenSummeInEuro:
+        bankSparGuthaben:
           type: number
-        sonstigeEinnahmenSummeInEuro:
+          example: 14500
+        sonstigeEinnahmen:
           type: number
+          example: 380
+        nichtabgeloestePrivateDarlehenRestschuld:
+          type: number
+          example: 42000
+        nichtabgeloesteRatenkrediteRestschuld:
+          type: number
+          example: 8500
     RealEstate:
       type: object
       properties:
@@ -179,8 +187,6 @@ components:
 
 
 #
-# "antragsteller": [{"selbstaendiger": false,"imJobSeit": "2013-06-15","arbeitBefristet": false,"nettoEinkommenInEuro": 3000,"geburtsdatum": "1984-11-01","beschaeftigungsart": "ANGESTELLTER"}],
-# "haushalt": {"bankSparGuthabenSummeInEuro": 20000,"sonstigeEinnahmenSummeInEuro": 0,"summeNichtabgeloestePrivatedarlehenRestschuld" : 0,"summeNichtabgeloesteRatenkrediteRestschuld": 0},
 # "immobilie": {"objektart":"EFH","vermietet": false,"baujahr": 1995,"gewerbeeinheiten": false,"plz": "10179","wohnflaecheGesamt": 145.45,"grundstueckKaufpreis": 100000,"kaufpreis": 300000,"herstellungskostenklusiveEigenleistung": 0,"modernisierungsKostenklEigenleistungen": 10000   }
 #
 #  Folgende Werte sind bisher nur über Präferenzen erfasst worden und müssen zukünftig als zentrale Parameter eines Finanzierungswunsches berücksichtigt werden
@@ -217,3 +223,5 @@ components:
 # - brauchen wir für v0.1 Meldungen?
 # - Darlehen and BausparAngebot definieren
 # - brauchen wir am Input selbstständig + Beschäftigungsverhältnis?
+# - englische Beschreibungen für deutsche Properties
+# - beispiel-Werte hinzufügen
