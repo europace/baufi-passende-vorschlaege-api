@@ -1,0 +1,63 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.amazonaws:aws-java-sdk-iam:1.11.78'
+    classpath 'com.amazonaws:aws-java-sdk-ec2:1.11.78'
+    classpath 'com.amazonaws:aws-java-sdk:1.10.58'
+  }
+}
+
+plugins {
+  id 'org.openapi.generator' version '5.0.1'
+  id 'java'
+  id 'maven-publish'
+  id 'net.researchgate.release' version '2.8.1'
+}
+
+
+project.ext {
+  name = 'Recommended Offers API'
+  artifactId = 'recommended-offers-api'
+  groupId = 'de.europace'
+  version = "${version}"
+}
+
+group = 'de.europace'
+
+repositories {
+  mavenCentral()
+}
+
+publishing {
+  publications{
+    mavenJava(MavenPublication) {
+      version="${property("version")}".toString()
+      artifact "$rootDir/recommendation-api.yaml"
+
+    }
+  }
+
+  repositories {
+    maven {
+      url = 's3://api-infrastructure-yaml-descriptor'
+      authentication {
+        awsIm(AwsImAuthentication)
+      }
+    }
+  }
+}
+
+openApiValidate {
+  inputSpec = "$rootDir/${property("recommendation.offers.api.file.name")}"
+  recommend = true
+}
+
+release {
+  failOnCommitNeeded = false
+}
+
+publish.dependsOn tasks.openApiValidate
+
+afterReleaseBuild.dependsOn publish
