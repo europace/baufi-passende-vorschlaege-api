@@ -56,7 +56,7 @@ components:
           format: date
         workLimited:
           type: boolean
-          description: 'true if working contract is timely limited, false otherwise'
+          description: 'true if employment contract is temporarily, false otherwise'
         netIncome:
           type: number
         dateOfBirth:
