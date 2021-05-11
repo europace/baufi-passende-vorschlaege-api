@@ -54,8 +54,26 @@ components:
         employedSince:
           type: string
           format: date
+        workLimited:
+          type: boolean
+          description: 'true if working contract is timely limited, false otherwise'
+        netIncome:
+          type: number
+        dateOfBirth:
+          type: string
+          format: date
+        typeOfEmployment:
+          enum:
+            - ANGESTELLTER
+            - ARBEITER
+            - BEAMTER
+            - FREIBERUFLER
+            - SELBSTSTAENDIGER
+            - RENTER
+            - HAUSMANN
+            - ARBEITSLOSER
       required:
-        - selfEmployed
+        - netIncome
     Household:
       type: object
       properties:
@@ -198,3 +216,4 @@ components:
 # - welche Felder sind must have - welche nice to have?
 # - brauchen wir für v0.1 Meldungen?
 # - Darlehen and BausparAngebot definieren
+# - brauchen wir am Input selbstständig + Beschäftigungsverhältnis?
