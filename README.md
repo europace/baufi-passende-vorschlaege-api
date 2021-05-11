@@ -1,2 +1,2 @@
-# passende-vorschlaege-api
-API for providing suitable mortgage recommendations
+# recommended-offerings-api
+API for providing suitable mortgage recommendations.
