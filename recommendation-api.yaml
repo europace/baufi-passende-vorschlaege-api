@@ -92,12 +92,41 @@ components:
     RealEstate:
       type: object
       properties:
-        propertyType:
+        objektArt:
           enum:
-            - EINFAMILIEN_HAUS
-            - MEHRFAMILIEN_HAUS
+            - DOPPELHAUSHAELFTE
+            - EINFAMILIENHAUS
+            - MEHRFAMILIENHAUS
+            - REIHENHAUS
+            - ZWEIFAMILIENHAUS
         rented:
           type: boolean
+          description: 'true if the real estate is rented to another person, false otherwise'
+        constructionYear:
+          type: integer
+        commercialUnit:
+          type: boolean
+        zipCode:
+          type: string
+        livingSpace:
+          type: number
+          description: 'in square meters'
+          example: 120.50
+        grundstueckKaufpreis:
+          type: number
+          description: 'land purchase price in euro'
+          example: 380000
+        kaufpreis:
+          type: number
+          description: 'real estate purchase price in euro (land purchase price excluded)'
+          example: 250000
+        herstellungskostenInklusiveEigenleistung:
+          type: number
+          description: 'cost of creation not included in "kaufpreis", including worth of personal contribution'
+        modernisierungsKostenInklusiveEigenleistungen:
+          type: number
+          description: 'cost of additional modernisations not included in "kaufpreis", including worth of personal contribution'
+          example: 10000
     Preferences:
       type: object
       properties:
@@ -187,8 +216,6 @@ components:
 
 
 #
-# "immobilie": {"objektart":"EFH","vermietet": false,"baujahr": 1995,"gewerbeeinheiten": false,"plz": "10179","wohnflaecheGesamt": 145.45,"grundstueckKaufpreis": 100000,"kaufpreis": 300000,"herstellungskostenklusiveEigenleistung": 0,"modernisierungsKostenklEigenleistungen": 10000   }
-#
 #  Folgende Werte sind bisher nur über Präferenzen erfasst worden und müssen zukünftig als zentrale Parameter eines Finanzierungswunsches berücksichtigt werden
 #
 #  Laufzeit (als Stichtag falls gewünscht)
@@ -225,3 +252,5 @@ components:
 # - brauchen wir am Input selbstständig + Beschäftigungsverhältnis?
 # - englische Beschreibungen für deutsche Properties
 # - beispiel-Werte hinzufügen
+# - manche Feld-Namen VWZ-bezogen (z.B. 'kaufpreis'). Vorschlag: generischere Benamung ('Preis' / 'price')
+# - dokumentieren: herstellungskostenInklusiveEigenleistung vs modernisierungsKostenInklusiveEigenleistungen
