@@ -1,4 +1,4 @@
-# recommended-offers-api
+# passende-finanzierungs-vorschlaege-api
 API zur Ermittlung passender Finanzierungsvorschläge anhand einer Verbraucher-Situation und -Wunsch.
 
 Die API ist in einem pre-alpha-Status und noch nicht funktional verfügbar.
