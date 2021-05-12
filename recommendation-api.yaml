@@ -1,68 +1,69 @@
-openapi: 3.0.2
+openapi: 3.0.3
 info:
-  description: API for getting recommended mortgage offers.
+  description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
   version: 0.0.1
-  title: Recommended offers API
+  title: Empfohlene Finanzierungsvorschläge API
 paths:
-  /offers:
+  /angebote:
     post:
-      summary: "Get recommended offers based on consumer data (currently 1)"
-      operationId: "getOffers"
+      summary: 'Empfohlene Finanzierungsvorschläge ermitteln (derzeit genau einen)'
+      operationId: 'getOffers'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CustomerData"
+              $ref: '#/components/schemas/ErfassteDaten'
       responses:
-        "200":
-          $ref: "#/components/schemas/Offer"
-        "400":
-          description: "Bad request"
-        "404":
-          description: "Not found (will be returned if input is valid but no offer could be created anyway)"
-        "405":
-          description: "Invalid input"
-        "500":
-          description: "Internal server error"
+        '200':
+          $ref: '#/components/schemas/FinanzierungsVorschlag'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Angebote ermittelt werden konnten)'
+        '405':
+          description: 'Invalid input'
+        '500':
+          description: 'Internal server error'
 components:
   schemas:
-    CustomerData:
+    ErfassteDaten:
       type: object
       properties:
-        customer:
+        antragsteller:
           type: array
           items:
-            $ref: '#/components/schemas/Customer'
-        household:
+            $ref: '#/components/schemas/Antragsteller'
+        haushalt:
           type: array
           items:
-            $ref: '#/components/schemas/Household'
-        realEstate:
-          $ref: '#/components/schemas/RealEstate'
-        preferences:
-          $ref: '#/components/schemas/Preferences'
+            $ref: '#/components/schemas/Haushalt'
+        finanzierungsObjekt:
+          $ref: '#/components/schemas/FinanzierungsObjekt'
+        praeferenzen:
+          $ref: '#/components/schemas/Praeferenzen'
       required:
-        - Customer
-        - Household
-        - RealEstate
-    Customer:
+        - antragsteller
+        - haushalt
+        - finanzierungsObjekt
+    Antragsteller:
       type: object
       properties:
-        selfEmployed:
+        selbststaendig:
           type: boolean
-        employedSince:
+        beschaeftigtSeit:
           type: string
           format: date
-        workLimited:
+        arbeitBefristet:
           type: boolean
-          description: 'true if employment contract is temporarily, false otherwise'
-        netIncome:
+          description: 'true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false'
+        nettoEinkommen:
           type: number
-        dateOfBirth:
+          description: 'in Euro'
+        geburtsDatum:
           type: string
           format: date
-        typeOfEmployment:
+        beschaeftigungsArt:
           enum:
             - ANGESTELLTER
             - ARBEITER
@@ -73,8 +74,8 @@ components:
             - HAUSMANN
             - ARBEITSLOSER
       required:
-        - netIncome
-    Household:
+        - nettoEinkommen
+    Haushalt:
       type: object
       properties:
         bankSparGuthaben:
@@ -83,13 +84,13 @@ components:
         sonstigeEinnahmen:
           type: number
           example: 380
-        nichtabgeloestePrivateDarlehenRestschuld:
+        nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
-        nichtabgeloesteRatenkrediteRestschuld:
+        nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
-    RealEstate:
+    FinanzierungsObjekt:
       type: object
       properties:
         objektArt:
@@ -99,40 +100,38 @@ components:
             - MEHRFAMILIENHAUS
             - REIHENHAUS
             - ZWEIFAMILIENHAUS
-        rented:
+        vermietet:
           type: boolean
-          description: 'true if the real estate is rented to another person, false otherwise'
-        constructionYear:
+          description: 'true, wenn das Objekt vermietet ist, ansonsten false'
+        bauJahr:
           type: integer
-        commercialUnit:
+        gewerbeEinheit:
           type: boolean
-        zipCode:
+          description: 'true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false'
+        postleitzahl:
           type: string
-        livingSpace:
+        wohnFlaeche:
           type: number
-          description: 'in square meters'
+          description: 'in Quadratmetern'
           example: 120.50
         grundstueckKaufpreis:
           type: number
-          description: 'land purchase price in euro'
+          description: 'in Euro'
           example: 380000
-        kaufpreis:
+        preis:
           type: number
-          description: 'real estate purchase price in euro (land purchase price excluded)'
+          description: 'Kaufpreis / Herstellungskosten / ...'
           example: 250000
         herstellungskostenInklusiveEigenleistung:
           type: number
-          description: 'cost of creation not included in "kaufpreis", including worth of personal contribution'
+          description: 'Herstellungskosten, die nicht im "preis" enthalten sind'
         modernisierungsKostenInklusiveEigenleistungen:
           type: number
-          description: 'cost of additional modernisations not included in "kaufpreis", including worth of personal contribution'
+          description: 'Kosten zusätzlicher Modernisierungsmaßnahmen, die nicht in "preis" enthalten sind'
           example: 10000
-    Preferences:
+    Praeferenzen:
       type: object
       properties:
-        laufzeit:
-          type: integer
-          description: 'in years. 0 means: as soon as possible'
         wunschRate:
           type: number
         einzugsDatum:
@@ -141,7 +140,12 @@ components:
         entscheidungsBisDatum:
           type: string
           format: date
-    Offer:
+        laufzeit:
+          enum:
+            - SCHNELLST_MOEGLICH
+            - BIS_ZUR_RENTE
+            - EGAL
+    FinanzierungsVorschlag:
       type: object
       properties:
         annahmeFrist:
@@ -150,11 +154,11 @@ components:
         bausparAngebote:
           type: array
           items:
-            $ref: '#/definitions/BausparAngebot'
+            $ref: '#/components/schemas/BausparAngebot'
         darlehen:
           type: array
           items:
-            $ref: '#/definitions/Darlehen'
+            $ref: '#/components/schemas/Darlehen'
         darlehensSumme:
           type: number
         sollZins:
@@ -167,35 +171,43 @@ components:
       type: object
     Darlehen:
       type: object
+      description: 'a loan'
       properties:
         auszahlungsBetrag:
           type: number
-          description: Der Auszahlungsbetrag ist der Nettodarlehensbetrag
+          description: 'Auszahlungsbetrag is the net darlehensBetrag in euro'
         auszahlungsDatum:
           type: string
           format: date
         darlehensBetrag:
           type: number
-        effektivZins:
-          type: number
-        finanzierenderProduktAnbieter:
-          description: Kann z.B. bei KfW abweichen vom produktAnbieter
-          type: string
-        gesamtkosten:
-          type: number
-        gesamtlaufzeitInMonaten:
-          type: integer
-          format: int32
-        id:
-          type: string
-        produktAnbieter:
-          type: string
-        rateMonatlich:
-          type: number
         sollZins:
           type: number
+          description: 'in Prozent, hundert-basiert'
+          example: 2.34
+        effektivZins:
+          type: number
+          description: 'in Prozent, hundert-basiert'
+          example: 2.56
+        produktAnbieter:
+          type: string
+        finanzierenderProduktAnbieter:
+          type: string
+          description: 'über die Finanzierung entscheidender ProduktAnbieter (kann von "produktAnbieter" abweichen - z.B. bei KfW-Darlehen)'
+        gesamtKosten:
+          type: number
+          description: 'in Euro'
+          example: 450000
+        gesamtLaufzeit:
+          type: integer
+          format: int32
+          description: '(kalkulatorische) Laufzeit der Finanzierung'
+        rate:
+          type: number
+          description: 'monatliche Gesamt-Rate in Euro (inklusive "tilgung")'
         tilgung:
           type: number
+          description: 'monatliche Tilgungs-Rate in Euro'
         typ:
           type: string
           enum:
@@ -209,6 +221,7 @@ components:
             - BAUSPARVERTRAG
         zinsBindung:
           type: integer
+          description: 'in Jahren'
         zinsZahlungsBeginnAm:
           type: string
           format: date
@@ -242,15 +255,12 @@ components:
 #
 #  SoTi (eigentlich immer JA)
 
-# TODO:
-# - weitere In-Felder definieren
+# Fragen:
 # - Präferenzen mit Jens klären
-# - brauchen wir Machbarkeiten? Oder Erfolgsaussicht?
 # - welche Felder sind must have - welche nice to have?
 # - brauchen wir für v0.1 Meldungen?
-# - Darlehen and BausparAngebot definieren
+# - BausparAngebot definieren?
 # - brauchen wir am Input selbstständig + Beschäftigungsverhältnis?
-# - englische Beschreibungen für deutsche Properties
-# - beispiel-Werte hinzufügen
-# - manche Feld-Namen VWZ-bezogen (z.B. 'kaufpreis'). Vorschlag: generischere Benamung ('Preis' / 'price')
-# - dokumentieren: herstellungskostenInklusiveEigenleistung vs modernisierungsKostenInklusiveEigenleistungen
+# - wie englische Doku?
+# - finanzierenderProduktAnbieter: warum am Darlehen statt am Angebot?
+# - gewerbeEinheit korrekt beschrieben?
