@@ -30,10 +30,6 @@ components:
     ErfassteDaten:
       type: object
       properties:
-        antragsteller:
-          type: array
-          items:
-            $ref: '#/components/schemas/Antragsteller'
         haushalt:
           type: array
           items:
@@ -43,7 +39,6 @@ components:
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
       required:
-        - antragsteller
         - haushalt
         - finanzierungsObjekt
     Antragsteller:
@@ -78,6 +73,10 @@ components:
     Haushalt:
       type: object
       properties:
+        antragsteller:
+          type: array
+          items:
+            $ref: '#/components/schemas/Antragsteller'
         bankSparGuthaben:
           type: number
           example: 14500
@@ -171,7 +170,6 @@ components:
       type: object
     Darlehen:
       type: object
-      description: 'a loan'
       properties:
         auszahlungsBetrag:
           type: number
