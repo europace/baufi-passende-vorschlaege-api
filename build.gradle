@@ -18,8 +18,8 @@ plugins {
 
 
 project.ext {
-  name = 'Recommended Offers API'
-  artifactId = 'recommended-offers-api'
+  name = 'Passende FinanzierungsVorschläge API'
+  artifactId = 'passende-finanzierungs-vorschlaege-api'
   groupId = 'de.europace'
   version = "${version}"
 }
