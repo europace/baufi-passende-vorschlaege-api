@@ -53,12 +53,14 @@ components:
             $ref: '#/components/schemas/Antragsteller'
           minimum: 1
           maximum: 2
-        bankSparGuthaben:
+        eigenKapital:
           type: number
           example: 14500
+          description: 'in Euro'
         sonstigeEinnahmen:
           type: number
           example: 380
+          description: 'in Euro, monatlich'
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
@@ -68,20 +70,20 @@ components:
     Antragsteller:
       type: object
       properties:
-        selbststaendig:
-          type: boolean
         beschaeftigtSeit:
           type: string
           format: date
+          example: '2015-05-21'
         arbeitBefristet:
           type: boolean
           description: 'true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false'
         nettoEinkommen:
           type: number
-          description: 'in Euro'
+          description: 'in Euro, jährlich'
         geburtsDatum:
           type: string
           format: date
+          example: '1991-05-21'
         beschaeftigungsArt:
           enum:
             - ANGESTELLTER
@@ -104,19 +106,28 @@ components:
             - MEHRFAMILIENHAUS
             - REIHENHAUS
             - ZWEIFAMILIENHAUS
+            - GRUNDSTUECK
+            - EIGENTUMSWOHNUNG
         vermietet:
           type: boolean
           description: 'true, wenn das Objekt vermietet ist, ansonsten false'
-        bauJahr:
+        baujahr:
           type: integer
         gewerbeEinheit:
           type: boolean
           description: 'true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false'
         postleitzahl:
           type: string
+          example: '10117'
+        strasse:
+          type: string
+          description: 'exklusive Hausnummer'
+        hausnummer:
+          type: string
+          example: '17a'
         wohnFlaeche:
           type: number
-          description: 'in Quadratmetern'
+          description: 'in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK'
           example: 120.50
         grundstueckKaufpreis:
           type: number
@@ -138,23 +149,35 @@ components:
       properties:
         wunschRate:
           type: number
+          description: 'in Euro, monatlich'
         einzugsDatum:
           type: string
           format: date
-        entscheidungsBisDatum:
+          example: '2022-05-21'
+        kreditEntscheiungsZeit:
           type: string
           format: date
+          example: '2021-06-21'
+          description: 'bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?'
         laufzeit:
           enum:
             - SCHNELLST_MOEGLICH
             - BIS_ZUR_RENTE
             - EGAL
+          description: 'bis wann soll die Finanzierung vollständig zurückgezahlt sein?'
+        bausparerErlaubt:
+          type: boolean
+          description: 'sind Bauspar-Angebote eine Option?'
+        foerderDarlehenErlaubt:
+          type: boolean
+          description: 'sind Förder-Darlehen (z.B. KfW) eine Option?'
     FinanzierungsVorschlag:
       type: object
       properties:
         annahmeFrist:
           type: string
-          format: date-time
+          format: date
+          example: '2021-05-21'
         bausparAngebote:
           type: array
           items:
@@ -173,7 +196,7 @@ components:
           type: string
         machbarkeit:
           type: integer
-          description: 'Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben unterstützen wird'
+          description: 'Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben unterstützen wird (1=unwahrscheinlich 100=sehr wahrscheinlich)'
           minimum: 1
           maximum: 100
     BausparAngebot:
@@ -199,9 +222,7 @@ components:
           example: 2.56
         produktAnbieter:
           type: string
-        finanzierenderProduktAnbieter:
-          type: string
-          description: 'über die Finanzierung entscheidender ProduktAnbieter (kann von "produktAnbieter" abweichen - z.B. bei KfW-Darlehen)'
+          description: 'über die Finanzierung entscheidender ProduktAnbieter'
         gesamtKosten:
           type: number
           description: 'in Euro'
@@ -233,42 +254,9 @@ components:
         zinsZahlungsBeginnAm:
           type: string
           format: date
-      title: Darlehen
-
-
-#
-#  Folgende Werte sind bisher nur über Präferenzen erfasst worden und müssen zukünftig als zentrale Parameter eines Finanzierungswunsches berücksichtigt werden
-#
-#  Laufzeit (als Stichtag falls gewünscht)
-#
-#  Wunschrate
-#
-#  Einzugsdatum/Fertigstellung
-#
-#  Entscheidung bis Datum
-#
-#  Für eine valide Market Engine-Anfrgae werden dann noch folgende Werte benötigt, die aus den Eingabedaten berechnet werden können
-#
-#Darlehensbetrag: Kaufpreis+Nebenkosten-Eigenkapital
-#
-#BZ-Zeit: Einzugsdatum - Entscheidungsdatum
-#
-#Tilgung:  Tigungsplan-Rechner
-#
-#Förderfähig: Neubau, eigengenutzt, kein Gewerbe - KfW55,
-#
-#Nebenkosten: Bundesland (Makler/Grunderwerb/Notar)
-#
-#  Lage (RedShift-Geodaten-Service, urban, Küste)
-#
-#  SoTi (eigentlich immer JA)
+          example: '2022-05-12'
 
 # Fragen:
-# - Präferenzen mit Jens klären
 # - welche Felder sind must have - welche nice to have?
-# - brauchen wir für v0.1 Meldungen?
 # - BausparAngebot definieren?
-# - brauchen wir am Input selbstständig + Beschäftigungsverhältnis?
-# - wie englische Doku?
-# - finanzierenderProduktAnbieter: warum am Darlehen statt am Angebot?
-# - gewerbeEinheit korrekt beschrieben?
+# - englische Doku?
