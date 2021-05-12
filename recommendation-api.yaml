@@ -210,6 +210,7 @@ components:
         auszahlungsDatum:
           type: string
           format: date
+          example: '2022-08-21'
         darlehensBetrag:
           type: number
         sollZins:
@@ -254,9 +255,4 @@ components:
         zinsZahlungsBeginnAm:
           type: string
           format: date
-          example: '2022-05-12'
-
-# Fragen:
-# - welche Felder sind must have - welche nice to have?
-# - BausparAngebot definieren?
-# - englische Doku?
+          example: '2022-05-21'
