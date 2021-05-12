@@ -34,6 +34,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Haushalt'
+          minimum: 1
+          maximum: 4
         finanzierungsObjekt:
           $ref: '#/components/schemas/FinanzierungsObjekt'
         praeferenzen:
@@ -41,6 +43,28 @@ components:
       required:
         - haushalt
         - finanzierungsObjekt
+        - praeferenzen
+    Haushalt:
+      type: object
+      properties:
+        antragsteller:
+          type: array
+          items:
+            $ref: '#/components/schemas/Antragsteller'
+          minimum: 1
+          maximum: 2
+        bankSparGuthaben:
+          type: number
+          example: 14500
+        sonstigeEinnahmen:
+          type: number
+          example: 380
+        nichtAbgeloestePrivateDarlehenRestschuld:
+          type: number
+          example: 42000
+        nichtAbgeloesteRatenkrediteRestschuld:
+          type: number
+          example: 8500
     Antragsteller:
       type: object
       properties:
@@ -70,25 +94,6 @@ components:
             - ARBEITSLOSER
       required:
         - nettoEinkommen
-    Haushalt:
-      type: object
-      properties:
-        antragsteller:
-          type: array
-          items:
-            $ref: '#/components/schemas/Antragsteller'
-        bankSparGuthaben:
-          type: number
-          example: 14500
-        sonstigeEinnahmen:
-          type: number
-          example: 380
-        nichtAbgeloestePrivateDarlehenRestschuld:
-          type: number
-          example: 42000
-        nichtAbgeloesteRatenkrediteRestschuld:
-          type: number
-          example: 8500
     FinanzierungsObjekt:
       type: object
       properties:
@@ -166,6 +171,11 @@ components:
           type: number
         kennung:
           type: string
+        machbarkeit:
+          type: integer
+          description: 'Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben unterstützen wird'
+          minimum: 1
+          maximum: 100
     BausparAngebot:
       type: object
     Darlehen:
