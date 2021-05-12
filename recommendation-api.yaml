@@ -8,7 +8,7 @@ info:
     url: www.europace2.de
     email: helpdesk@europace2.de
 servers:
-  - url: baufismart.api.europace.de
+  - url: https://baufismart.api.europace.de
     description: Production server
 paths:
   /angebote:
