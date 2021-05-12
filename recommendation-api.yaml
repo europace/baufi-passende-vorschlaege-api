@@ -201,6 +201,60 @@ components:
           maximum: 100
     BausparAngebot:
       type: object
+      properties:
+        abschlussGebuehr:
+          type: number
+          description: 'in Euro'
+        bausparDarlehenSumme:
+          type: number
+          description: 'in Euro'
+        bausparSumme:
+          type: number
+          description: 'in Euro'
+        sollZinsNachZuteilung:
+          type: number
+          description: 'Prozent hundert-basiert'
+          example: 1.44
+        effektivZinsNachZuteilung:
+          type: number
+          description: 'Prozent hundert-basiert'
+          example: 1.56
+        gesamtLaufzeit:
+          type: integer
+          description: 'in Jahren'
+        guthabenBeiZuteilung:
+          type: number
+          description: 'in Euro'
+        produktAnbieter:
+          type: string
+        sparBeginn:
+          type: string
+          format: date
+          example: '2021-05-21'
+        sparBeitrag:
+          type: number
+          description: 'in Euro, monatlich'
+        sparPhase:
+          type: integer
+          description: 'in Jahren'
+        tarif:
+          type: string
+        tilgungsBeitragMonatlich:
+          type: number
+        dauerTilgungsPhase:
+          type: integer
+          description: 'in Jahren'
+        vertragsBeginn:
+          type: string
+          format: date
+          example: '2021-06-21'
+        verwaltungsGebuehren:
+          type: number
+          description: 'in Euro, jaehrlich'
+        zuteilungsDatum:
+          type: string
+          format: date
+          example: '2025-05-21'
     Darlehen:
       type: object
       properties:
