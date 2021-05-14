@@ -5,7 +5,7 @@ info:
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
-    url: www.europace2.de
+    url: https://www.europace2.de
     email: helpdesk@europace2.de
 servers:
   - url: https://baufismart.api.europace.de
