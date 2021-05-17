@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.1
+  version: 0.0.2
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -14,7 +14,7 @@ paths:
   /angebote:
     post:
       summary: Empfohlene Finanzierungsvorschläge ermitteln (derzeit genau einen)
-      operationId: getOffers
+      operationId: ermittleVorschlaege
       requestBody:
         required: true
         content:
@@ -30,8 +30,8 @@ paths:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
         400:
           description: Bad request
-        404:
-          description: Not found (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Angebote ermittelt werden konnten)
+        422:
+          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Angebote ermittelt werden konnten)
         405:
           description: Invalid input
         500:
@@ -44,13 +44,13 @@ components:
     ErfassteDaten:
       type: object
       properties:
-        haushalt:
+        haushalte:
           type: array
           items:
             $ref: '#/components/schemas/Haushalt'
           minimum: 1
           maximum: 4
-        finanzierungsObjekt:
+        finanzierungsobjekt:
           $ref: '#/components/schemas/FinanzierungsObjekt'
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
@@ -61,12 +61,17 @@ components:
     Haushalt:
       type: object
       properties:
-        antragsteller:
+        kunden:
           type: array
           items:
-            $ref: '#/components/schemas/Antragsteller'
+            $ref: '#/components/schemas/Kunde'
           minimum: 1
           maximum: 2
+        finanzielleSitation:
+          $ref: '#/components/schemas/FinanzielleSituation'
+    FinanzielleSituation:
+      type: object
+      properties:
         eigenKapital:
           type: number
           example: 14500
@@ -74,14 +79,14 @@ components:
         sonstigeEinnahmen:
           type: number
           example: 380
-          description: in Euro, monatlich
+          description: Einnahmen, die nicht in `nettoEinkommen` erfasst sind. In Euro, monatlich
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
-    Antragsteller:
+    Kunde:
       type: object
       properties:
         beschaeftigtSeit:
@@ -99,22 +104,26 @@ components:
           format: date
           example: 1991-05-21
         beschaeftigungsArt:
-          enum:
-            - ANGESTELLTER
-            - ARBEITER
-            - BEAMTER
-            - FREIBERUFLER
-            - SELBSTSTAENDIGER
-            - RENTER
-            - HAUSMANN
-            - ARBEITSLOSER
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+              - ANGESTELLTER
+              - ARBEITER
+              - BEAMTER
+              - FREIBERUFLER
+              - SELBSTSTAENDIGER
+              - RENTER
+              - HAUSMANN
+              - ARBEITSLOSER
       required:
         - nettoEinkommen
     FinanzierungsObjekt:
       type: object
       properties:
         objektArt:
-          enum:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
             - DOPPELHAUSHAELFTE
             - EINFAMILIENHAUS
             - MEHRFAMILIENHAUS
@@ -130,15 +139,8 @@ components:
         gewerbeEinheit:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
-        postleitzahl:
-          type: string
-          example: 10117
-        strasse:
-          type: string
-          description: exklusive Hausnummer
-        hausnummer:
-          type: string
-          example: 17a
+        anschrift:
+          $ref: '#/components/schemas/Anschrift'
         wohnFlaeche:
           type: number
           description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
@@ -158,6 +160,19 @@ components:
           type: number
           description: Kosten zusätzlicher Modernisierungsmaßnahmen, die nicht in "preis" enthalten sind
           example: 10000
+    Anschrift:
+      type: object
+      properties:
+        plz:
+          type: string
+          example: 10117
+          description: Postleitzahl
+        strasse:
+          type: string
+          description: exklusive Hausnummer
+        hausnummer:
+          type: string
+          example: 17a
     Praeferenzen:
       type: object
       properties:
@@ -174,11 +189,13 @@ components:
           example: 2021-06-21
           description: bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
         laufzeit:
-          enum:
+          type: string
+          description: |
+            Bis wann soll die Finanzierung vollständig zurückgezahlt sein?
+            Kann einen der folgenden Werte annehmen:
             - SCHNELLST_MOEGLICH
             - BIS_ZUR_RENTE
             - EGAL
-          description: bis wann soll die Finanzierung vollständig zurückgezahlt sein?
         bausparerErlaubt:
           type: boolean
           description: sind Bauspar-Angebote eine Option?
@@ -254,7 +271,7 @@ components:
       properties:
         auszahlungsBetrag:
           type: number
-          description: Auszahlungsbetrag is the net darlehensBetrag in euro
+          description: Netto DarlehensBetrag in Euro
         auszahlungsDatum:
           type: string
           format: date
@@ -287,7 +304,8 @@ components:
           description: monatliche Tilgungs-Rate in Euro
         typ:
           type: string
-          enum:
+          description: |
+            Kann einen der folgenden Werte annehmen:
             - ANNUITAETEN_DARLEHEN
             - FORWARD_DARLEHEN
             - REGIONAL_FOERDER_DARLEHEN
