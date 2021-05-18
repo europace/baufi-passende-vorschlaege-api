@@ -1,5 +1,5 @@
-# passende-finanzierungs-vorschlaege-api
-API zur Ermittlung passender Finanzierungsvorschläge anhand einer Verbraucher-Situation und -Wunsch.
+# baufi-passende-vorschlaege-api
+API zur Ermittlung passender Finanzierungsvorschläge anhand einer Verbraucher-Situation und -Präferenzen.
 
 Die API ist in einem pre-alpha-Status und noch nicht funktional verfügbar.
 

@@ -1,4 +1,4 @@
-# Recommended Offers API / Trusted Committers
+# Baufi Passende Vorschlaege API / Trusted Committers
 #
 # Siehe auch:
 # - https://help.github.com/articles/about-codeowners/
@@ -7,4 +7,4 @@
 # Bitte die Sortierung dieser Datei beibehalten. Die zuletzt zutreffende Regel
 # hat Vorrang.
 
-* @hypoport/pep-passt
+* @europace/pep-passt

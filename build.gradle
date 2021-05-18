@@ -19,7 +19,7 @@ plugins {
 
 project.ext {
   name = 'Passende FinanzierungsVorschläge API'
-  artifactId = 'passende-finanzierungs-vorschlaege-api'
+  artifactId = 'baufi-passende-vorschlaege-api'
   groupId = 'de.europace'
   version = "${version}"
 }
@@ -34,7 +34,7 @@ publishing {
   publications{
     mavenJava(MavenPublication) {
       version="${property("version")}".toString()
-      artifact "$rootDir/recommendation-api.yaml"
+      artifact "$rootDir/baufi-passende-vorschlaege-api.yaml"
 
     }
   }
@@ -50,7 +50,7 @@ publishing {
 }
 
 openApiValidate {
-  inputSpec = "$rootDir/${property("recommendation.offers.api.file.name")}"
+  inputSpec = "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
   recommend = true
 }
 
