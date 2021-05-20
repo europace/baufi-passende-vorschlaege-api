@@ -67,7 +67,7 @@ components:
             $ref: '#/components/schemas/Kunde'
           minimum: 1
           maximum: 2
-        finanzielleSitation:
+        finanzielleSituation:
           $ref: '#/components/schemas/FinanzielleSituation'
     FinanzielleSituation:
       type: object
