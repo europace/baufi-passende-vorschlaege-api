@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.3
+  version: 0.0.4
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -131,6 +131,16 @@ components:
             - ZWEIFAMILIENHAUS
             - GRUNDSTUECK
             - EIGENTUMSWOHNUNG
+        verwendungsZweck:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+            - ANSCHLUSSFINANZIERUNG
+            - KAUF
+            - KAUF_NEUBAU_VOM_BAUTRAEGER
+            - MODERNISIERUNG_UMBAU_ANBAU
+            - NEUBAU
+            - KAPITALBESCHAFFUNG
         vermietet:
           type: boolean
           description: true, wenn das Objekt vermietet ist, ansonsten false
