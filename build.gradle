@@ -13,7 +13,6 @@ plugins {
   id 'net.researchgate.release' version '2.8.1'
 }
 
-
 project.ext {
   name = 'Passende FinanzierungsVorschläge API'
   artifactId = 'baufi-passende-vorschlaege-api'
@@ -28,11 +27,10 @@ repositories {
 }
 
 publishing {
-  publications{
+  publications {
     mavenJava(MavenPublication) {
-      version="${property("version")}".toString()
+      version = "${property("version")}".toString()
       artifact "$rootDir/baufi-passende-vorschlaege-api.yaml"
-
     }
   }
 
