@@ -49,6 +49,14 @@ openApiValidate {
   recommend = true
 }
 
+openApiGenerate {
+  generatorName.set('javascript')
+  inputSpec.set('baufi-passende-vorschlaege-api.yaml')
+  outputDir.set("$buildDir/generated".toString())
+  apiPackage.set('de.europace.baufi.passende.vorschlaege.api')
+  modelPackage = 'de.hypoport.ep2.baufismart.passende.vorschlaege.model'
+}
+
 release {
   failOnCommitNeeded = false
 }
