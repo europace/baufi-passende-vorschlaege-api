@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.4
+  version: 0.0.5
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -159,17 +159,10 @@ components:
           type: number
           description: in Euro
           example: 380000
-        preis:
+        gesamtKosten:
           type: number
-          description: Kaufpreis / Herstellungskosten / ...
+          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...)
           example: 250000
-        herstellungskostenInklusiveEigenleistung:
-          type: number
-          description: Herstellungskosten, die nicht im "preis" enthalten sind
-        modernisierungsKostenInklusiveEigenleistungen:
-          type: number
-          description: Kosten zusätzlicher Modernisierungsmaßnahmen, die nicht in "preis" enthalten sind
-          example: 10000
     Anschrift:
       type: object
       properties:
@@ -177,9 +170,12 @@ components:
           type: string
           example: 10117
           description: Postleitzahl
+        ort:
+          type: string
+          example: Berlin
         strasse:
           type: string
-          description: exklusive Hausnummer
+          description: ohne Hausnummer (siehe Feld 'hausnummer')
         hausnummer:
           type: string
           example: 17a
