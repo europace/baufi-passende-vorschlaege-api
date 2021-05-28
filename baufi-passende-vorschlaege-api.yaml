@@ -331,8 +331,7 @@ components:
     OAuth2:
       type: oauth2
       flows:
-        authorizationCode:
-          authorizationUrl: https://api.europace.de/login
-          tokenUrl: https://api.europace.de/login
+        clientCredentials:
+          tokenUrl: https://api.europace.de/auth/access-token
           scopes:
-            read: Grants read access
+            baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
