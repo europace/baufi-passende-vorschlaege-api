@@ -10,9 +10,14 @@ info:
 servers:
   - url: https://baufismart.api.europace.de
     description: Production server
+tags:
+- name: Finanzierungsvorschläge
+  description: Top-Finanzierungsvorschläge ermitteln
 paths:
   /vorschlaege:
     post:
+      tags: 
+      - Finanzierungsvorschläge
       summary: Empfohlene Finanzierungsvorschläge ermitteln (derzeit genau einen)
       operationId: ermittleVorschlaege
       requestBody:
