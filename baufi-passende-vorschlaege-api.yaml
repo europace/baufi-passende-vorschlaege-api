@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.5
+  version: 0.0.6
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -11,7 +11,7 @@ servers:
   - url: https://baufismart.api.europace.de
     description: Production server
 paths:
-  /angebote:
+  /vorschlaege:
     post:
       summary: Empfohlene Finanzierungsvorschläge ermitteln (derzeit genau einen)
       operationId: ermittleVorschlaege
@@ -31,7 +31,7 @@ paths:
         400:
           description: Bad request
         422:
-          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Angebote ermittelt werden konnten)
+          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
         405:
           description: Invalid input
         500:
@@ -204,7 +204,7 @@ components:
             - EGAL
         bausparerErlaubt:
           type: boolean
-          description: sind Bauspar-Angebote eine Option?
+          description: sind Bauspar-Vorschläge eine Option?
         foerderDarlehenErlaubt:
           type: boolean
           description: sind Förder-Darlehen (z.B. KfW) eine Option?
@@ -222,10 +222,10 @@ components:
           type: string
           format: date
           example: 2021-05-21
-        bausparAngebote:
+        bausparVorschlaege:
           type: array
           items:
-            $ref: '#/components/schemas/BausparAngebot'
+            $ref: '#/components/schemas/BausparVorschlag'
         darlehen:
           type: array
           items:
@@ -248,7 +248,7 @@ components:
           minimum: 0
           example: 0
           description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch. Derzeit liefert die API nur den am besten passenden Vorschlag.
-    BausparAngebot:
+    BausparVorschlag:
       type: object
       properties:
         gebuehrenSumme:
