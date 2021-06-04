@@ -36,7 +36,7 @@ publishing {
 
   repositories {
     maven {
-      url = 's3://api-infrastructure-yaml-descriptor'
+      url.set 's3://api-infrastructure-yaml-descriptor'
       authentication {
         awsIm(AwsImAuthentication)
       }
@@ -45,16 +45,16 @@ publishing {
 }
 
 openApiValidate {
-  inputSpec = "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
-  recommend = true
+  inputSpec.set "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
+  recommend.set true
 }
 
 openApiGenerate {
-  generatorName.set('javascript')
-  inputSpec.set('baufi-passende-vorschlaege-api.yaml')
-  outputDir.set("$buildDir/generated".toString())
-  apiPackage.set('de.europace.baufi.passende.vorschlaege.api')
-  modelPackage = 'de.hypoport.ep2.baufismart.passende.vorschlaege.model'
+  generatorName.set 'javascript'
+  inputSpec.set 'baufi-passende-vorschlaege-api.yaml'
+  outputDir.set "$buildDir/generated".toString()
+  apiPackage.set 'de.europace.baufi.passende.vorschlaege.api'
+  modelPackage.set 'de.hypoport.ep2.baufismart.passende.vorschlaege.model'
 }
 
 release {
