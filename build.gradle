@@ -1,3 +1,5 @@
+import org.yaml.snakeyaml.Yaml
+
 buildscript {
   repositories {
     mavenCentral()
@@ -36,7 +38,7 @@ publishing {
 
   repositories {
     maven {
-      url.set 's3://api-infrastructure-yaml-descriptor'
+      url = 's3://api-infrastructure-yaml-descriptor'
       authentication {
         awsIm(AwsImAuthentication)
       }
@@ -44,8 +46,21 @@ publishing {
   }
 }
 
+def apiFileName = "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
+def apiConfig = new Yaml().load( new File(apiFileName).newInputStream() )
+
+task assertVersions() {
+  doLast {
+    def openApiConfigVersion = apiConfig.info.version
+    def releaseArtifactVersion = "${version}"
+    if (openApiConfigVersion != releaseArtifactVersion) {
+      throw new BuildCancelledException("Mismatching API and artifact versions. API version: '$openApiConfigVersion' gradle artifact version: '$releaseArtifactVersion'")
+    }
+  }
+}
+
 openApiValidate {
-  inputSpec.set "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
+  inputSpec.set apiFileName
   recommend.set true
 }
 
@@ -61,6 +76,7 @@ release {
   failOnCommitNeeded = false
 }
 
+tasks.openApiValidate.dependsOn tasks.assertVersions
 publish.dependsOn tasks.openApiValidate
 
 afterReleaseBuild.dependsOn publish
