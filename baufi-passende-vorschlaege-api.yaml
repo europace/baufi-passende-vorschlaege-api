@@ -17,7 +17,7 @@ paths:
   /vorschlaege:
     post:
       tags:
-        - Finanzierungsvorschläge
+        - Finanzierungsvorschlaege
       summary: Startet Ermittlung empfohlener Finanzierungsvorschläge. Das Ergebnis enthält IDs, mit denen via Polling die berechnete Vorschläge abgerufen werden können. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.
       operationId: ermittleVorschlaege
       requestBody:
