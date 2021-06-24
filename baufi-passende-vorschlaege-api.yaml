@@ -81,7 +81,7 @@ components:
         anfrageId:
           type: string
           description: UUID, die eine Anfrage eindeutig identifiziert.
-          example: AB8477483762
+          example: passende-vorschlaege-ABC123456789
     ErfassteDaten:
       type: object
       properties:
