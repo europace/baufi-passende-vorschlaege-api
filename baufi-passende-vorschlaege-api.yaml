@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.6
+  version: 0.0.7
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -11,14 +11,14 @@ servers:
   - url: https://baufismart.api.europace.de
     description: Production server
 tags:
-- name: Finanzierungsvorschläge
-  description: Top-Finanzierungsvorschläge ermitteln
+  - name: Finanzierungsvorschläge
+    description: Top-Finanzierungsvorschläge ermitteln
 paths:
   /vorschlaege:
     post:
-      tags: 
-      - Finanzierungsvorschläge
-      summary: Empfohlene Finanzierungsvorschläge ermitteln (derzeit genau einen)
+      tags:
+        - Finanzierungsvorschläge
+      summary: Startet Ermittlung empfohlener Finanzierungsvorschläge. Das Ergebnis enthält IDs, mit denen via Polling die berechnete Vorschläge abgerufen werden können. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.
       operationId: ermittleVorschlaege
       requestBody:
         required: true
@@ -32,7 +32,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+                $ref: '#/components/schemas/ErmittlungsLinks'
         400:
           description: Bad request
         422:
@@ -44,8 +44,44 @@ paths:
       security:
         - OAuth2:
             - read
+  /vorschlaege/{anfrageId}:
+    get:
+      tags:
+        - Finanzierungsvorschläge
+      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene ID. Die Ergebnisse stehen nach Ermittlung für einige Zeit zum Abruf bereit und werden dann verworfen. Die Ergebnisse können beliebig oft abgerufen werden so lange sie bereit stehen.
+      operationId: getVorschlaege
+      parameters:
+        - in: path
+          name: anfrageId
+          schema:
+            type: string
+          required: true
+          description: ID, die bei Start der ErmittlungsAnfrage als Ergebnis erhalten wurde.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        400:
+          description: Bad request
+        404:
+          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (auch, wenn er noch nicht bereitsteht).
+        500:
+          description: Internal server error
+      security:
+        - OAuth2:
+            - read
 components:
   schemas:
+    ErmittlungsLinks:
+      type: object
+      properties:
+        anfrageId:
+          type: string
+          description: UUID, die eine Anfrage eindeutig identifiziert.
+          example: AB8477483762
     ErfassteDaten:
       type: object
       properties:
