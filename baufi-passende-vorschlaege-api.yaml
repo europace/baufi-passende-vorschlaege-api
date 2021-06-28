@@ -64,10 +64,12 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        202:
+          description: Wird ausgeliefert, wenn eine Ermittlung für die gegebene ID ausgelöst wurde, aber noch keine Vorschläge bereit stehen (request pending).
         400:
           description: Bad request
         404:
-          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (auch, wenn er noch nicht bereitsteht).
+          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
         500:
           description: Internal server error
       security:
