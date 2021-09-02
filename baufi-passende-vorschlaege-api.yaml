@@ -232,7 +232,7 @@ components:
           type: string
           format: date
           example: 2022-05-21
-        kreditEntscheiungsZeit:
+        kreditEntscheidungsZeit:
           type: string
           format: date
           example: 2021-06-21
