@@ -38,7 +38,7 @@ publishing {
 
   repositories {
     maven {
-      url = 's3://api-infrastructure-yaml-descriptor'
+      url = 's3://passt-api-infrastructure-yaml-descriptor'
       authentication {
         awsIm(AwsImAuthentication)
       }
@@ -64,6 +64,7 @@ openApiValidate {
   recommend.set true
 }
 
+
 openApiGenerate {
   generatorName.set 'javascript'
   inputSpec.set 'baufi-passende-vorschlaege-api.yaml'
@@ -74,6 +75,9 @@ openApiGenerate {
 
 release {
   failOnCommitNeeded = false
+  git {
+    requireBranch = 'main'
+  }
 }
 
 tasks.openApiValidate.dependsOn tasks.assertVersions
