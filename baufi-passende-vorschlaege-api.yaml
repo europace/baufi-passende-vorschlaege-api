@@ -269,10 +269,6 @@ components:
           type: string
           format: date
           example: 2021-05-21
-        bausparVorschlaege:
-          type: array
-          items:
-            $ref: '#/components/schemas/BausparVorschlag'
         finanzierungsbausteine:
           maxItems: 5
           minItems: 0
@@ -298,30 +294,6 @@ components:
           minimum: 0
           example: 0
           description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch. Derzeit liefert die API nur den am besten passenden Vorschlag.
-    BausparVorschlag:
-      type: object
-      properties:
-        gebuehrenSumme:
-          type: number
-          description: Summe aller Gebühren (Abschluss- Kontoführungsgebühr, ...). In Euro
-        bausparSumme:
-          type: number
-          description: In Euro
-        gesamtLaufzeit:
-          type: integer
-          description: In Jahren
-        produktAnbieter:
-          type: string
-        sparRate:
-          type: number
-          description: In Euro, monatlich
-        tilgungsRate:
-          type: number
-          description: In Euro, monatlich
-        tilgungsZins:
-          type: number
-          description: Prozent, hundert-basiert
-          example: 1.56
     Finanzierungsbaustein:
       required:
         - '@type'
