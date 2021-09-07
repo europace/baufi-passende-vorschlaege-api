@@ -25,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ErfassteDaten'
+              $ref: '#/components/schemas/Kundenangaben'
       responses:
         200:
           description: Success
@@ -84,7 +84,7 @@ components:
           type: string
           description: UUID, die eine Anfrage eindeutig identifiziert.
           example: passende-vorschlaege-ABC123456789
-    ErfassteDaten:
+    Kundenangaben:
       type: object
       properties:
         haushalte:
@@ -93,14 +93,14 @@ components:
             $ref: '#/components/schemas/Haushalt'
           minimum: 1
           maximum: 4
+        finanzierungsbedarf:
+          $ref: '#/components/schemas/Finanzierungsbedarf'
         finanzierungsobjekt:
-          $ref: '#/components/schemas/FinanzierungsObjekt'
-        praeferenzen:
-          $ref: '#/components/schemas/Praeferenzen'
+          $ref: '#/components/schemas/Finanzierungsobjekt'
       required:
         - haushalt
-        - finanzierungsObjekt
-        - praeferenzen
+        - finanzierungsbedarf
+        - finanzierungsobjekt
     Haushalt:
       type: object
       properties:
@@ -118,7 +118,7 @@ components:
         eigenKapital:
           type: number
           example: 14500
-          description: in Euro
+          description: Summe aller Vermögenswerte. In Euro
         sonstigeEinnahmen:
           type: number
           example: 380
@@ -126,9 +126,11 @@ components:
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus Privatdarlehen. In Euro
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten. In Euro
     Kunde:
       type: object
       properties:
@@ -139,10 +141,10 @@ components:
         arbeitBefristet:
           type: boolean
           description: true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false
-        nettoEinkommen:
+        einkommenNetto:
           type: number
           description: in Euro, jährlich
-        geburtsDatum:
+        geburtsdatum:
           type: string
           format: date
           example: 1991-05-21
@@ -159,8 +161,8 @@ components:
               - HAUSMANN
               - ARBEITSLOSER
       required:
-        - nettoEinkommen
-    FinanzierungsObjekt:
+        - einkommenNetto
+    Finanzierungsobjekt:
       type: object
       properties:
         objektArt:
@@ -174,21 +176,12 @@ components:
             - ZWEIFAMILIENHAUS
             - GRUNDSTUECK
             - EIGENTUMSWOHNUNG
-        verwendungsZweck:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - ANSCHLUSSFINANZIERUNG
-            - KAUF
-            - KAUF_NEUBAU_VOM_BAUTRAEGER
-            - MODERNISIERUNG_UMBAU_ANBAU
-            - NEUBAU
-            - KAPITALBESCHAFFUNG
         vermietet:
           type: boolean
           description: true, wenn das Objekt vermietet ist, ansonsten false
         baujahr:
           type: integer
+          example: 1952
         gewerbeEinheit:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
@@ -198,18 +191,35 @@ components:
           type: number
           description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
+    Finanzierungsbedarf:
+      type: object
+      properties:
+        finanzierungszweck:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+            - ANSCHLUSSFINANZIERUNG
+            - KAUF
+            - KAUF_NEUBAU_VOM_BAUTRAEGER
+            - MODERNISIERUNG_UMBAU_ANBAU
+            - NEUBAU
+            - KAPITALBESCHAFFUNG
+          example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: in Euro
-          example: 380000
+          description: In Euro
+          example: 380000.00
         gesamtKosten:
           type: number
-          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...)
-          example: 250000
+          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
+          example: 250000.00
+        praeferenzen:
+          $ref: '#/components/schemas/Praeferenzen'
     Anschrift:
       type: object
       properties:
         plz:
+          pattern: "\\d{5}"
           type: string
           example: 10117
           description: Postleitzahl
@@ -227,7 +237,7 @@ components:
       properties:
         wunschRate:
           type: number
-          description: in Euro, monatlich
+          description: In Euro, monatlich
         einzugsDatum:
           type: string
           format: date
@@ -296,21 +306,21 @@ components:
       properties:
         gebuehrenSumme:
           type: number
-          description: Summe aller Gebühren (Abschluss- Kontoführungsgebühr, ...), in Euro
+          description: Summe aller Gebühren (Abschluss- Kontoführungsgebühr, ...). In Euro
         bausparSumme:
           type: number
-          description: in Euro
+          description: In Euro
         gesamtLaufzeit:
           type: integer
-          description: in Jahren
+          description: In Jahren
         produktAnbieter:
           type: string
         sparRate:
           type: number
-          description: in Euro, monatlich
+          description: In Euro, monatlich
         tilgungsRate:
           type: number
-          description: in Euro, monatlich
+          description: In Euro, monatlich
         tilgungsZins:
           type: number
           description: Prozent, hundert-basiert
@@ -329,28 +339,28 @@ components:
           type: number
         sollZins:
           type: number
-          description: in Prozent, hundert-basiert
+          description: In Prozent, hundert-basiert
           example: 2.34
         effektivZins:
           type: number
-          description: in Prozent, hundert-basiert
+          description: In Prozent, hundert-basiert
           example: 2.56
         produktAnbieter:
           type: string
-          description: über die Finanzierung entscheidender ProduktAnbieter
+          description: Über die Finanzierung entscheidender ProduktAnbieter
         gesamtKosten:
           type: number
-          description: in Euro
+          description: In Euro
           example: 450000
         gesamtLaufzeit:
           type: integer
           description: (kalkulatorische) Laufzeit der Finanzierung
         rate:
           type: number
-          description: monatliche Gesamt-Rate in Euro (inklusive "tilgung")
+          description: monatliche Gesamt-Rate (inklusive "tilgung"). In Euro
         tilgung:
           type: number
-          description: monatliche Tilgungs-Rate in Euro
+          description: monatliche Tilgungs-Rate. In Euro
         typ:
           type: string
           description: |
