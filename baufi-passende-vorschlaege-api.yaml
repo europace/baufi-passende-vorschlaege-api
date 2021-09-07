@@ -276,6 +276,12 @@ components:
           items:
             oneOf:
               - $ref: '#/components/schemas/Annuitaetendarlehen'
+              - $ref: '#/components/schemas/Bauspardarlehen'
+              - $ref: '#/components/schemas/Forwarddarlehen'
+              - $ref: '#/components/schemas/KfwDarlehen'
+              - $ref: '#/components/schemas/Privatdarlehen'
+              - $ref: '#/components/schemas/VariablesDarlehen'
+              - $ref: '#/components/schemas/Zwischenfinanzierung'
         darlehensSumme:
           type: number
         sollZins:
