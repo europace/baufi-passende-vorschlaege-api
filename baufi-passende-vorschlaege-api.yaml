@@ -255,9 +255,6 @@ components:
             - SCHNELLST_MOEGLICH
             - BIS_ZUR_RENTE
             - EGAL
-        bausparerErlaubt:
-          type: boolean
-          description: sind Bauspar-Vorschläge eine Option?
         foerderDarlehenErlaubt:
           type: boolean
           description: sind Förder-Darlehen (z.B. KfW) eine Option?
