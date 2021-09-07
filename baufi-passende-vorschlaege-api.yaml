@@ -273,10 +273,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BausparVorschlag'
-        darlehen:
+        finanzierungsbausteine:
+          maxItems: 5
+          minItems: 0
           type: array
           items:
-            $ref: '#/components/schemas/Darlehen'
+            oneOf:
+              - $ref: '#/components/schemas/Annuitaetendarlehen'
         darlehensSumme:
           type: number
         sollZins:
@@ -319,61 +322,904 @@ components:
           type: number
           description: Prozent, hundert-basiert
           example: 1.56
-    Darlehen:
+    Finanzierungsbaustein:
+      required:
+        - '@type'
       type: object
       properties:
-        auszahlungsBetrag:
+        '@type':
+          type: string
+      description: "Mögliche Typen: Annuitaetendarlehen, Forwarddarlehen, Privatdarlehen,\
+            \ Zwischenfinanzierung, VariablesDarlehen, Bauspardarlehen, KfwDarlehen"
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          ANNUITAETENDARLEHEN: '#/components/schemas/Annuitaetendarlehen'
+          FORWARDDARLEHEN: '#/components/schemas/Forwarddarlehen'
+          PRIVATDARLEHEN: '#/components/schemas/Privatdarlehen'
+          ZWISCHENFINANZIERUNG: '#/components/schemas/Zwischenfinanzierung'
+          VARIABLES_DARLEHEN: '#/components/schemas/VariablesDarlehen'
+          BAUSPARDARLEHEN: '#/components/schemas/Bauspardarlehen'
+          KFW_DARLEHEN: '#/components/schemas/KfwDarlehen'
+    Annuitaetendarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            referenzId:
+              type: string
+              description: "Eindeutige Referenz-ID für diesen Finanzierungsbaustein.\
+                  \ Sie gilt nur innerhalb dieses Aufrufs, ist freiwählbar und wird nicht\
+                  \ abgespeichert. Auf sie wird beim (optionalen) Ablösen der bestehenden\
+                  \ Darlehen bei Anschlussfinanzierung verwiesen."
+            darlehensbetrag:
+              type: number
+              format: double
+            annuitaetendetails:
+              $ref: '#/components/schemas/Annuitaetendetails'
+            bereitstellungszinsfreieZeitInMonaten:
+              type: integer
+              format: int32
+            kundenreferenzIdDerRiesterGefoerdertenPerson:
+              type: string
+              description: ReferenzId des Kunden bei Riesterförderung.
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Forwarddarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            referenzId:
+              type: string
+              description: "Eindeutige Referenz-ID für diesen Finanzierungsbaustein.\
+                  \ Sie gilt nur innerhalb dieses Aufrufs, ist freiwählbar und wird nicht\
+                  \ abgespeichert. Auf sie wird beim (optionalen) Ablösen der bestehenden\
+                  \ Darlehen bei Anschlussfinanzierung verwiesen."
+            darlehensbetrag:
+              type: number
+              format: double
+            annuitaetendetails:
+              $ref: '#/components/schemas/Annuitaetendetails'
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Privatdarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            referenzId:
+              type: string
+              description: "Eindeutige Referenz-ID für diesen Finanzierungsbaustein.\
+                  \ Sie gilt nur innerhalb dieses Aufrufs, ist freiwählbar und wird nicht\
+                  \ abgespeichert. Auf sie wird beim (optionalen) Ablösen der bestehenden\
+                  \ Darlehen bei Anschlussfinanzierung verwiesen."
+            darlehensbetrag:
+              type: number
+              format: double
+            laufzeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Zwischenfinanzierung:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            referenzId:
+              type: string
+              description: "Eindeutige Referenz-ID für diesen Finanzierungsbaustein.\
+                  \ Sie gilt nur innerhalb dieses Aufrufs, ist freiwählbar und wird nicht\
+                  \ abgespeichert. Auf sie wird beim (optionalen) Ablösen der bestehenden\
+                  \ Darlehen bei Anschlussfinanzierung verwiesen."
+            darlehensbetrag:
+              type: number
+              format: double
+            maximaleLaufzeitInMonaten:
+              type: integer
+              format: int32
+            verwendungszweck:
+              type: string
+              enum:
+                - VORFINANZIERUNG_OEFFENTLICHER_MITTEL
+                - VERKAUF_EINES_ANDEREN_OBJEKTS
+                - SONSTIGE_VERWENDUNG
+            detailsZurVerwendung:
+              type: string
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    VariablesDarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            referenzId:
+              type: string
+              description: "Eindeutige Referenz-ID für diesen Finanzierungsbaustein.\
+                  \ Sie gilt nur innerhalb dieses Aufrufs, ist freiwählbar und wird nicht\
+                  \ abgespeichert. Auf sie wird beim (optionalen) Ablösen der bestehenden\
+                  \ Darlehen bei Anschlussfinanzierung verwiesen."
+            darlehensbetrag:
+              type: number
+              format: double
+            tilgungswunsch:
+              $ref: '#/components/schemas/Tilgungswunsch'
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Annuitaetendetails:
+      type: object
+      properties:
+        zinsbindungInJahren:
+          type: integer
+          format: int32
+        tilgungswunsch:
+          $ref: '#/components/schemas/Tilgungswunsch'
+        sondertilgungJaehrlich:
           type: number
-          description: Netto DarlehensBetrag in Euro
-        auszahlungsDatum:
+          description: Angabe in Prozent.
+          format: double
+        auszahlungszeitpunkt:
           type: string
           format: date
-          example: 2022-08-21
-        darlehensBetrag:
+    Bauspardarlehen:
+      type: object
+      description: Für leer gelassene Parameter werden automatisch Vorschläge berechnet.
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            kundenreferenzIdsDerVertragspartner:
+              type: array
+              description: Liste von ReferenzIds der Kunden.
+              items:
+                type: string
+                description: Liste von ReferenzIds der Kunden.
+            abschlussgebuehrmodus:
+              type: string
+              enum:
+                - SOFORTZAHLUNG
+                - VERRECHNUNG
+            verwendung:
+              type: string
+              enum:
+                - FREI_BESPAREN
+                - ABTRETEN
+            tarifListe:
+              type: array
+              items:
+                type: string
+                enum:
+                  - BKM_MAX_PREMIUM_OPTIMAL
+                  - BKM_MAX_PREMIUM_NIEDRIGE_SPARRATE
+                  - BKM_MAX_PREMIUM_NIEDRIGE_TILGUNG
+                  - BKM_MAX_PREMIUM_BESTER_ZINS
+                  - FUCHS_IMMO_1
+                  - FUCHS_IMMO_1_PLUS
+                  - FUCHS_IMMO_2
+                  - FUCHS_IMMO_3
+                  - FUCHS_IMMO_4
+                  - FUCHS_IMMO_5
+                  - FUCHS_IMMO_6
+                  - FUCHS_IMMO_7
+                  - LBS_BAYERN_W4
+                  - LBS_BAYERN_W4_X30
+                  - LBS_BAYERN_W4_X35
+                  - LBS_BAYERN_W4_X40
+                  - LBS_BAYERN_W6
+                  - LBS_BAYERN_W9
+                  - LBS_BAYERN_WF
+                  - LBS_BAYERN_WU
+                  - LBS_BAYERN_Z35
+                  - LBS_BAYERN_Z5
+                  - LBS_BAYERN_Z8
+                  - LBS_BAYERN_ZF
+                  - LBS_BAYERN_ZF_X45
+                  - LBS_BAYERN_ZF_X40
+                  - LBS_BAYERN_ZF_X35
+                  - LBS_HT_CLASSIC_S_2015
+                  - LBS_HT_CLASSIC_F_2015
+                  - LBS_HT_CLASSIC_L_2015
+                  - LBS_HT_CLASSIC_N_2015
+                  - LBS_HT_HOME_M
+                  - LBS_HT_HOME_L
+                  - LBS_HT_HOME_XL
+                  - LBS_HT_COMFORT_S
+                  - LBS_HT_COMFORT_N
+                  - LBS_HT_FLEX
+                  - LBS_NORD_N_STARTER_S4
+                  - LBS_NORD_N_STARTER_Q5
+                  - LBS_NORD_N_STARTER_S5
+                  - LBS_NORD_N_STARTER_S6
+                  - LBS_NORD_N_FINANZIERER_F3
+                  - LBS_NORD_N_FINANZIERER_F4
+                  - LBS_NORD_N_FINANZIERER_F5
+                  - LBS_NORD_N_FINANZIERER_F6
+                  - LBS_NORD_N_FINANZIERER_F7
+                  - LBS_NORD_N_MODERNISIERER_MINIZINS
+                  - LBS_NORD_N_MODERNISIERER_M8
+                  - LBS_NORD_N_MODERNISIERER_MX
+                  - LBS_OST_CLASSIC15_F5
+                  - LBS_OST_CLASSIC_F15_F5
+                  - LBS_OST_CLASSIC_F_H4
+                  - LBS_OST_CLASSIC_F_H5
+                  - LBS_OST_CLASSIC_12_C4
+                  - LBS_OST_CLASSIC_12_C9
+                  - LBS_OST_CLASSIC15_F3
+                  - LBS_OST_CLASSIC15_F4
+                  - LBS_OST_CLASSIC15_F6
+                  - LBS_OST_CLASSIC15_F8
+                  - LBS_OST_CLASSIC15_PLUS_F
+                  - LBS_OST_CLASSIC15_PLUS_S
+                  - LBS_OST_VARIO_FLEX
+                  - LBS_OST_CLASSIC20_F3
+                  - LBS_OST_CLASSIC20_F8
+                  - LBS_OST_CLASSIC20_PLUS_F
+                  - LBS_OST_KONSTANT30_V095
+                  - LBS_OST_KONSTANT30_V110
+                  - LBS_OST_KONSTANT30_V130
+                  - LBS_OST_KONSTANT30_V150
+                  - LBS_OST_KONSTANT30_V170
+                  - LBS_OST_KONSTANT30_V190
+                  - LBS_OST_KONSTANT30_V210
+                  - LBS_OST_KONSTANT30_V230
+                  - LBS_OST_KONSTANT30_V250
+                  - LBS_OST_KONSTANT30_V270
+                  - LBS_OST_KONSTANT30_V290
+                  - LBS_SHH_PRIMUS_SC
+                  - LBS_SHH_PRIMUS_SD
+                  - LBS_SHH_PRIMUS_SH
+                  - LBS_SHH_PRIMUS_SI
+                  - LBS_SHH_PRIMUS_SJ
+                  - LBS_SHH_TREND_SD
+                  - LBS_SHH_PRIMUS_TC
+                  - LBS_SHH_PRIMUS_TH
+                  - LBS_SHH_PRIMUS_TI
+                  - LBS_SHH_PRIMUS_TJ
+                  - LBS_SHH_PRIMUS_TD
+                  - LBS_SHH_TREND_TD
+                  - LBS_WEST_ZUHAUSE_DIREKT_10
+                  - LBS_WEST_ZUHAUSE_DIREKT_15
+                  - LBS_WEST_ZUHAUSE_PLUS
+                  - LBS_WEST_ZUHAUSE_FLEX_4_S
+                  - LBS_WEST_ZUHAUSE_FLEX_4_L
+                  - LBS_WEST_ZUHAUSE_FLEX_5_S
+                  - LBS_WEST_ZUHAUSE_FLEX_5_L
+                  - LBS_WEST_ZUHAUSE_FLEX_6_S
+                  - LBS_WEST_ZUHAUSE_FLEX_6_L
+                  - LBS_WEST_ZUHAUSE_FLEX_8_S
+                  - LBS_WEST_ZUHAUSE_FLEX_8_L
+                  - LBS_WEST_ZUHAUSE_PRIMA
+                  - LBS_WEST_ZUHAUSE_PRIMA_10
+                  - LBS_WEST_ZUHAUSE_FLEX_4
+                  - LBS_WEST_ZUHAUSE_FLEX_5
+                  - LBS_WEST_ZUHAUSE_FLEX_6
+                  - LBS_WEST_ZUHAUSE_FLEX_8
+                  - LBS_WEST_ZUHAUSE_YOUNG
+                  - LBS_WEST_ZUHAUSE_SPEZIAL
+                  - LBS_WEST_RIESTER_ZUHAUSE_DIREKT_10
+                  - LBS_WEST_RIESTER_ZUHAUSE_DIREKT_15
+                  - LBS_WEST_RIESTER_ZUHAUSE_DIREKT_PLUS
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_4
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_5
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_6
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_8
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_4_S
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_5_S
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_6_S
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_8_S
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_4_L
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_5_L
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_6_L
+                  - LBS_WEST_RIESTER_ZUHAUSE_FLEX_8_L
+                  - LBS_WEST_RIESTER_ZUHAUSE_SPEZIAL
+                  - LBS_SUEDWEST_KLASSIK_PLUS_2018
+                  - LBS_SUEDWEST_LANGZEIT_PLUS_2019
+                  - LBS_SUEDWEST_KLASSIK_PLUS_2020
+                  - LBS_SUEDWEST_STANDARD_PLUS_2018
+                  - LBS_SAAR_PREMIUM_FLEX_18
+                  - LBS_SAAR_PREMIUM_SICHER_18
+                  - LBS_SAAR_PREMIUM_TOP_18
+                  - LBS_SAAR_EXTRA_GUENSTIG_18
+                  - LBS_SAAR_EXTRA_SICHER_18
+                  - LBS_SAAR_EXTRA_SPEZIAL_18
+                  - SIGNAL_IDUNA_FREIRAUM_F_35
+                  - SIGNAL_IDUNA_FREIRAUM_F_35_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_45
+                  - SIGNAL_IDUNA_FREIRAUM_F_45_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_60
+                  - SIGNAL_IDUNA_FREIRAUM_F_30_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_30_MZ_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_35_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_35_MZ_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_40_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_40_MZ_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_45_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_45_MZ_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_50_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_60_MZ
+                  - SIGNAL_IDUNA_FREIRAUM_F_30
+                  - SIGNAL_IDUNA_FREIRAUM_F_30_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_40
+                  - SIGNAL_IDUNA_FREIRAUM_F_40_16
+                  - SIGNAL_IDUNA_FREIRAUM_F_50
+                  - SIGNAL_IDUNA_FREIRAUM_F_50_16
+                  - BHW_TARIF_FI1
+                  - BHW_TARIF_FI2
+                  - BHW_TARIF_FI3
+                  - BHW_TARIF_FI4
+                  - BHW_TARIF_FX1
+                  - BHW_TARIF_FX2
+                  - BHW_TARIF_REN
+                  - BHW_TARIF_FI1N
+                  - BHW_TARIF_FI2N
+                  - BHW_TARIF_FX1N
+                  - BHW_TARIF_FX2N
+                  - DT_RING_TARIF_FT
+                  - DT_RING_TARIF_FT_0
+                  - DT_RING_TARIF_FT_1
+                  - DT_RING_TARIF_FT_2
+                  - DT_RING_TARIF_XT_1
+                  - DT_RING_TARIF_XT_0
+                  - DT_RING_TARIF_F_1
+                  - ALTE_LEIPZIGER_1502
+                  - ALTE_LEIPZIGER_1602
+                  - ALTE_LEIPZIGER_1702
+                  - ALTE_LEIPZIGER_1802
+                  - ALTE_LEIPZIGER_1902
+                  - ALTE_LEIPZIGER_2002
+                  - ALTE_LEIPZIGER_1502_MZ
+                  - ALTE_LEIPZIGER_1602_MZ
+                  - ALTE_LEIPZIGER_1702_MZ
+                  - ALTE_LEIPZIGER_1802_MZ
+                  - ALTE_LEIPZIGER_1902_MZ
+                  - ALTE_LEIPZIGER_2002_MZ
+                  - ALTE_LEIPZIGER_1503
+                  - ALTE_LEIPZIGER_1603
+                  - ALTE_LEIPZIGER_1703
+                  - ALTE_LEIPZIGER_1803
+                  - ALTE_LEIPZIGER_1903
+                  - ALTE_LEIPZIGER_2003
+                  - ALTE_LEIPZIGER_1503_MZ
+                  - ALTE_LEIPZIGER_1603_MZ
+                  - ALTE_LEIPZIGER_1703_MZ
+                  - ALTE_LEIPZIGER_1803_MZ
+                  - ALTE_LEIPZIGER_1903_MZ
+                  - ALTE_LEIPZIGER_2003_MZ
+                  - ALTE_LEIPZIGER_150X
+                  - ALTE_LEIPZIGER_160X
+                  - ALTE_LEIPZIGER_170X
+                  - ALTE_LEIPZIGER_180X
+                  - ALTE_LEIPZIGER_190X
+                  - ALTE_LEIPZIGER_200X
+                  - ALTE_LEIPZIGER_150X_MZ
+                  - ALTE_LEIPZIGER_160X_MZ
+                  - ALTE_LEIPZIGER_170X_MZ
+                  - ALTE_LEIPZIGER_180X_MZ
+                  - ALTE_LEIPZIGER_190X_MZ
+                  - ALTE_LEIPZIGER_200X_MZ
+                  - ALTE_LEIPZIGER_ZG_21XX_20
+                  - ALTE_LEIPZIGER_ZG_21XX_30
+                  - ALTE_LEIPZIGER_ZG_25XX_49
+                  - ALTE_LEIPZIGER_21XX_27
+                  - ALTE_LEIPZIGER_21XX_33
+                  - ALTE_LEIPZIGER_21XX
+                  - ALTE_LEIPZIGER_25XX_30
+                  - ALTE_LEIPZIGER_25XX_45
+                  - ALTE_LEIPZIGER_22XX_33
+                  - ALTE_LEIPZIGER_22XX_27
+                  - ALTE_LEIPZIGER_22XX
+                  - ALTE_LEIPZIGER_26XX_30
+                  - ALTE_LEIPZIGER_26XX_45
+                  - WUESTENROT_01063_4
+                  - WUESTENROT_01063_5
+                  - WUESTENROT_01063_6
+                  - WUESTENROT_01063_7
+                  - WUESTENROT_01063_8
+                  - WUESTENROT_01063_9
+                  - WUESTENROT_01063_10
+                  - WUESTENROT_01063_12
+                  - WUESTENROT_01064_4
+                  - WUESTENROT_01064_6
+                  - WUESTENROT_01064_8
+                  - WUESTENROT_01064_10
+                  - WUESTENROT_01064_12
+                  - WUESTENROT_01061_10
+                  - WUESTENROT_01062_4
+                  - WUESTENROT_01061_10_0000
+                  - WUESTENROT_01062_04_0000
+                  - WUESTENROT_01063_05_3585
+                  - WUESTENROT_01063_07_5110
+                  - WUESTENROT_01063_09_0000
+                  - WUESTENROT_01064_10_0000
+                  - WUESTENROT_01064_04_0000
+                  - WUESTENROT_01064_04_5000
+                  - WUESTENROT_01064_05_4121
+                  - WUESTENROT_01064_06_0000
+                  - WUESTENROT_01064_07_5161
+                  - WUESTENROT_01064_09_0000
+                  - WUESTENROT_01073_04_5000
+                  - WUESTENROT_01073_05_9000
+                  - WUESTENROT_01073_08_0000
+                  - WUESTENROT_01076_05_8633
+                  - WUESTENROT_01076_07_9872
+                  - WUESTENROT_01076_08_0000
+                  - WUESTENROT_01077_04_0000
+                  - WUESTENROT_01077_04_7000
+                  - WUESTENROT_01077_06_3000
+                  - WUESTENROT_01077_07_5000
+                  - WUESTENROT_01077_06_2500
+                  - WUESTENROT_01077_07_9648
+                  - WUESTENROT_01077_08_0000
+                  - WUESTENROT_01074_10_0000
+                  - WUESTENROT_01075_03_5000
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FI1
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FI2
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FI3
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FI4
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FX1
+                  - DEUTSCHE_BANK_BAUSPAR_TARIF_FX2
+            wunschparameter:
+              maxItems: 4
+              minItems: 0
+              type: array
+              description: Pro Art des Wunschparameters darf maximal ein Eintrag vorhanden
+                sein.
+              items:
+                $ref: '#/components/schemas/BauspardarlehenWunschparameter'
+            sonderzahlungen:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sonderzahlung'
+            riesterzulagenverwendung:
+              type: string
+              enum:
+                - SONDERZAHLUNG
+                - VERRECHNUNG
+    KfwDarlehen:
+      required:
+        - darlehensbetrag
+        - kfwEndfaellig
+        - programm
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            kfwEndfaellig:
+              type: string
+              enum:
+                - NEIN
+                - ENDFAELLIG_BERECHNET
+                - ENDFAELLIG_EIGENES_ANGEBOT
+            tilgungswunsch:
+              $ref: '#/components/schemas/Tilgungswunsch'
+            programm:
+              $ref: '#/components/schemas/KfwProgramm'
+    Sonderzahlung:
+      type: object
+      properties:
+        betrag:
           type: number
-        sollZins:
-          type: number
-          description: In Prozent, hundert-basiert
-          example: 2.34
-        effektivZins:
-          type: number
-          description: In Prozent, hundert-basiert
-          example: 2.56
-        produktAnbieter:
+          format: double
+        zahlweise:
           type: string
-          description: Über die Finanzierung entscheidender ProduktAnbieter
-        gesamtKosten:
-          type: number
-          description: In Euro
-          example: 450000
-        gesamtLaufzeit:
-          type: integer
-          description: (kalkulatorische) Laufzeit der Finanzierung
-        rate:
-          type: number
-          description: monatliche Gesamt-Rate (inklusive "tilgung"). In Euro
-        tilgung:
-          type: number
-          description: monatliche Tilgungs-Rate. In Euro
-        typ:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - ANNUITAETEN_DARLEHEN
-            - FORWARD_DARLEHEN
-            - REGIONAL_FOERDER_DARLEHEN
-            - KFW_DARLEHEN
-            - PRIVAT_DARLEHEN
-            - ZWISCHEN_FINANZIERUNG
-            - VARIABLES_DARLEHEN
-            - BAUSPARVERTRAG
-        zinsBindung:
-          type: integer
-          description: in Jahren
-        zinsZahlungsBeginnAm:
+          enum:
+            - EINMALIG
+            - MONATLICH
+            - HALBJAEHRLICH
+            - JAEHRLICH
+        termin:
           type: string
           format: date
-          example: 2022-05-21
+        anzahl:
+          type: integer
+          format: int32
+    BauspardarlehenWunschparameter:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
+          type: string
+      description: " Mögliche Typen: Sparbeginn, Bausparsumme, MonatlicherSparbeitrag,\
+          \ Zuteilungszeitpunkt"
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          SPARBEGINN: '#/components/schemas/Sparbeginn'
+          BAUSPARSUMME: '#/components/schemas/Bausparsumme'
+          MONATLICHER_SPARBEITRAG: '#/components/schemas/MonatlicherSparbeitrag'
+          ZUTEILUNGSZEITPUNKT: '#/components/schemas/Zuteilungszeitpunkt'
+    Sparbeginn:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BauspardarlehenWunschparameter'
+        - type: object
+          properties:
+            beginn:
+              type: string
+              format: date
+    MonatlicherSparbeitrag:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BauspardarlehenWunschparameter'
+        - type: object
+          properties:
+            betrag:
+              type: number
+              format: double
+    Zuteilungszeitpunkt:
+      required:
+        - zeitpunkt
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BauspardarlehenWunschparameter'
+        - type: object
+          properties:
+            zeitpunkt:
+              type: string
+              format: date
+    Bausparsumme:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BauspardarlehenWunschparameter'
+        - type: object
+          properties:
+            betrag:
+              type: number
+              format: double
+    Tilgungswunsch:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
+          type: string
+      description: "Mögliche Typen: TilgungInProzent, Volltilger, Rate, TilgungAusgesetzt.\
+            \ Bei Verwendung in VariablesDarlehen ist Volltilger nicht erlaubt."
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          TILGUNG_IN_PROZENT: '#/components/schemas/TilgungInProzent'
+          VOLLTILGER: '#/components/schemas/Volltilger'
+          RATE: '#/components/schemas/Rate'
+          TILGUNG_AUSGESETZT: '#/components/schemas/TilgungAusgesetzt'
+    TilgungInProzent:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgungswunsch'
+        - type: object
+          properties:
+            tilgungssatzInProzent:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    TilgungAusgesetzt:
+      type: object
+      description: "Wenn 'TilgungAusgesetzt' als Tilgungswunsch angegeben wird, dannmuss\
+            \ die Verwendung des Bauspardarlehens 'ABTRETEN' sein."
+      allOf:
+        - $ref: '#/components/schemas/Tilgungswunsch'
+        - type: object
+          properties:
+            bausparwunsch:
+              $ref: '#/components/schemas/Bauspardarlehen'
+    Volltilger:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgungswunsch'
+        - type: object
+          properties:
+            tilgungsbeginn:
+              type: string
+              format: date
+    Rate:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgungswunsch'
+        - type: object
+          properties:
+            rate:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    KfwProgramm:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
+          type: string
+      description: "Mögliche Typen: KfwProgramm124, KfwProgramm151, KfwProgramm152,\
+            \ KfwProgramm153, KfwProgramm159, KfwProgramm167, KfwProgramm261Neubau, KfwProgramm261Sanierung,\
+            \ KfwProgramm262"
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          KFW_PROGRAMM_124: '#/components/schemas/KfwProgramm124'
+          KFW_PROGRAMM_151: '#/components/schemas/KfwProgramm151'
+          KFW_PROGRAMM_152: '#/components/schemas/KfwProgramm152'
+          KFW_PROGRAMM_153: '#/components/schemas/KfwProgramm153'
+          KFW_PROGRAMM_159: '#/components/schemas/KfwProgramm159'
+          KFW_PROGRAMM_167: '#/components/schemas/KfwProgramm167'
+          KFW_PROGRAMM_261_NEUBAU: '#/components/schemas/KfwProgramm261Neubau'
+          KFW_PROGRAMM_261_SANIERUNG: '#/components/schemas/KfwProgramm261Sanierung'
+          KFW_PROGRAMM_262: '#/components/schemas/KfwProgramm262'
+    KfwProgramm124:
+      required:
+        - laufzeitInJahren
+        - tilgungsfreieAnlaufjahre
+        - zinsbindungInJahren
+      type: object
+      description: "Wohneigentum Schaffen: Selbstgenutztes Eigentum (Programm-Nr.:\
+          \ 124)"
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 25
+              minimum: 1
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 3
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm151:
+      type: object
+      description: "Energieeffizient Sanieren: Kauf oder Komplettsanierung (Programm-Nr.:\
+          \ 151). Die Zinsbindung beträgt immer 10 Jahre. Wird zum 1. Juli 2021 eingestellt."
+      deprecated: true
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm152:
+      required:
+        - laufzeitInJahren
+        - tilgungsfreieAnlaufjahre
+      type: object
+      description: "Energieeffizient Sanieren: Einzelmaßnahmen (Programm-Nr.: 152).\
+          \ Die Zinsbindung beträgt immer 10 Jahre. Wird zum 1. Juli 2021 eingestellt."
+      deprecated: true
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm153:
+      required:
+        - laufzeitInJahren
+        - tilgungsfreieAnlaufjahre
+        - zinsbindungInJahren
+      type: object
+      description: "Energieeffizient Bauen: Effizienzhaus (Programm-Nr.: 153). Wird\
+          \ zum 1. Juli 2021 eingestellt."
+      deprecated: true
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm159:
+      required:
+        - tilgungsfreieAnlaufjahre
+      type: object
+      description: "Wohnraum Modernisieren: Altersgerecht Umbauen (Programm-Nr.: 159)"
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm167:
+      required:
+        - laufzeitUndZinsbindungInJahren
+        - tilgungsfreieAnlaufjahre
+      type: object
+      description: "Energieeffizient Sanieren: Heizungsanlagen Erneuerbare Energien\
+          \ (Programm-Nr.: 167). Die Laufzeit und Zinsbindung sind bei diesem Programmm\
+          \ identisch. Wird zum 1. Juli 2021 eingestellt."
+      deprecated: true
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitUndZinsbindungInJahren:
+              maximum: 10
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 2
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm261Neubau:
+      type: object
+      description: "Energieeffizient Bauen: bauen oder kaufen (Programm-Nr.: 261).\
+          \ Die Zinsbindung beträgt immer 10 Jahre."
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: "Erlaubte Werte sind: STANDARD_40_PLUS, ,STANDARD_40, ,STANDARD_40_EEK,\
+                \ ,STANDARD_55, ,STANDARD_55_EEK"
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm261Sanierung:
+      type: object
+      description: "Energieeffizient Sanieren: sanieren oder ein frisch saniertes\
+          \ Effizienzhaus kaufen (Programm-Nr.: 261). Die Zinsbindung beträgt immer\
+          \ 10 Jahre."
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: "Erlaubte Werte sind: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\
+                \ STANDARD_55_EEK, STANDARD_70, STANDARD_70_EEK, STANDARD_85, STANDARD_85_EEK,\
+                \ STANDARD_100, STANDARD_100_EEK, STANDARD_DENKMAL, STANDARD_DENKMAL_EEK"
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm262:
+      type: object
+      description: "Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\
+          \ 262). Die Zinsbindung beträgt immer 10 Jahre."
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
   securitySchemes:
     OAuth2:
       type: oauth2
