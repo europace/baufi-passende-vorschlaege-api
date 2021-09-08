@@ -26,7 +26,9 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 
 ## Beispiel: passende Finanzierungsvorschläge ermitteln
-Du kannst für eine Verbraucher die passenden Finanzierungsvorschläge ermitteln, indem du im ersten Schritt die relevanten Daten für die Ermittlung übermittelst und im zweiten Schritt die Ergebnisse der Ermittlung abholst.
+Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die Ermittlung asynchron angeboten.
+
+Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse der Ermittlung ab. Dabei kann es vorkommen, dass die Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
 
 ### Schritt 1: relevante Daten für Ermittlung senden
 Request:
@@ -83,7 +85,15 @@ Authorization: Bearer [access_token]
 }
 ```
 
-Response: 
+Response bei Ermittlung in Arbeit: 
+``` http
+202 - Accepted
+```
+
+Response nach Ermittlung: 
+``` http
+200 - OK
+```
 ``` json
 {
     "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef"
@@ -132,32 +142,6 @@ Response:
             "rank": 11
         },
         {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 178930.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178930.00,
-                    "sollZins": 1.000,
-                    "effektivZins": 1.020,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 216119.13,
-                    "gesamtLaufzeit": 468,
-                    "rate": 462.24,
-                    "tilgung": 2.100,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                }
-            ],
-            "darlehensSumme": 178930.00,
-            "sollZins": 1.000,
-            "effektivZins": 1.020,
-            "kennung": "Regional Green",
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
             "annahmeFrist": "2021-09-07",
             "darlehen": [
                 {
@@ -180,32 +164,6 @@ Response:
             "sollZins": 1.450,
             "effektivZins": 1.480,
             "kennung": "Baufinanzierung Basis",
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 178930.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178930.00,
-                    "sollZins": 1.110,
-                    "effektivZins": 1.140,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 219671.06,
-                    "gesamtLaufzeit": 459,
-                    "rate": 478.64,
-                    "tilgung": 2.100,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                }
-            ],
-            "darlehensSumme": 178930.00,
-            "sollZins": 1.110,
-            "effektivZins": 1.140,
-            "kennung": "Regional",
             "machbarkeit": 11,
             "rank": 11
         },
@@ -241,33 +199,6 @@ Response:
                     "auszahlungsBetrag": 78930.00,
                     "auszahlungsDatum": "2021-09-29",
                     "darlehensBetrag": 78930.00,
-                    "sollZins": 1.110,
-                    "effektivZins": 1.140,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 96901.63,
-                    "gesamtLaufzeit": 459,
-                    "rate": 211.14,
-                    "tilgung": 2.100,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                },
-                null
-            ],
-            "darlehensSumme": 178930.00,
-            "sollZins": 1.040,
-            "effektivZins": 1.070,
-            "kennung": "Regional; inkl. KfW-Darlehen 124",
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 78930.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 78930.00,
                     "sollZins": 1.000,
                     "effektivZins": 1.020,
                     "produktAnbieter": "COMMERZBANK",
@@ -285,32 +216,6 @@ Response:
             "sollZins": 0.989,
             "effektivZins": 1.010,
             "kennung": "Regional Green; inkl. KfW-Darlehen 124",
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 178925.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178925.00,
-                    "sollZins": 0.990,
-                    "effektivZins": 1.010,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 217394.67,
-                    "gesamtLaufzeit": 488,
-                    "rate": 445.82,
-                    "tilgung": 2.000,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                }
-            ],
-            "darlehensSumme": 178925.00,
-            "sollZins": 0.990,
-            "effektivZins": 1.010,
-            "kennung": "Regional BaufiBest",
             "machbarkeit": 11,
             "rank": 11
         },
