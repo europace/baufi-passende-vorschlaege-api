@@ -25,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ErfassteDaten'
+              $ref: '#/components/schemas/Kundenangaben'
       responses:
         200:
           description: Success
@@ -84,7 +84,7 @@ components:
           type: string
           description: UUID, die eine Anfrage eindeutig identifiziert.
           example: passende-vorschlaege-ABC123456789
-    ErfassteDaten:
+    Kundenangaben:
       type: object
       properties:
         haushalte:
@@ -93,14 +93,14 @@ components:
             $ref: '#/components/schemas/Haushalt'
           minimum: 1
           maximum: 4
+        finanzierungsbedarf:
+          $ref: '#/components/schemas/Finanzierungsbedarf'
         finanzierungsobjekt:
-          $ref: '#/components/schemas/FinanzierungsObjekt'
-        praeferenzen:
-          $ref: '#/components/schemas/Praeferenzen'
+          $ref: '#/components/schemas/Finanzierungsobjekt'
       required:
         - haushalt
-        - finanzierungsObjekt
-        - praeferenzen
+        - finanzierungsbedarf
+        - finanzierungsobjekt
     Haushalt:
       type: object
       properties:
@@ -118,7 +118,7 @@ components:
         eigenKapital:
           type: number
           example: 14500
-          description: in Euro
+          description: Summe aller Vermögenswerte. In Euro
         sonstigeEinnahmen:
           type: number
           example: 380
@@ -126,9 +126,11 @@ components:
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus Privatdarlehen. In Euro
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten. In Euro
     Kunde:
       type: object
       properties:
@@ -139,10 +141,10 @@ components:
         arbeitBefristet:
           type: boolean
           description: true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false
-        nettoEinkommen:
+        einkommenNetto:
           type: number
           description: in Euro, jährlich
-        geburtsDatum:
+        geburtsdatum:
           type: string
           format: date
           example: 1991-05-21
@@ -159,8 +161,8 @@ components:
               - HAUSMANN
               - ARBEITSLOSER
       required:
-        - nettoEinkommen
-    FinanzierungsObjekt:
+        - einkommenNetto
+    Finanzierungsobjekt:
       type: object
       properties:
         objektArt:
@@ -174,21 +176,12 @@ components:
             - ZWEIFAMILIENHAUS
             - GRUNDSTUECK
             - EIGENTUMSWOHNUNG
-        verwendungsZweck:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - ANSCHLUSSFINANZIERUNG
-            - KAUF
-            - KAUF_NEUBAU_VOM_BAUTRAEGER
-            - MODERNISIERUNG_UMBAU_ANBAU
-            - NEUBAU
-            - KAPITALBESCHAFFUNG
         vermietet:
           type: boolean
           description: true, wenn das Objekt vermietet ist, ansonsten false
         baujahr:
           type: integer
+          example: 1952
         gewerbeEinheit:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
@@ -198,18 +191,35 @@ components:
           type: number
           description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
+    Finanzierungsbedarf:
+      type: object
+      properties:
+        finanzierungszweck:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+            - ANSCHLUSSFINANZIERUNG
+            - KAUF
+            - KAUF_NEUBAU_VOM_BAUTRAEGER
+            - MODERNISIERUNG_UMBAU_ANBAU
+            - NEUBAU
+            - KAPITALBESCHAFFUNG
+          example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: in Euro
-          example: 380000
+          description: In Euro
+          example: 380000.00
         gesamtKosten:
           type: number
-          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...)
-          example: 250000
+          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
+          example: 250000.00
+        praeferenzen:
+          $ref: '#/components/schemas/Praeferenzen'
     Anschrift:
       type: object
       properties:
         plz:
+          pattern: '\\d{5}'
           type: string
           example: 10117
           description: Postleitzahl
@@ -227,7 +237,7 @@ components:
       properties:
         wunschRate:
           type: number
-          description: in Euro, monatlich
+          description: In Euro, monatlich
         einzugsDatum:
           type: string
           format: date
@@ -245,12 +255,6 @@ components:
             - SCHNELLST_MOEGLICH
             - BIS_ZUR_RENTE
             - EGAL
-        bausparerErlaubt:
-          type: boolean
-          description: sind Bauspar-Vorschläge eine Option?
-        foerderDarlehenErlaubt:
-          type: boolean
-          description: sind Förder-Darlehen (z.B. KfW) eine Option?
     FinanzierungsVorschlaege:
       type: object
       properties:
@@ -265,14 +269,15 @@ components:
           type: string
           format: date
           example: 2021-05-21
-        bausparVorschlaege:
+        finanzierungsbausteine:
+          maxItems: 5
+          minItems: 1
           type: array
           items:
-            $ref: '#/components/schemas/BausparVorschlag'
-        darlehen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Darlehen'
+            oneOf:
+              - $ref: '#/components/schemas/Annuitaetendarlehen'
+              - $ref: '#/components/schemas/KfwDarlehen'
+              - $ref: '#/components/schemas/Privatdarlehen'
         darlehensSumme:
           type: number
         sollZins:
@@ -291,85 +296,301 @@ components:
           minimum: 0
           example: 0
           description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch. Derzeit liefert die API nur den am besten passenden Vorschlag.
-    BausparVorschlag:
+    Finanzierungsbaustein:
+      required:
+        - '@type'
       type: object
       properties:
-        gebuehrenSumme:
-          type: number
-          description: Summe aller Gebühren (Abschluss- Kontoführungsgebühr, ...), in Euro
-        bausparSumme:
-          type: number
-          description: in Euro
-        gesamtLaufzeit:
-          type: integer
-          description: in Jahren
-        produktAnbieter:
+        '@type':
           type: string
-        sparRate:
-          type: number
-          description: in Euro, monatlich
-        tilgungsRate:
-          type: number
-          description: in Euro, monatlich
-        tilgungsZins:
-          type: number
-          description: Prozent, hundert-basiert
-          example: 1.56
-    Darlehen:
+      description: 'Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          ANNUITAETENDARLEHEN: '#/components/schemas/Annuitaetendarlehen'
+          PRIVATDARLEHEN: '#/components/schemas/Privatdarlehen'
+          KFW_DARLEHEN: '#/components/schemas/KfwDarlehen'
+    Annuitaetendarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            annuitaetendetails:
+              $ref: '#/components/schemas/Annuitaetendetails'
+            bereitstellungszinsfreieZeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Privatdarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            laufzeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+    Annuitaetendetails:
       type: object
       properties:
-        auszahlungsBetrag:
+        zinsbindungInJahren:
+          type: integer
+          format: int32
+        tilgungswunsch:
+          $ref: '#/components/schemas/Tilgungswunsch'
+        sondertilgungJaehrlich:
           type: number
-          description: Netto DarlehensBetrag in Euro
-        auszahlungsDatum:
+          description: Angabe in Prozent.
+          format: double
+        auszahlungszeitpunkt:
           type: string
           format: date
-          example: 2022-08-21
-        darlehensBetrag:
-          type: number
-        sollZins:
-          type: number
-          description: in Prozent, hundert-basiert
-          example: 2.34
-        effektivZins:
-          type: number
-          description: in Prozent, hundert-basiert
-          example: 2.56
-        produktAnbieter:
+    KfwDarlehen:
+      required:
+        - darlehensbetrag
+        - kfwEndfaellig
+        - programm
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            kfwEndfaellig:
+              type: string
+              enum:
+                - NEIN
+                - ENDFAELLIG_BERECHNET
+                - ENDFAELLIG_EIGENES_ANGEBOT
+            tilgung:
+              $ref: '#/components/schemas/Tilgung'
+            programm:
+              $ref: '#/components/schemas/KfwProgramm'
+    Tilgung:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
           type: string
-          description: über die Finanzierung entscheidender ProduktAnbieter
-        gesamtKosten:
-          type: number
-          description: in Euro
-          example: 450000
-        gesamtLaufzeit:
-          type: integer
-          description: (kalkulatorische) Laufzeit der Finanzierung
-        rate:
-          type: number
-          description: monatliche Gesamt-Rate in Euro (inklusive "tilgung")
-        tilgung:
-          type: number
-          description: monatliche Tilgungs-Rate in Euro
-        typ:
+      description: 'Mögliche Typen: TilgungInProzent, Volltilger, Rate.'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          TILGUNG_IN_PROZENT: '#/components/schemas/TilgungInProzent'
+          VOLLTILGER: '#/components/schemas/Volltilger'
+          RATE: '#/components/schemas/Rate'
+    TilgungInProzent:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            tilgungssatzInProzent:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    Volltilger:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            tilgungsbeginn:
+              type: string
+              format: date
+    Rate:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            rate:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    KfwProgramm:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
           type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - ANNUITAETEN_DARLEHEN
-            - FORWARD_DARLEHEN
-            - REGIONAL_FOERDER_DARLEHEN
-            - KFW_DARLEHEN
-            - PRIVAT_DARLEHEN
-            - ZWISCHEN_FINANZIERUNG
-            - VARIABLES_DARLEHEN
-            - BAUSPARVERTRAG
-        zinsBindung:
-          type: integer
-          description: in Jahren
-        zinsZahlungsBeginnAm:
-          type: string
-          format: date
-          example: 2022-05-21
+      description: 'Mögliche Typen: KfwProgramm124, KfwProgramm159,\
+            \ KfwProgramm261Neubau, KfwProgramm261Sanierung, KfwProgramm262'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          KFW_PROGRAMM_124: '#/components/schemas/KfwProgramm124'
+          KFW_PROGRAMM_159: '#/components/schemas/KfwProgramm159'
+          KFW_PROGRAMM_261_NEUBAU: '#/components/schemas/KfwProgramm261Neubau'
+          KFW_PROGRAMM_261_SANIERUNG: '#/components/schemas/KfwProgramm261Sanierung'
+          KFW_PROGRAMM_262: '#/components/schemas/KfwProgramm262'
+    KfwProgramm124:
+      required:
+        - laufzeitInJahren
+        - tilgungsfreieAnlaufjahre
+        - zinsbindungInJahren
+      type: object
+      description: 'Wohneigentum Schaffen: Selbstgenutztes Eigentum (Programm-Nr.:\
+          \ 124)'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 25
+              minimum: 1
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 3
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm159:
+      required:
+        - tilgungsfreieAnlaufjahre
+      type: object
+      description: 'Wohnraum Modernisieren: Altersgerecht Umbauen (Programm-Nr.: 159)'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm261Neubau:
+      type: object
+      description: 'Energieeffizient Bauen: bauen oder kaufen (Programm-Nr.: 261).\
+          \ Die Zinsbindung beträgt immer 10 Jahre.'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: 'Erlaubte Werte sind: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\
+                \ STANDARD_55, STANDARD_55_EEK'
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm261Sanierung:
+      type: object
+      description: 'Energieeffizient Sanieren: sanieren oder ein frisch saniertes\
+          \ Effizienzhaus kaufen (Programm-Nr.: 261). Die Zinsbindung beträgt immer\
+          \ 10 Jahre.'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: 'Erlaubte Werte sind: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\
+                \ STANDARD_55_EEK, STANDARD_70, STANDARD_70_EEK, STANDARD_85, STANDARD_85_EEK,\
+                \ STANDARD_100, STANDARD_100_EEK, STANDARD_DENKMAL, STANDARD_DENKMAL_EEK'
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    KfwProgramm262:
+      type: object
+      description: 'Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\
+          \ 262). Die Zinsbindung beträgt immer 10 Jahre.'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
   securitySchemes:
     OAuth2:
       type: oauth2
