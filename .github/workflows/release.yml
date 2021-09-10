@@ -1,4 +1,4 @@
-name: Java CI
+name: Api Release
 
 on:
   workflow_dispatch:
@@ -8,6 +8,9 @@ jobs:
     runs-on: [ self-hosted, passt-mtp ]
     container:
       image: ubuntu:latest
+    credentials:
+      username: ${{secrets.DOCKERHUB_USERNAME}}
+      password: ${{secrets.DOCKERHUB_TOKEN}}
     env:
       TZ: Europe/Berlin
     steps:
