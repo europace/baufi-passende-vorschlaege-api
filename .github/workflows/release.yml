@@ -8,9 +8,9 @@ jobs:
     runs-on: [ self-hosted, passt-mtp ]
     container:
       image: ubuntu:latest
-    credentials:
-      username: ${{secrets.DOCKERHUB_USERNAME}}
-      password: ${{secrets.DOCKERHUB_TOKEN}}
+      credentials:
+        username: ${{secrets.DOCKERHUB_USERNAME}}
+        password: ${{secrets.DOCKERHUB_TOKEN}}
     env:
       TZ: Europe/Berlin
     steps:
