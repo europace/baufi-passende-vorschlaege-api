@@ -276,10 +276,7 @@ components:
           minItems: 1
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/Annuitaetendarlehen'
-              - $ref: '#/components/schemas/KfwDarlehen'
-              - $ref: '#/components/schemas/Privatdarlehen'
+            $ref: '#/components/schemas/Finanzierungsbaustein'
         darlehensSumme:
           type: number
         sollZins:
