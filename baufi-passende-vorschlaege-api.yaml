@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
-  version: 0.0.9
+  version: 0.0.10
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -276,10 +276,7 @@ components:
           minItems: 1
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/Annuitaetendarlehen'
-              - $ref: '#/components/schemas/KfwDarlehen'
-              - $ref: '#/components/schemas/Privatdarlehen'
+            $ref: '#/components/schemas/Finanzierungsbaustein'
         darlehensSumme:
           type: number
         sollZins:
