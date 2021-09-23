@@ -151,6 +151,7 @@ components:
           example: 1991-05-21
         beschaeftigungsArt:
           type: string
+          example: ANGESTELLTER
           description: |
             Kann einen der folgenden Werte annehmen:
               - ANGESTELLTER

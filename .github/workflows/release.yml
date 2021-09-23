@@ -19,4 +19,7 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - name: Release with Gradle
+        env:
+          GITHUB_USER_TOKEN: ${{secrets.RELEASE_TOKEN}}
+          GITHUB_USER_NAME: 'EPRonnyS'
         run: ./gradlew release
