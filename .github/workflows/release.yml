@@ -17,5 +17,6 @@ jobs:
         uses: actions/setup-java@v2.3.0
         with:
           distribution: 'zulu'
+          java-version: '11'
       - name: Release with Gradle
         run: ./gradlew release
