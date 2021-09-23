@@ -144,6 +144,7 @@ components:
         einkommenNetto:
           type: number
           description: in Euro, jährlich
+          example: 50000.00
         geburtsdatum:
           type: string
           format: date
