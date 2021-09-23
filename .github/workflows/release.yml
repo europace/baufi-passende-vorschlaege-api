@@ -3,7 +3,7 @@ name: Api Release
 on:
   push:
     branches:
-      - PASST-781
+      - main
     paths:
       - 'api/baufi-passende-vorschlaege-api.yaml'
 jobs:
