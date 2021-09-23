@@ -22,4 +22,9 @@ jobs:
         env:
           GITHUB_USER_TOKEN: ${{secrets.RELEASE_TOKEN}}
           GITHUB_USER_NAME: 'EPRonnyS'
-        run: ./gradlew release
+        run: |
+          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          echo "New version: ${NEW_VERSION}"
+          echo "Github username: ${GITHUB_ACTOR}"
+          echo "Github username: ${GITHUB_USER_NAME}"
+          ./gradlew release
