@@ -37,7 +37,7 @@ publishing {
   }
 }
 
-def apiFileName = "$rootDir/${property("baufi.passende.vorschlaege.api.file.name")}"
+def apiFileName = "$rootDir/api/${property("baufi.passende.vorschlaege.api.file.name")}"
 def apiConfig = new Yaml().load( new File(apiFileName).newInputStream() )
 
 task assertVersions() {
