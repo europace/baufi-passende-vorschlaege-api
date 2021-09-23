@@ -32,16 +32,7 @@ publishing {
   publications {
     mavenJava(MavenPublication) {
       version = "${property("version")}".toString()
-      artifact "$rootDir/baufi-passende-vorschlaege-api.yaml"
-    }
-  }
-
-  repositories {
-    maven {
-      url = 's3://passt-api-infrastructure-yaml-descriptor'
-      authentication {
-        awsIm(AwsImAuthentication)
-      }
+      artifact "$rootDir/api/baufi-passende-vorschlaege-api.yaml"
     }
   }
 }
@@ -67,7 +58,7 @@ openApiValidate {
 
 openApiGenerate {
   generatorName.set 'javascript'
-  inputSpec.set 'baufi-passende-vorschlaege-api.yaml'
+  inputSpec.set 'api/baufi-passende-vorschlaege-api.yaml'
   outputDir.set "$buildDir/generated".toString()
   apiPackage.set 'de.europace.baufi.passende.vorschlaege.api'
   modelPackage.set 'de.hypoport.ep2.baufismart.passende.vorschlaege.model'

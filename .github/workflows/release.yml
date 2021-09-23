@@ -1,16 +1,14 @@
 name: Api Release
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - PASST-781
+    paths:
+      - 'api/baufi-passende-vorschlaege-api.yaml'
 jobs:
   build:
-    runs-on: [ self-hosted, passt-mtp ]
-    container:
-      image: ubuntu:latest
-      credentials:
-        username: ${{secrets.DOCKERHUB_USERNAME}}
-        password: ${{secrets.DOCKERHUB_TOKEN}}
+    runs-on: ubuntu-latest
     env:
       TZ: Europe/Berlin
     steps:

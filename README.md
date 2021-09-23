@@ -295,7 +295,7 @@ Response:
 ```
 
 ## Client generieren
-Ein Client kann mit Hilfe der [.yaml-Datei](baufi-passende-vorschlaege-api.yaml) über entsprechende Libraries generiert werden. z.B. :
+Ein Client kann mit Hilfe der [.yaml-Datei](api/baufi-passende-vorschlaege-api.yaml) über entsprechende Libraries generiert werden. z.B. :
 
 - [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
 - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen)
