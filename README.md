@@ -45,8 +45,8 @@ Authorization: Bearer [access_token]
         {
           "beschaeftigtSeit": "2010-01-26T13:52:12.177Z",
           "arbeitBefristet": false,
-          "nettoEinkommen": 5000,
-          "geburtsDatum": "1999-05-26T13:52:12.177Z",
+          "einkommenNetto": 5000,
+          "geburtsdatum": "1999-05-26T13:52:12.177Z",
           "beschaeftigungsArt": "ANGESTELLTER"
         }
       ],
@@ -58,9 +58,19 @@ Authorization: Bearer [access_token]
       }
     }
   ],
+  "finanzierungsbedarf": {
+    "finanzierungszweck": "KAUF",
+    "grundstueckKaufpreis": 380000,
+    "gesamtKosten": 250000,
+    "praeferenzen": {
+        "wunschRate": 900,
+        "einzugsDatum": "2021-09-26T13:52:12.177Z",
+        "kreditEntscheiungsZeit": "2021-05-26T13:52:12.177Z",
+        "laufzeit": "120"
+    }
+  },
   "finanzierungsobjekt": {
     "objektArt": "EINFAMILIENHAUS",
-    "verwendungsZweck": "KAUF",
     "vermietet": false,
     "baujahr": 2000,
     "gewerbeEinheit": false,
@@ -70,17 +80,7 @@ Authorization: Bearer [access_token]
       "strasse": "Klosterstrasse",
       "hausnummer": "8"
     },
-    "wohnFlaeche": 150,
-    "grundstueckKaufpreis": 0,
-    "gesamtKosten": 250000
-  },
-  "praeferenzen": {
-    "wunschRate": 900,
-    "einzugsDatum": "2021-09-26T13:52:12.177Z",
-    "kreditEntscheiungsZeit": "2021-05-26T13:52:12.177Z",
-    "laufzeit": "120",
-    "bausparerErlaubt": false,
-    "foerderDarlehenErlaubt": true
+    "wohnFlaeche": 150
   }
 }
 ```
