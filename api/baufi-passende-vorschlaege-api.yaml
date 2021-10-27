@@ -250,13 +250,9 @@ components:
           example: 2021-06-21
           description: bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
         laufzeit:
-          type: string
+          type: number
           description: |
-            Bis wann soll die Finanzierung vollständig zurückgezahlt sein?
-            Kann einen der folgenden Werte annehmen:
-            - SCHNELLST_MOEGLICH
-            - BIS_ZUR_RENTE
-            - EGAL
+            Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
     FinanzierungsVorschlaege:
       type: object
       properties:
