@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.12
+  version: 0.0.13
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -251,8 +251,7 @@ components:
           description: bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
         laufzeit:
           type: number
-          description: |
-            Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+          description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
     FinanzierungsVorschlaege:
       type: object
       properties:
