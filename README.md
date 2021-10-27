@@ -66,7 +66,7 @@ Authorization: Bearer [access_token]
         "wunschRate": 900,
         "einzugsDatum": "2021-09-26T13:52:12.177Z",
         "kreditEntscheiungsZeit": "2021-05-26T13:52:12.177Z",
-        "laufzeit": "120"
+        "laufzeit": 120
     }
   },
   "finanzierungsobjekt": {
