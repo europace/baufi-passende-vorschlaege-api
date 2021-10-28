@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  description: API zum Abruf passender empfohlener Finanzierungsvorschläge
+  description: API zum Abruf passender empfohlener Finanzierungsvorschläge.
   version: 0.0.13
-  title: Empfohlene Finanzierungsvorschläge API
+  title: Empfohlene Finanzierungsvorschläge APIS
   contact:
     name: Europace AG
     url: https://www.europace2.de
@@ -144,14 +144,12 @@ components:
         einkommenNetto:
           type: number
           description: in Euro, jährlich
-          example: 50000.00
         geburtsdatum:
           type: string
           format: date
           example: 1991-05-21
         beschaeftigungsArt:
           type: string
-          example: ANGESTELLTER
           description: |
             Kann einen der folgenden Werte annehmen:
               - ANGESTELLTER
@@ -248,10 +246,11 @@ components:
           type: string
           format: date
           example: 2021-06-21
-          description: bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
+          description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
         laufzeit:
           type: number
-          description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+          description: |
+            Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laaufzeit in Jahren
     FinanzierungsVorschlaege:
       type: object
       properties:
