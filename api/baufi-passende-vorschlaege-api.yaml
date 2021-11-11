@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.13
+  version: 0.0.14
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -248,7 +248,7 @@ components:
           type: string
           format: date
           example: 2021-06-21
-          description: bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
+          description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
         laufzeit:
           type: number
           description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
@@ -292,6 +292,11 @@ components:
           minimum: 0
           example: 0
           description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch. Derzeit liefert die API nur den am besten passenden Vorschlag.
+        gesamtRateProMonat:
+          type: number
+          format: double
+        zinsbindungInJahrenMinMax:
+          type: string
     Finanzierungsbaustein:
       required:
         - '@type'
@@ -324,6 +329,17 @@ components:
               type: number
               description: Angabe in Prozent.
               format: double
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
     Privatdarlehen:
       type: object
       allOf:
@@ -340,6 +356,17 @@ components:
               type: number
               description: Angabe in Prozent.
               format: double
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
     Annuitaetendetails:
       type: object
       properties:
