@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.15
+  version: 0.0.16
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -262,7 +262,7 @@ components:
         leadRating:
           type: object
           properties:
-            score:
+            rating:
               type: string
               description: Score zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C, D, E, F und G aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
               example: "B"
