@@ -21,5 +21,7 @@ jobs:
       - name: Release with Gradle
         env:
           GITHUB_USER_TOKEN: ${{secrets.RELEASE_TOKEN}}
-        run:
+        run: |
+          git config --global user.email ${{secrets.USER_MAIL}}
+          git config --global user.name ${{secrets.USER_NAME}}
           ./gradlew release
