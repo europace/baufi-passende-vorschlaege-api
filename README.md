@@ -292,7 +292,7 @@ Response:
         }
     ],
     "leadRating": {
-        "score": "A"
+        "rating": "A"
     }
 }
 ```
