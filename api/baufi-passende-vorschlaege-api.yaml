@@ -259,6 +259,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FinanzierungsVorschlag'
+        leadRating:
+          type: object
+          properties:
+            score:
+              type: string
+              description: Score zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C, D, E, F und G aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
+              example: "B"
       required:
         - vorschlaege
     FinanzierungsVorschlag:
