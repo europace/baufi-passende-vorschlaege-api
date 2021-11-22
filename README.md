@@ -290,7 +290,10 @@ Response:
             "machbarkeit": 11,
             "rank": 11
         }
-    ]
+    ],
+    "leadRating": {
+        "rating": "A"
+    }
 }
 ```
 
