@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.16
+  version: 0.0.17
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -25,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Kundenangaben'
+              $ref: '#/components/schemas/VorschlaegeErmittlungRequest'
       responses:
         200:
           description: Success
@@ -84,6 +84,26 @@ components:
           type: string
           description: UUID, die eine Anfrage eindeutig identifiziert.
           example: passende-vorschlaege-ABC123456789
+    VorschlaegeErmittlungRequest:
+      type: object
+      properties:
+        metadaten:
+          $ref: '#/components/schemas/VorschlaegeErmittlungPartnerDaten'
+        kundenangaben:
+          $ref: '#/components/schemas/Kundenangaben'
+    VorschlaegeErmittlungPartnerDaten:
+      type: object
+      properties:
+        datenkontext:
+          type: string
+          description: In welchem Kontext (Echtgeschäft oder Testmodus) wird der Request verarbeitet.
+          enum:
+            - TEST_MODUS
+            - ECHT_GESCHAEFT
+        kundenId:
+          type: string
+        clientId:
+          type: string
     Kundenangaben:
       type: object
       properties:
