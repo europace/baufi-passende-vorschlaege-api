@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
   version: 0.0.19
-  title: Empfohlene Finanzierungsvorschläge API
+  title: Empfohlene Finanzierungsvorschläge API TEST
   contact:
     name: Europace AG
     url: https://www.europace2.de
