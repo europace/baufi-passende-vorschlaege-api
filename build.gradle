@@ -68,6 +68,7 @@ release {
   failOnCommitNeeded = false
   git {
     requireBranch = 'main'
+    pushToRemote = 'origin'
   }
 }
 
