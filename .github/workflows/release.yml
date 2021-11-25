@@ -25,8 +25,7 @@ jobs:
         env:
           GITHUB_USER_TOKEN: ${{secrets.RELEASE_TOKEN}}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.RELEASE_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git remote set-url origin https://${{ secrets.RELEASE_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
-          git config credential.helper store
           ./gradlew release
