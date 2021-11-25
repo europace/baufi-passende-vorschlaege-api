@@ -13,6 +13,9 @@ jobs:
       TZ: Europe/Berlin
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
       - name: Set up JDK 11
         uses: actions/setup-java@v2.3.1
         with:
@@ -24,5 +27,5 @@ jobs:
         run: |
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
-          echo ${{secrets.USER_NAME}}
+          git config credential.helper store
           ./gradlew release
