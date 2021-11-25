@@ -28,5 +28,5 @@ jobs:
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
           git remote rm origin
-          git remote set-url origin https://${{ secrets.RELEASE_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git remote add origin https://${{ secrets.RELEASE_TOKEN }}@github.com/$GITHUB_REPOSITORY
           ./gradlew release
