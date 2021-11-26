@@ -39,7 +39,13 @@ Content-Type: application/json
 Authorization: Bearer [access_token]
 
 {
-  "haushalte": [
+ "metadaten": {
+    "datenkontext": "TEST_MODUS",
+    "kundenId": "",
+    "clientId": ""
+ },
+ "kundenangaben": {
+    "haushalte": [
     {
       "kunden": [
         {
@@ -82,6 +88,7 @@ Authorization: Bearer [access_token]
     },
     "wohnFlaeche": 150
   }
+}
 }
 ```
 
