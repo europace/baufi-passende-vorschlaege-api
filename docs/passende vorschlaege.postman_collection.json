@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "2c6c5c16-1d3d-4ea4-9664-1bf2af584a6c",
+		"name": "passende vorschlaege",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "baufi ps",
+			"item": [
+				{
+					"name": "PS Create Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"ps_jwt_access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{ps-client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{ps-client-id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://service.auth.api.europace.de/token",
+							"protocol": "https",
+							"host": [
+								"service",
+								"auth",
+								"api",
+								"europace",
+								"de"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PS API Gateway Vorschlaege (With Auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Store anfrageId as Collection Variable', function () {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"    ",
+									"    const resultAnfrageId = pm.response.json().anfrageId;",
+									"    pm.collectionVariables.set('anfrageId', resultAnfrageId);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ps_jwt_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"metadaten\": {\n    \"datenkontext\": \"TEST_MODUS\",\n    \"kundenId\": \"\",\n    \"clientId\": \"\"\n },\n \"kundenangaben\": {\n    \"haushalte\": [\n    {\n      \"kunden\": [\n        {\n          \"beschaeftigtSeit\": \"2010-01-26T13:52:12.177Z\",\n          \"arbeitBefristet\": false,\n          \"einkommenNetto\": 5000,\n          \"geburtsdatum\": \"1999-05-26T13:52:12.177Z\",\n          \"beschaeftigungsArt\": \"ANGESTELLTER\"\n        }\n      ],\n      \"finanzielleSituation\": {\n        \"eigenKapital\": 100000,\n        \"sonstigeEinnahmen\": 0,\n        \"nichtAbgeloestePrivateDarlehenRestschuld\": 0,\n        \"nichtAbgeloesteRatenkrediteRestschuld\": 0\n      }\n    }\n  ],\n  \"finanzierungsbedarf\": {\n    \"finanzierungszweck\": \"KAUF\",\n    \"grundstueckKaufpreis\": 380000,\n    \"gesamtKosten\": 250000,\n    \"praeferenzen\": {\n        \"wunschRate\": 900,\n        \"einzugsDatum\": \"2021-09-26T13:52:12.177Z\",\n        \"kreditEntscheiungsZeit\": \"2021-05-26T13:52:12.177Z\",\n        \"laufzeit\": 120\n    }\n  },\n  \"finanzierungsobjekt\": {\n    \"objektArt\": \"EINFAMILIENHAUS\",\n    \"vermietet\": false,\n    \"baujahr\": 2000,\n    \"gewerbeEinheit\": false,\n    \"anschrift\": {\n      \"plz\": \"10179\",\n      \"ort\": \"Berlin\",\n      \"strasse\": \"Klosterstrasse\",\n      \"hausnummer\": \"8\"\n    },\n    \"wohnFlaeche\": 150\n  }\n}\n}"
+						},
+						"url": {
+							"raw": "https://baufinanzierung.api.europace.de/vorschlaege/",
+							"protocol": "https",
+							"host": [
+								"baufinanzierung",
+								"api",
+								"europace",
+								"de"
+							],
+							"path": [
+								"vorschlaege",
+								""
+							]
+						},
+						"description": "Triggert die Ermittlung von Vorschlaegen und erhaelt eine anfrageId zum Abholen der Daten"
+					},
+					"response": []
+				},
+				{
+					"name": "PS API Gateway GET Vorschlaege (With Auth)",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ps_jwt_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://baufinanzierung.api.europace.de/vorschlaege/{{anfrageId}}",
+							"protocol": "https",
+							"host": [
+								"baufinanzierung",
+								"api",
+								"europace",
+								"de"
+							],
+							"path": [
+								"vorschlaege",
+								"{{anfrageId}}"
+							]
+						},
+						"description": "Holt die passenden Vorschlaege für die gegebene anfrageId"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "anfrageId",
+			"value": ""
+		}
+	]
+}
