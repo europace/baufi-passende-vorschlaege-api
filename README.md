@@ -26,9 +26,17 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 
 ## Beispiel: passende Finanzierungsvorschläge ermitteln
-Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die Ermittlung asynchron angeboten.
+Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. 
+Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die Ermittlung asynchron angeboten.
 
-Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse der Ermittlung ab. Dabei kann es vorkommen, dass die Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
+Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse 
+der Ermittlung ab. Dabei kann es vorkommen, dass die Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am 
+Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
+
+Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen Vorschlag liefern zu können. Es kann 
+deshalb vorkommen, dass das Lead Rating nicht direkt mit dem passenden Vorschlag zurückgegeben wird und somit auch nicht 
+in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also, 
+wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
 ### Schritt 1: relevante Daten für Ermittlung senden
 Request:
