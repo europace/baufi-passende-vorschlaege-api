@@ -50,7 +50,8 @@ Authorization: Bearer [access_token]
  "metadaten": {
     "datenkontext": "TEST_MODUS",
     "kundenId": "",
-    "clientId": ""
+    "clientId": "",
+    "gewuenschteAnzahlVorschlaege":"1"
  },
  "kundenangaben": {
     "haushalte": [
