@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.22
+  version: 0.0.23
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -14,6 +14,35 @@ tags:
   - name: Finanzierungsvorschlaege
     description: Top-Finanzierungsvorschläge ermitteln
 paths:
+  /vorschlaege/ermitteln:
+    post:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: 'ACHTUNG: Temporäre Implementierung für die Pilotphase!
+                Synchrone Ermittlung eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.'
+      operationId: vorschlaegeErmittelnSync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlaegeErmittlungRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        400:
+          description: Bad request
+        408:
+          description: Request timed out. Mit der AnfrageId kann über GET /vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
+        500:
+          description: Internal server error
+      security:
+        - OAuth2:
+            - read
   /vorschlaege:
     post:
       tags:
