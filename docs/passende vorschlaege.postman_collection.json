@@ -1,15 +1,15 @@
 {
 	"info": {
 		"_postman_id": "9af54050-9142-4449-afc9-80baf3e71132",
-		"name": "passende vorschlaege",
+		"name": "BaufiSmart-passende-Vorschlaege-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "baufi ps",
+			"name": "baufi",
 			"item": [
 				{
-					"name": "PS Create Access Token",
+					"name": "Create Access Token",
 					"event": [
 						{
 							"listen": "test",
@@ -68,7 +68,7 @@
 					"response": []
 				},
 				{
-					"name": "PS API Gateway Vorschlaege (With Auth)",
+					"name": "POST Vorschlaege",
 					"event": [
 						{
 							"listen": "test",
@@ -109,7 +109,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n            \"finanzierungszweck\": \"KAUF\",\n            \"grundstueckKaufpreis\": 0,\n            \"gesamtKosten\": 250000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"einzugsDatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n           \n        ]\n    }\n}"
+							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n            \"finanzierungszweck\": \"KAUF\",\n            \"grundstueckKaufpreis\": 0,\n            \"kaufpreis\": 250000,\n            \"modernisierungsKostenInklEigenleistungen\": 25000,\n            \"modernisierungEigenleistung\": 15000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"faelligkeitsdatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n           \n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "https://baufinanzierung.api.europace.de/vorschlaege/",
@@ -130,7 +130,7 @@
 					"response": []
 				},
 				{
-					"name": "PS API Gateway GET Vorschlaege (With Auth)",
+					"name": "GET Vorschlaege",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"content-type": true

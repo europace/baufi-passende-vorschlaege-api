@@ -51,17 +51,17 @@ Authorization: Bearer [access_token]
     "datenkontext": "TEST_MODUS",
     "kundenId": "",
     "clientId": "",
-    "gewuenschteAnzahlVorschlaege":"1"
+    "gewuenschteAnzahlVorschlaege":"3"
  },
  "kundenangaben": {
     "haushalte": [
     {
       "kunden": [
         {
-          "beschaeftigtSeit": "2010-01-26T13:52:12.177Z",
+          "beschaeftigtSeit": "2010-01-26",
           "arbeitBefristet": false,
           "einkommenNetto": 5000,
-          "geburtsdatum": "1999-05-26T13:52:12.177Z",
+          "geburtsdatum": "1999-05-26",
           "beschaeftigungsArt": "ANGESTELLTER"
         }
       ],
@@ -76,11 +76,13 @@ Authorization: Bearer [access_token]
   "finanzierungsbedarf": {
     "finanzierungszweck": "KAUF",
     "grundstueckKaufpreis": 380000,
-    "gesamtKosten": 250000,
+    "kaufpreis": 250000,
+    "modernisierungsKostenInklEigenleistungen": 25000,
+    "modernisierungEigenleistung": 15000,
     "praeferenzen": {
         "wunschRate": 900,
-        "einzugsDatum": "2021-09-26T13:52:12.177Z",
-        "kreditEntscheiungsZeit": "2021-05-26T13:52:12.177Z",
+        "faelligkeitsdatum": "2021-09-26",
+        "kreditEntscheiungsZeit": "2021-05-26",
         "laufzeit": 120
     }
   },
@@ -88,7 +90,7 @@ Authorization: Bearer [access_token]
     "objektArt": "EINFAMILIENHAUS",
     "vermietet": false,
     "baujahr": 2000,
-    "gewerbeEinheit": false,
+    "gewerblicheNutzung": false,
     "anschrift": {
       "plz": "10179",
       "ort": "Berlin",
@@ -128,187 +130,107 @@ Authorization: Bearer [access_token]]
 
 Response:
 > Hinweis: Banken und Konditionen sind nur Beispiele
+
 ``` json
 {
     "vorschlaege": [
         {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
+            "annahmeFrist": "2022-01-14",
+            "finanzierungsbausteine": [
                 {
-                    "auszahlungsBetrag": 178930.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178930.00,
-                    "sollZins": 0.870,
-                    "effektivZins": 0.890,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 210470.61,
-                    "gesamtLaufzeit": 460,
-                    "rate": 457.76,
-                    "tilgung": 2.200,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
+                    "@type": "ANNUITAETENDARLEHEN",
+                    "darlehensbetrag": 189000.0,
+                    "annuitaetendetails": {
+                        "zinsbindungInJahren": 15,
+                        "tilgung": {
+                            "@type": "TILGUNG_IN_PROZENT",
+                            "tilgungssatzInProzent": 2.5,
+                            "tilgungsbeginn": "2022-02-27"
+                        },
+                        "sondertilgungJaehrlich": 5.0,
+                        "auszahlungszeitpunkt": "2022-02-27"
+                    },
+                    "bereitstellungszinsfreieZeitInMonaten": 12,
+                    "sollZins": 1.53,
+                    "effektivZins": 1.56,
+                    "rateMonatlich": 634.73,
+                    "produktAnbieter": "Deutsche Kreditbank AG"
                 }
             ],
-            "darlehensSumme": 178930.00,
-            "sollZins": 0.870,
-            "effektivZins": 0.890,
-            "kennung": "Regional BaufiBest Green",
-            "machbarkeit": 11,
-            "rank": 11
+            "darlehensSumme": 189000.00,
+            "sollZins": 1.530,
+            "effektivZins": 1.560,
+            "machbarkeit": 100,
+            "rank": 0,
+            "gesamtRateProMonat": 634.73,
+            "zinsbindungInJahrenMinMax": "15"
         },
         {
-            "annahmeFrist": "2021-09-07",
-            "darlehen": [
+            "annahmeFrist": "2022-01-17",
+            "finanzierungsbausteine": [
                 {
-                    "auszahlungsBetrag": 178925.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178925.00,
-                    "sollZins": 1.450,
-                    "effektivZins": 1.480,
-                    "produktAnbieter": "ALLIANZ",
-                    "gesamtKosten": 232253.35,
-                    "gesamtLaufzeit": 452,
-                    "rate": 514.41,
-                    "tilgung": 2.000,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
+                    "@type": "ANNUITAETENDARLEHEN",
+                    "darlehensbetrag": 189000.0,
+                    "annuitaetendetails": {
+                        "zinsbindungInJahren": 15,
+                        "tilgung": {
+                            "@type": "TILGUNG_IN_PROZENT",
+                            "tilgungssatzInProzent": 2.5,
+                            "tilgungsbeginn": "2022-02-27"
+                        },
+                        "sondertilgungJaehrlich": 5.0,
+                        "auszahlungszeitpunkt": "2022-02-27"
+                    },
+                    "bereitstellungszinsfreieZeitInMonaten": 12,
+                    "sollZins": 1.54,
+                    "effektivZins": 1.57,
+                    "rateMonatlich": 636.3,
+                    "produktAnbieter": "Allianz Lebensversicherung AG"
                 }
             ],
-            "darlehensSumme": 178925.00,
-            "sollZins": 1.450,
-            "effektivZins": 1.480,
-            "kennung": "Baufinanzierung Basis",
-            "machbarkeit": 11,
-            "rank": 11
+            "darlehensSumme": 189000.00,
+            "sollZins": 1.540,
+            "effektivZins": 1.570,
+            "machbarkeit": 100,
+            "rank": 1,
+            "gesamtRateProMonat": 636.3,
+            "zinsbindungInJahrenMinMax": "15"
         },
         {
-            "annahmeFrist": "2021-09-06",
-            "darlehen": [
+            "annahmeFrist": "2022-01-13",
+            "finanzierungsbausteine": [
                 {
-                    "auszahlungsBetrag": 179000.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 179000.00,
-                    "sollZins": 1.360,
-                    "effektivZins": 1.390,
-                    "produktAnbieter": "DKB",
-                    "gesamtKosten": 229558.92,
-                    "gesamtLaufzeit": 459,
-                    "rate": 501.20,
-                    "tilgung": 2.000,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
+                    "@type": "ANNUITAETENDARLEHEN",
+                    "darlehensbetrag": 189000.0,
+                    "annuitaetendetails": {
+                        "zinsbindungInJahren": 15,
+                        "tilgung": {
+                            "@type": "TILGUNG_IN_PROZENT",
+                            "tilgungssatzInProzent": 2.5,
+                            "tilgungsbeginn": "2022-02-27"
+                        },
+                        "sondertilgungJaehrlich": 5.0,
+                        "auszahlungszeitpunkt": "2022-02-27"
+                    },
+                    "bereitstellungszinsfreieZeitInMonaten": 12,
+                    "sollZins": 1.33,
+                    "effektivZins": 1.36,
+                    "rateMonatlich": 603.23,
+                    "produktAnbieter": "Commerzbank AG"
                 }
             ],
-            "darlehensSumme": 179000.00,
-            "sollZins": 1.360,
-            "effektivZins": 1.390,
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-03",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 78930.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 78930.00,
-                    "sollZins": 1.000,
-                    "effektivZins": 1.020,
-                    "produktAnbieter": "COMMERZBANK",
-                    "gesamtKosten": 95335.41,
-                    "gesamtLaufzeit": 468,
-                    "rate": 203.90,
-                    "tilgung": 2.100,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                },
-                null
-            ],
-            "darlehensSumme": 178930.00,
-            "sollZins": 0.989,
-            "effektivZins": 1.010,
-            "kennung": "Regional Green; inkl. KfW-Darlehen 124",
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-07",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 178925.00,
-                    "auszahlungsDatum": "2021-09-29",
-                    "darlehensBetrag": 178925.00,
-                    "sollZins": 1.500,
-                    "effektivZins": 1.530,
-                    "produktAnbieter": "ALLIANZ",
-                    "gesamtKosten": 233781.76,
-                    "gesamtLaufzeit": 448,
-                    "rate": 521.86,
-                    "tilgung": 2.000,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15,
-                    "zinsZahlungsBeginnAm": "2021-10-30"
-                }
-            ],
-            "darlehensSumme": 178925.00,
-            "sollZins": 1.500,
-            "effektivZins": 1.530,
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-06",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 178925.00,
-                    "darlehensBetrag": 178925.00,
-                    "sollZins": 1.200,
-                    "effektivZins": 1.230,
-                    "produktAnbieter": "DSL_BANK",
-                    "gesamtLaufzeit": 480,
-                    "rate": 469.83,
-                    "tilgung": 1.951,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15
-                }
-            ],
-            "darlehensSumme": 178925.00,
-            "sollZins": 1.200,
-            "effektivZins": 1.230,
-            "machbarkeit": 11,
-            "rank": 11
-        },
-        {
-            "annahmeFrist": "2021-09-06",
-            "darlehen": [
-                {
-                    "auszahlungsBetrag": 78925.00,
-                    "darlehensBetrag": 78925.00,
-                    "sollZins": 1.200,
-                    "effektivZins": 1.230,
-                    "produktAnbieter": "DSL_BANK",
-                    "gesamtLaufzeit": 480,
-                    "rate": 207.24,
-                    "tilgung": 1.951,
-                    "typ": "ANNUITAETEN_DARLEHEN",
-                    "zinsBindung": 15
-                },
-                null
-            ],
-            "darlehensSumme": 178925.00,
-            "sollZins": 1.080,
-            "effektivZins": 1.110,
-            "kennung": "inkl. KfW-Darlehen 124 über 100.000,00 €",
-            "machbarkeit": 11,
-            "rank": 11
+            "darlehensSumme": 189000.00,
+            "sollZins": 1.330,
+            "effektivZins": 1.360,
+            "kennung": "Regional BaufiBest",
+            "machbarkeit": 100,
+            "rank": 2,
+            "gesamtRateProMonat": 603.23,
+            "zinsbindungInJahrenMinMax": "15"
         }
     ],
     "leadRating": {
-        "rating": "A"
+        "rating": "B"
     }
 }
 ```
