@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.23
+  version: 0.0.25
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -241,7 +241,7 @@ components:
         baujahr:
           type: integer
           example: 1952
-        gewerbeEinheit:
+        gewerblicheNutzung:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
         anschrift:
@@ -268,10 +268,18 @@ components:
           type: number
           description: In Euro
           example: 380000.00
-        gesamtKosten:
+        kaufpreis:
           type: number
           description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
           example: 250000.00
+        modernisierungsKostenInklEigenleistungen:
+          type: number
+          description: Kosten der Modernisierung inklusive Eigenleistung. In Euro
+          example: 50000.00
+        modernisierungEigenleistung:
+          type: number
+          description: Anteil der Eigenleistung an den Modernisierungskosten. In Euro
+          example: 25000.00
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
     Anschrift:
@@ -297,7 +305,7 @@ components:
         wunschRate:
           type: number
           description: In Euro, monatlich
-        einzugsDatum:
+        faelligkeitsdatum:
           type: string
           format: date
           example: 2022-05-21
