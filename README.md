@@ -252,3 +252,17 @@ Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
 ## Nutzungsbedingungen
 Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
 
+## Datenschutz
+Die Passende-Vorschläge-API ist fachlich darauf ausgelegt, DSGVO konform ohne personenbezogene Daten auszukommen. Dazu sind folgende Bedingungen auf Seiten des Senders einzuhalten um eine Rückverfolgbarkeit oder ein Tracking prinzipiell auszuschließen. Europace prüft die Anfragen stichprobenartig auf Einhaltung der Bedingungen. Da Europace von der Nicht-Nachverfolgbarkeit der Verbraucher ausgeht, finden auch keine entsprechenden Tracking-Verfahren statt.
+### Fachliche Bedingungen für nicht-personenbeziehbare Anfragen
+- Metadaten sollen keine Tracking Ids enthalten, technische Ids (Session-Marker) werden nach max. 24h ungültig.
+- Grundsätzlich werden die Content-Daten der Requests nur max. 24h gespeichert, es erfolgt keine Archivierung der Anfragen
+- Personenbeziehbare Daten der Verbraucher sollen durch Rundung zusätzlich pseudonymisiert werden, dabei sind folgende Mindestanforderungen einzuhalten
+- Geburtsdatum als beliebiger Tag im Jahr (Bsp.: 1991-01-01)
+- Nettoeinkommen auf 100€ gerundet
+- BeschäftigtSeit mindestens auf Monat runden (je länger zurückliegend umso ungenauer kann der Wert sein)
+- Eigenkapital auf 1000€ runden, bei Werten ab 1 Mio auch auf 10.000€
+- Kredit-Restschuld auf 1000€ runden
+- sontige Einnahmen auf 100€ runden
+- Detaillierte Adressdaten zur Immobilie werden für die Berechnung nicht benötigt, lediglich die Postleitzahl oder alternativ die Auswahl eines Bundeslandes wird benötigt um realistische Nebenkosten zu berechnen und regionale Angebote zu ermöglichen
+- Technische Parameter des Objektes (Wohnfläche, Baujahr) können gerundet werden, sind aber für die Personenbeziehbarkeit des Verbrauchers nicht relevant, da zum Zeitpunkt der Anfrage keine Beziehung zwischen Verbraucher und Objekt besteht.
