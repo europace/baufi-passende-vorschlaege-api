@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.27
+  version: 0.0.28
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -250,6 +250,14 @@ components:
           type: number
           description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
+        marktwert:
+          type: number
+          description: Beleihungswert (ggf. auch Buchwert) in Euro
+          example: 1000000.00
+        darlehensliste:
+          type: array
+          items:
+            $ref: '#/components/schemas/Darlehen'
     Finanzierungsbedarf:
       type: object
       properties:
@@ -299,6 +307,32 @@ components:
         hausnummer:
           type: string
           example: 17a
+    Darlehen:
+      type: object
+      properties:
+        wirdAbgeloest:
+          type: boolean
+          description: true, wenn zu prolongierendes Darlehen, ansonsten false
+        darlehensgeber:
+          type: string
+          description: Produktanbieter-ID des Darlehensgebers
+        grundschuld:
+          type: number
+          description: Restschuld in Euro, wenn zu prolongierendes Darlehen
+          example: 125867.85
+        zinsbindungBis:
+          type: string
+          format: date
+          example: 2022-05-21
+        laufzeitende:
+          type: string
+          format: date
+          example: 2022-05-21
+        restschuld:
+          $ref: '#/components/schemas/Restschuld'
+        darlehenskontonummer:
+          type: string
+          description: Bezeichnung Ablösedarlehen, wenn zu prolongierendes Darlehen, sonst Nummer des Kontos
     Praeferenzen:
       type: object
       properties:
@@ -317,6 +351,26 @@ components:
         laufzeit:
           type: number
           description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+        zinsbindungInJahren:
+          type: integer
+          format: int32
+          description: Gewünschte Zinsbindung der Anschlussfinanzierung in Jahren
+          example: 10
+        sonderzahlung:
+          type: number
+          description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
+          example: 20000.00
+    Restschuld:
+      type: object
+      properties:
+        aktuell:
+          type: number
+          description: In Euro
+          example: 45879.81
+        zumAbloeseTermin:
+          type: number
+          description: In Euro
+          example: 125867.85
     FinanzierungsVorschlaege:
       type: object
       properties:
