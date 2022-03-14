@@ -46,61 +46,69 @@ Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer [access_token]
 
-{
- "metadaten": {
-    "datenkontext": "TEST_MODUS",
-    "kundenId": "",
-    "clientId": "",
-    "gewuenschteAnzahlVorschlaege":"3"
- },
- "kundenangaben": {
-    "haushalte": [
     {
-      "kunden": [
-        {
-          "beschaeftigtSeit": "2010-01-26",
-          "arbeitBefristet": false,
-          "einkommenNetto": 5000,
-          "geburtsdatum": "1999-05-26",
-          "beschaeftigungsArt": "ANGESTELLTER"
+        "metadaten": {
+            "datenkontext": "TEST_MODUS",
+            "kundenId": "WER03",
+            "clientId": "partner-Mobil-App-Ver.2.32",
+            "gewuenschteAnzahlVorschlaege": 5
+        },
+        "kundenangaben": {
+            "finanzierungsbedarf": {
+                "finanzierungszweck": "KAUF",
+                "grundstueckKaufpreis": 0,
+                "modernisierungsKostenInklEigenleistungen": 5000,
+                "modernisierungEigenleistung":2000,
+                "kaufpreis": 350000,
+                "praeferenzen": {
+                    "wunschRate": 1000,
+                    "faelligkeitsDatum": "2022-05-01",
+                    "kreditEntscheidungsZeit": "2022-03-01",
+                    "laufzeit": 37
+                }
+            },
+            "finanzierungsobjekt": {
+                "objektArt": "EIGENTUMSWOHNUNG",
+                "vermietet": false,
+                "baujahr": 2014,
+                "gewerblicheNutzung": false,
+                "anschrift": {
+                    "plz": "10245",
+                    "ort": "unbekannt",
+                    "strasse": "unbekannt",
+                    "hausnummer": "unbekannt"
+                },
+                "wohnFlaeche": 140
+            },
+            "haushalte": [
+                {
+                    "kunden": [
+                        {
+                            "einkommenNetto": 3200,
+                            "beschaeftigtSeit": "2021-10-01",
+                            "arbeitBefristet": false,
+                            "geburtsdatum": "1974-01-01",
+                            "beschaeftigungsArt": "ANGESTELLTER"
+                        },
+                        {
+                            "einkommenNetto": 2500,
+                            "beschaeftigtSeit": "2020-09-01",
+                            "arbeitBefristet": false,
+                            "geburtsdatum": "1971-01-01",
+                            "beschaeftigungsArt": "ANGESTELLTER"
+                        }
+                    ],
+                    "finanzielleSituation": {
+                        "eigenKapital": 48000,
+                        "sonstigeEinnahmen": 300,
+                        "nichtAbgeloestePrivateDarlehenRestschuld": 5000,
+                        "nichtAbgeloesteRatenkrediteRestschuld": 2000
+                    }
+                }
+            
+            ]
         }
-      ],
-      "finanzielleSituation": {
-        "eigenKapital": 100000,
-        "sonstigeEinnahmen": 0,
-        "nichtAbgeloestePrivateDarlehenRestschuld": 0,
-        "nichtAbgeloesteRatenkrediteRestschuld": 0
-      }
     }
-  ],
-  "finanzierungsbedarf": {
-    "finanzierungszweck": "KAUF",
-    "grundstueckKaufpreis": 380000,
-    "kaufpreis": 250000,
-    "modernisierungsKostenInklEigenleistungen": 25000,
-    "modernisierungEigenleistung": 15000,
-    "praeferenzen": {
-        "wunschRate": 900,
-        "faelligkeitsdatum": "2021-09-26",
-        "kreditEntscheiungsZeit": "2021-05-26",
-        "laufzeit": 120
-    }
-  },
-  "finanzierungsobjekt": {
-    "objektArt": "EINFAMILIENHAUS",
-    "vermietet": false,
-    "baujahr": 2000,
-    "gewerblicheNutzung": false,
-    "anschrift": {
-      "plz": "10179",
-      "ort": "Berlin",
-      "strasse": "Klosterstrasse",
-      "hausnummer": "8"
-    },
-    "wohnFlaeche": 150
-  }
-}
-}
 ```
 
 Response bei Ermittlung in Arbeit: 
