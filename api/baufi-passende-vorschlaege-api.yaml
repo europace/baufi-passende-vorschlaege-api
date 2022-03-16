@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.28
+  version: 0.0.29
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -290,6 +290,10 @@ components:
           example: 25000.00
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
+        darlehenswunsch:
+          type: number
+          description: Gewünschte Darlehensumme
+          example: 250000.00
     Anschrift:
       type: object
       properties:
@@ -336,9 +340,10 @@ components:
     Praeferenzen:
       type: object
       properties:
-        wunschRate:
+        rate:
           type: number
           description: In Euro, monatlich
+          example: 850.00
         faelligkeitsdatum:
           type: string
           format: date
@@ -346,11 +351,13 @@ components:
         kreditEntscheidungsZeit:
           type: string
           format: date
-          example: 2021-06-21
           description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
+          example: 2021-06-21
         laufzeit:
-          type: number
+          type: integer
+          format: int32
           description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+          example: 25
         zinsbindungInJahren:
           type: integer
           format: int32
@@ -360,6 +367,15 @@ components:
           type: number
           description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
           example: 20000.00
+        tilgung:
+          type: number
+          description: Gewünschte anfängliche Tilgung in Prozent
+          example: 2.50
+        bereitstellungszinsfreieZeit:
+          type: integer
+          format: int32
+          description: Gewünschte bereitstellungszinsfreie Zeit in Monaten
+          example: 6
     Restschuld:
       type: object
       properties:
