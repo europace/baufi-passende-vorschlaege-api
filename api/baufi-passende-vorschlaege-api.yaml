@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.29
+  version: 0.0.30
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -176,18 +176,26 @@ components:
           type: number
           example: 14500
           description: Summe aller Vermögenswerte. In Euro
+          minimum: 0
+          maximum: 10000000
         sonstigeEinnahmen:
           type: number
           example: 380
           description: Einnahmen, die nicht in `nettoEinkommen` erfasst sind. In Euro, monatlich
+          minimum: 0
+          maximum: 100000
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 42000
           description: Summe aller nicht abgelösten Verbindlichkeiten aus Privatdarlehen. In Euro
+          minimum: 0
+          maximum: 10000000
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
           description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten. In Euro
+          minimum: 0
+          maximum: 10000000
     Kunde:
       type: object
       properties:
@@ -202,6 +210,8 @@ components:
           type: number
           description: in Euro, jährlich
           example: 50000.00
+          minimum: 0
+          maximum: 100000
         geburtsdatum:
           type: string
           format: date
@@ -250,6 +260,8 @@ components:
           type: number
           description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
+          minimum: 20
+          maximum: 1000
         marktwert:
           type: number
           description: Beleihungswert (ggf. auch Buchwert) in Euro
@@ -276,18 +288,26 @@ components:
           type: number
           description: In Euro
           example: 380000.00
+          minimum: 0
+          maximum: 1000000
         kaufpreis:
           type: number
           description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
           example: 250000.00
+          minimum: 1000
+          maximum: 10000000
         modernisierungsKostenInklEigenleistungen:
           type: number
           description: Kosten der Modernisierung inklusive Eigenleistung. In Euro
           example: 50000.00
+          minimum: 0
+          maximum: 1000000
         modernisierungEigenleistung:
           type: number
           description: Anteil der Eigenleistung an den Modernisierungskosten. In Euro
           example: 25000.00
+          minimum: 0
+          maximum: 1000000
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
         darlehenswunsch:
@@ -298,7 +318,7 @@ components:
       type: object
       properties:
         plz:
-          pattern: '\\d{5}'
+          pattern: '[0-9]{5}'
           type: string
           example: 10117
           description: Postleitzahl
@@ -344,6 +364,8 @@ components:
           type: number
           description: In Euro, monatlich
           example: 850.00
+          minimum: 10
+          maximum: 10000
         faelligkeitsdatum:
           type: string
           format: date
@@ -358,6 +380,8 @@ components:
           format: int32
           description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
           example: 25
+          minimum: 0
+          maximum: 70
         zinsbindungInJahren:
           type: integer
           format: int32
