@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.30
+  version: 0.0.31
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -391,6 +391,10 @@ components:
           type: number
           description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
           example: 20000.00
+        sondertilgung:
+          type: number
+          description: Höhe der geplanten Sondertilgung zum Zinsbindungsende in Prozent
+          example: 5.50
         tilgung:
           type: number
           description: Gewünschte anfängliche Tilgung in Prozent
