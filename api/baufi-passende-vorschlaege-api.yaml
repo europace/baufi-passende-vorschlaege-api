@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.30
+  version: 0.0.31
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -134,13 +134,15 @@ components:
             - ECHT_GESCHAEFT
         kundenId:
           type: string
+          description: Identifikator für den Nutzer/Partner der API, auch als ep2PartnerId. Bsp. WER03
         clientId:
           type: string
+          description: Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
         gewuenschteAnzahlVorschlaege:
           type: integer
-          default: 1
+          default: 2
           minimum: 1
-          maximum: 5
+          maximum: 10
     Kundenangaben:
       type: object
       properties:
@@ -149,7 +151,7 @@ components:
           items:
             $ref: '#/components/schemas/Haushalt'
           minimum: 1
-          maximum: 4
+          maximum: 1
         finanzierungsbedarf:
           $ref: '#/components/schemas/Finanzierungsbedarf'
         finanzierungsobjekt:
@@ -174,20 +176,20 @@ components:
       properties:
         eigenKapital:
           type: number
-          example: 14500
-          description: Summe aller Vermögenswerte. In Euro
+          example: 34500
+          description: Summe aller einzubringender Vermögenswerte. In Euro
           minimum: 0
           maximum: 10000000
         sonstigeEinnahmen:
           type: number
           example: 380
-          description: Einnahmen, die nicht in `nettoEinkommen` erfasst sind. In Euro, monatlich
+          description: Einnahmen, die nicht als `nettoEinkommen` erfasst sind. In Euro, monatlich, Bsp. Mieteinnahmen, Nebenjob
           minimum: 0
           maximum: 100000
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
-          example: 42000
-          description: Summe aller nicht abgelösten Verbindlichkeiten aus Privatdarlehen. In Euro
+          example: 4000
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus privaten Darlehen. In Euro
           minimum: 0
           maximum: 10000000
         nichtAbgeloesteRatenkrediteRestschuld:
@@ -208,8 +210,8 @@ components:
           description: true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false
         einkommenNetto:
           type: number
-          description: in Euro, jährlich
-          example: 50000.00
+          description: monatliches Nettoeinkommen lt. Gehaltsnachweis ohne Sonderzahlungen, in Euro
+          example: 3500.00
           minimum: 0
           maximum: 100000
         geburtsdatum:
@@ -251,6 +253,7 @@ components:
         baujahr:
           type: integer
           example: 1952
+          description: Jahr der Errichtung des Gebäudes oder der letzen Komplettsanierung
         gewerblicheNutzung:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
@@ -258,14 +261,14 @@ components:
           $ref: '#/components/schemas/Anschrift'
         wohnFlaeche:
           type: number
-          description: in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
+          description: Wohn- oder Nutzfläche in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
           minimum: 20
           maximum: 1000
         marktwert:
           type: number
-          description: Beleihungswert (ggf. auch Buchwert) in Euro
-          example: 1000000.00
+          description: Beleihungswert (ggf. auch Buchwert oder Kaufpreis) in Euro
+          example: 250000.00
         darlehensliste:
           type: array
           items:
@@ -286,8 +289,8 @@ components:
           example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: In Euro
-          example: 380000.00
+          description: Anteil des Grundstückswertes (wenn bekannt) In Euro
+          example: 38000.00
           minimum: 0
           maximum: 1000000
         kaufpreis:
@@ -298,7 +301,7 @@ components:
           maximum: 10000000
         modernisierungsKostenInklEigenleistungen:
           type: number
-          description: Kosten der Modernisierung inklusive Eigenleistung. In Euro
+          description: Kosten der im Zuge des Erwerbs geplanten Modernisierung inklusive Eigenleistung. In Euro
           example: 50000.00
           minimum: 0
           maximum: 1000000
@@ -336,22 +339,22 @@ components:
       properties:
         wirdAbgeloest:
           type: boolean
-          description: true, wenn zu prolongierendes Darlehen, ansonsten false
+          description: true, wenn Darlehen mit der Finanzierung abgelöst werden soll, ansonsten false
         darlehensgeber:
           type: string
           description: Produktanbieter-ID des Darlehensgebers
         grundschuld:
           type: number
-          description: Restschuld in Euro, wenn zu prolongierendes Darlehen
+          description: im Grundbuch eingetragene Grundschuld
           example: 125867.85
         zinsbindungBis:
           type: string
           format: date
-          example: 2022-05-21
+          example: 2022-05-30
         laufzeitende:
           type: string
           format: date
-          example: 2022-05-21
+          example: 2040-05-30
         restschuld:
           $ref: '#/components/schemas/Restschuld'
         darlehenskontonummer:
@@ -369,12 +372,13 @@ components:
         faelligkeitsdatum:
           type: string
           format: date
-          example: 2022-05-21
+          description: Wann ist die Auszahlung / Ablösung des Darlehens geplant?
+          example: 2022-06-30
         kreditEntscheidungsZeit:
           type: string
           format: date
           description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
-          example: 2021-06-21
+          example: 2021-04-21
         laufzeit:
           type: integer
           format: int32
@@ -385,7 +389,7 @@ components:
         zinsbindungInJahren:
           type: integer
           format: int32
-          description: Gewünschte Zinsbindung der Anschlussfinanzierung in Jahren
+          description: Gewünschte Zinsbindung des abzuschließenden Darlehens in Jahren
           example: 10
         sonderzahlung:
           type: number
@@ -393,7 +397,7 @@ components:
           example: 20000.00
         tilgung:
           type: number
-          description: Gewünschte anfängliche Tilgung in Prozent
+          description: Gewünschte anfängliche Tilgung des abzuschließenden Darlehens in Prozent
           example: 2.50
         bereitstellungszinsfreieZeit:
           type: integer
@@ -406,11 +410,11 @@ components:
         aktuell:
           type: number
           description: In Euro
-          example: 45879.81
+          example: 255879.81
         zumAbloeseTermin:
           type: number
           description: In Euro
-          example: 125867.85
+          example: 251210.85
     FinanzierungsVorschlaege:
       type: object
       properties:
@@ -423,7 +427,7 @@ components:
           properties:
             rating:
               type: string
-              description: Score zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C, D, E, F und G aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
+              description: Rating zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C und D aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
               example: "B"
       required:
         - vorschlaege
@@ -437,7 +441,7 @@ components:
           format: date
           example: 2021-05-21
         finanzierungsbausteine:
-          maxItems: 5
+          maxItems: 2
           minItems: 1
           type: array
           items:
@@ -459,7 +463,7 @@ components:
           type: integer
           minimum: 0
           example: 0
-          description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch. Derzeit liefert die API nur den am besten passenden Vorschlag.
+          description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch.
         gesamtRateProMonat:
           type: number
           format: double
