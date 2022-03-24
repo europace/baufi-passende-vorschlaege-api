@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.33
+  version: 0.0.34
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -157,7 +157,7 @@ components:
         finanzierungsobjekt:
           $ref: '#/components/schemas/Finanzierungsobjekt'
       required:
-        - haushalt
+        - haushalte
         - finanzierungsbedarf
         - finanzierungsobjekt
     Haushalt:
@@ -429,10 +429,22 @@ components:
         leadRating:
           type: object
           properties:
-            rating:
+            successRating:
               type: string
               description: Rating zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C und D aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
               example: "B"
+            effortRating:
+              type: object
+              properties:
+                rating:
+                  type: boolean
+                  description: Indikator ob der Vorgang mit einem hohem Arbeitsaufwand verbunden ist
+                explanations:
+                  type: array
+                  items:
+                    type: string
+                  description: Erklaerungen warum der Vorgang aufwendig ist
+
       required:
         - vorschlaege
     FinanzierungsVorschlag:
