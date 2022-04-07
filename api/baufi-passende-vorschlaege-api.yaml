@@ -1,4 +1,5 @@
 openapi: 3.0.3
+
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
   version: 0.0.35
