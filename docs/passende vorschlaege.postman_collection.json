@@ -68,7 +68,7 @@
 					"response": []
 				},
 				{
-					"name": "PS API Gateway Vorschlaege Sync (With Auth)",
+					"name": "PS POST Vorschlaege Sync (With Auth)",
 					"event": [
 						{
 							"listen": "test",
@@ -80,6 +80,21 @@
 									"    const resultAnfrageId = pm.response.json().anfrageId;",
 									"    pm.collectionVariables.set('anfrageId', resultAnfrageId);",
 									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var faelligkeitsdatum = new Date();\r",
+									"faelligkeitsdatum.setMonth( faelligkeitsdatum.getMonth() + 3 );\r",
+									"postman.setEnvironmentVariable(\"faelligkeitsdatum\", faelligkeitsdatum.toISOString());\r",
+									"\r",
+									"var kreditEntscheidungsZeit = new Date();\r",
+									"kreditEntscheidungsZeit.setMonth( kreditEntscheidungsZeit.getMonth() + 1 );\r",
+									"postman.setEnvironmentVariable(\"kreditEntscheidungsZeit\", kreditEntscheidungsZeit.toISOString());"
 								],
 								"type": "text/javascript"
 							}
@@ -109,7 +124,220 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n               \"finanzierungszweck\": \"KAUF\",\n                \"grundstueckKaufpreis\": 380000,\n    \"kaufpreis\": 250000,\n    \"modernisierungsKostenInklEigenleistungen\": 25000,\n    \"modernisierungEigenleistung\": 15000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"einzugsDatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n           \n        ]\n    }\n}"
+							"raw": "{\n \"metadaten\": {\n    \"datenkontext\": \"TEST_MODUS\",\n    \"kundenId\": \"\",\n    \"clientId\": \"\"\n },\n \"kundenangaben\": {\n    \"haushalte\": [\n    {\n      \"kunden\": [\n        {\n          \"beschaeftigtSeit\": \"2010-01-26\",\n          \"arbeitBefristet\": false,\n          \"einkommenNetto\": 5000,\n          \"geburtsdatum\": \"1999-05-26\",\n          \"beschaeftigungsArt\": \"ANGESTELLTER\"\n        }\n      ],\n      \"finanzielleSituation\": {\n        \"eigenKapital\": 100000,\n        \"sonstigeEinnahmen\": 0,\n        \"nichtAbgeloestePrivateDarlehenRestschuld\": 0,\n        \"nichtAbgeloesteRatenkrediteRestschuld\": 0\n      }\n    }\n  ],\n  \"finanzierungsbedarf\": {\n    \"finanzierungszweck\": \"KAUF\",\n    \"grundstueckKaufpreis\": 380000,\n    \"kaufpreis\": 250000,\n    \"modernisierungsKostenInklEigenleistungen\": 25000,\n    \"modernisierungEigenleistung\": 15000,\n    \"praeferenzen\": {\n        \"rate\": 900,\n        \"faelligkeitsdatum\": \"2022-09-26\",\n        \"kreditEntscheidungsZeit\": \"2022-05-26\",\n        \"laufzeit\": 60\n    }\n  },\n  \"finanzierungsobjekt\": {\n    \"objektArt\": \"EINFAMILIENHAUS\",\n    \"vermietet\": false,\n    \"baujahr\": 2000,\n    \"gewerblicheNutzung\": false,\n    \"anschrift\": {\n      \"plz\": \"10179\",\n      \"ort\": \"Berlin\",\n      \"strasse\": \"Klosterstrasse\",\n      \"hausnummer\": \"8\"\n    },\n    \"wohnFlaeche\": 150,\n      \"marktwert\": 1000000\n  }\n}\n}"
+						},
+						"url": {
+							"raw": "https://passende-vorschlaege-service.k8s.ps.bs.ep.aws.it-hps.de/vorschlaege/ermitteln",
+							"protocol": "https",
+							"host": [
+								"passende-vorschlaege-service",
+								"k8s",
+								"ps",
+								"bs",
+								"ep",
+								"aws",
+								"it-hps",
+								"de"
+							],
+							"path": [
+								"vorschlaege",
+								"ermitteln"
+							]
+						},
+						"description": "Triggert die Ermittlung von Vorschlaegen und erhaelt eine anfrageId zum Abholen der Daten"
+					},
+					"response": []
+				},
+				{
+					"name": "PS POST Vorschlaege (With Auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Store anfrageId as Collection Variable', function () {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"    ",
+									"    const resultAnfrageId = pm.response.json().anfrageId;",
+									"    pm.collectionVariables.set('anfrageId', resultAnfrageId);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var faelligkeitsdatum = new Date();\r",
+									"faelligkeitsdatum.setMonth( faelligkeitsdatum.getMonth() + 3 );\r",
+									"postman.setEnvironmentVariable(\"faelligkeitsdatum\", faelligkeitsdatum.toISOString());\r",
+									"\r",
+									"var kreditEntscheidungsZeit = new Date();\r",
+									"kreditEntscheidungsZeit.setMonth( kreditEntscheidungsZeit.getMonth() + 1 );\r",
+									"postman.setEnvironmentVariable(\"kreditEntscheidungsZeit\", kreditEntscheidungsZeit.toISOString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ps_jwt_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"metadaten\": {\n    \"datenkontext\": \"TEST_MODUS\",\n    \"kundenId\": \"\",\n    \"clientId\": \"\"\n },\n \"kundenangaben\": {\n    \"haushalte\": [\n    {\n      \"kunden\": [\n        {\n          \"beschaeftigtSeit\": \"2010-01-26\",\n          \"arbeitBefristet\": false,\n          \"einkommenNetto\": 5000,\n          \"geburtsdatum\": \"1999-05-26\",\n          \"beschaeftigungsArt\": \"ANGESTELLTER\"\n        }\n      ],\n      \"finanzielleSituation\": {\n        \"eigenKapital\": 100000,\n        \"sonstigeEinnahmen\": 0,\n        \"nichtAbgeloestePrivateDarlehenRestschuld\": 0,\n        \"nichtAbgeloesteRatenkrediteRestschuld\": 0\n      }\n    }\n  ],\n  \"finanzierungsbedarf\": {\n    \"finanzierungszweck\": \"KAUF\",\n    \"grundstueckKaufpreis\": 380000,\n    \"kaufpreis\": 250000,\n    \"modernisierungsKostenInklEigenleistungen\": 25000,\n    \"modernisierungEigenleistung\": 15000,\n    \"praeferenzen\": {\n        \"rate\": 900,\n        \"faelligkeitsdatum\": \"2022-09-26\",\n        \"kreditEntscheidungsZeit\": \"2022-05-26\",\n        \"laufzeit\": 60\n    }\n  },\n  \"finanzierungsobjekt\": {\n    \"objektArt\": \"EINFAMILIENHAUS\",\n    \"vermietet\": false,\n    \"baujahr\": 2000,\n    \"gewerblicheNutzung\": false,\n    \"anschrift\": {\n      \"plz\": \"10179\",\n      \"ort\": \"Berlin\",\n      \"strasse\": \"Klosterstrasse\",\n      \"hausnummer\": \"8\"\n    },\n    \"wohnFlaeche\": 150,\n      \"marktwert\": 1000000\n  }\n}\n}"
+						},
+						"url": {
+							"raw": "https://passende-vorschlaege-service.k8s.ps.bs.ep.aws.it-hps.de/vorschlaege/ermitteln",
+							"protocol": "https",
+							"host": [
+								"passende-vorschlaege-service",
+								"k8s",
+								"ps",
+								"bs",
+								"ep",
+								"aws",
+								"it-hps",
+								"de"
+							],
+							"path": [
+								"vorschlaege",
+								"ermitteln"
+							]
+						},
+						"description": "Triggert die Ermittlung von Vorschlaegen und erhaelt eine anfrageId zum Abholen der Daten"
+					},
+					"response": []
+				},
+				{
+					"name": "PS GET Vorschlaege (With Auth)",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ps_jwt_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://passende-vorschlaege-service.k8s.ps.bs.ep.aws.it-hps.de/vorschlaege/{{anfrageId}}",
+							"protocol": "http",
+							"host": [
+								"passende-vorschlaege-service",
+								"k8s",
+								"ps",
+								"bs",
+								"ep",
+								"aws",
+								"it-hps",
+								"de"
+							],
+							"path": [
+								"vorschlaege",
+								"{{anfrageId}}"
+							]
+						},
+						"description": "Holt die passenden Vorschlaege für die gegebene anfrageId"
+					},
+					"response": []
+				},
+				{
+					"name": "PS API Gateway Vorschlaege Sync (With Auth)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Store anfrageId as Collection Variable', function () {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"    ",
+									"    const resultAnfrageId = pm.response.json().anfrageId;",
+									"    pm.collectionVariables.set('anfrageId', resultAnfrageId);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var faelligkeitsdatum = new Date();\r",
+									"faelligkeitsdatum.setMonth( faelligkeitsdatum.getMonth() + 3 );\r",
+									"postman.setEnvironmentVariable(\"faelligkeitsdatum\", faelligkeitsdatum.toISOString());\r",
+									"\r",
+									"var kreditEntscheidungsZeit = new Date();\r",
+									"kreditEntscheidungsZeit.setMonth( kreditEntscheidungsZeit.getMonth() + 1 );\r",
+									"postman.setEnvironmentVariable(\"kreditEntscheidungsZeit\", kreditEntscheidungsZeit.toISOString());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ps_jwt_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n               \"finanzierungszweck\": \"KAUF\",\n                \"grundstueckKaufpreis\": 380000,\n    \"kaufpreis\": 250000,\n    \"modernisierungsKostenInklEigenleistungen\": 25000,\n    \"modernisierungEigenleistung\": 15000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"einzugsDatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5,\n      \"marktwert\": 1000000\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n           \n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "https://baufinanzierung.api.europace.de/vorschlaege/ermitteln",
@@ -171,7 +399,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n            \"finanzierungszweck\": \"KAUF\",\n            \"grundstueckKaufpreis\": 380000,\n            \"kaufpreis\": 250000,\n            \"modernisierungsKostenInklEigenleistungen\": 25000,\n            \"modernisierungEigenleistung\": 15000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"einzugsDatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n        ]\n    }\n}"
+							"raw": "{\n    \"metadaten\": {\n        \"datenkontext\": \"TEST_MODUS\",\n        \"kundenId\": \"0001\",\n        \"clientId\": \"api-doku-001\",\n        \"gewuenschteAnzahlVorschlaege\": \"1\"\n    },\n    \"kundenangaben\": {\n        \"finanzierungsbedarf\": {\n            \"finanzierungszweck\": \"KAUF\",\n            \"grundstueckKaufpreis\": 380000,\n            \"kaufpreis\": 250000,\n            \"modernisierungsKostenInklEigenleistungen\": 25000,\n            \"modernisierungEigenleistung\": 15000,\n            \"praeferenzen\": {\n                \"wunschRate\": 1500,\n                \"einzugsDatum\": \"2021-12-27\",\n                \"kreditEntscheidungsZeit\": \"2021-12-01\",\n                \"laufzeit\": 376\n            }\n        },\n        \"finanzierungsobjekt\": {\n            \"objektArt\": \"EINFAMILIENHAUS\",\n            \"vermietet\": false,\n            \"baujahr\": 2005,\n            \"gewerbeEinheit\": false,\n            \"anschrift\": {\n                \"plz\": \"15711\",\n                \"ort\": \"Berlin\",\n                \"strasse\": \"unbeknnt\",\n                \"hausnummer\": \"17a\"\n            },\n            \"wohnFlaeche\": 120.5,\n      \"marktwert\": 1000000\n        },\n        \"haushalte\": [\n            {\n                \"kunden\": [\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2009-06-06\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1978-04-04\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    },\n                    {\n                        \"einkommenNetto\": 2000,\n                        \"beschaeftigtSeit\": \"2010-08-23\",\n                        \"arbeitBefristet\": false,\n                        \"geburtsdatum\": \"1979-06-30\",\n                        \"beschaeftigungsArt\": \"ANGESTELLTER\"\n                    }\n                ],\n                \"finanzielleSituation\": {\n                    \"eigenKapital\": 20000,\n                    \"sonstigeEinnahmen\": 380,\n                    \"nichtAbgeloestePrivateDarlehenRestschuld\": 500,\n                    \"nichtAbgeloesteRatenkrediteRestschuld\": 5000\n                }\n            }\n        ]\n    }\n}"
 						},
 						"url": {
 							"raw": "https://baufinanzierung.api.europace.de/vorschlaege/",
