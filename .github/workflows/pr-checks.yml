@@ -19,12 +19,15 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - name: Merge OpenApi Files
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: mergeOpenApiFiles
+      - name: Git push
         env:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
         run: |
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
-          ./gradlew mergeOpenApiFiles
           git add api/baufi-passende-vorschlaege-api.yaml
           git commit -m "new merged openApi spec"
           git push
