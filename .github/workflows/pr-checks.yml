@@ -1,11 +1,7 @@
-name: Api Release
-
+name: Pull-Request
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'api/baufi-passende-vorschlaege-api.yaml'
+  pull_request: { }
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,10 +18,13 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-      - name: Release with Gradle
+      - name: Merge OpenApi Files
         env:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
         run: |
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
-          ./gradlew release
+          ./gradlew mergeOpenApiFiles
+          git add api/baufi-passende-vorschlaege-api.yaml
+          git commit -m "new merged openApi spec"
+          git push
