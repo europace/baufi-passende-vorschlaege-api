@@ -105,7 +105,9 @@ openApiMerger {
 }
 
 task triggerMergeOpenApiFiles {
-  println('test')
+  doLast {
+    println('test')
+  }
 }
 
 tasks.triggerMergeOpenApiFiles.dependsOn tasks.mergeOpenApiFiles

@@ -18,6 +18,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - name: Print gradle Tasks
+        run: |
+          ./gradlew tasks --all
       - name: Merge OpenApi Files
         uses: gradle/gradle-build-action@v2
         with:
