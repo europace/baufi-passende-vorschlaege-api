@@ -24,6 +24,7 @@ jobs:
         run: |
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
+          git pull origin HEAD:${{ github.event.pull_request.head.ref }}
           git add -A
           git commit -m "new merged openApi spec"
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
