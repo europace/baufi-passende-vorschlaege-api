@@ -104,14 +104,6 @@ openApiMerger {
   }
 }
 
-task triggerMergeOpenApiFiles {
-  doLast {
-    println('test')
-  }
-}
-
-tasks.triggerMergeOpenApiFiles.dependsOn tasks.mergeOpenApiFiles
-
 tasks.openApiValidate.dependsOn tasks.assertVersions
 publish.dependsOn tasks.openApiValidate
 
