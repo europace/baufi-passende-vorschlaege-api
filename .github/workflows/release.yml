@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'api/baufi-passende-vorschlaege-api.yaml'
+      - 'api/sources/baufi-passende-vorschlaege-ermitteln.yaml'
+      - 'api/sources/baufi-passenden-vorschlag-merken.yaml'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +23,16 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - name: Merge OpenApi Files
+        env:
+          GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
+        run: |
+          git config --global user.email ${{secrets.USER_MAIL}}
+          git config --global user.name ${{secrets.USER_NAME}}
+          ./gradlew mergeOpenApiFiles
+          git add api/baufi-passende-vorschlaege-api.yaml
+          git commit -m "new merged openApi spec"
+          git push origin main
       - name: Release with Gradle
         env:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
