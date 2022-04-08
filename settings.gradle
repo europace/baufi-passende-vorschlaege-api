@@ -8,3 +8,8 @@
  */
 
 rootProject.name = 'baufi-passende-vorschlaege-api'
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+  }
+}
