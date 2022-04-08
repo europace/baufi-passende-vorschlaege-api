@@ -30,4 +30,4 @@ jobs:
           git config --global user.name ${{secrets.USER_NAME}}
           git add api/baufi-passende-vorschlaege-api.yaml
           git commit -m "new merged openApi spec"
-          git push origin ${{ steps.extract_branch.outputs.branch }}
+          git push origin ${{ github.event.pull_request.head.ref }}
