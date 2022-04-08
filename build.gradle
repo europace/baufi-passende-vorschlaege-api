@@ -104,6 +104,12 @@ openApiMerger {
   }
 }
 
+task triggerMergeOpenApiFiles {
+  println('test')
+}
+
+tasks.triggerMergeOpenApiFiles.dependsOn tasks.mergeOpenApiFiles
+
 tasks.openApiValidate.dependsOn tasks.assertVersions
 publish.dependsOn tasks.openApiValidate
 

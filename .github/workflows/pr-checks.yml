@@ -21,7 +21,7 @@ jobs:
       - name: Merge OpenApi Files
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: mergeOpenApiFiles
+          arguments: triggerMergeOpenApiFiles
       - name: Git push
         env:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
