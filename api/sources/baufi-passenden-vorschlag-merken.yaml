@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  description: API zum Abruf passender empfohlener Finanzierungsvorschläge
+  version: 0.0.36
+  title: Empfohlene Finanzierungsvorschläge API
+  contact:
+    name: Europace AG
+    url: https://www.europace2.de
+    email: passt@europace.de
+servers:
+  - url: https://baufismart.api.europace.de
+    description: Production server
+tags:
+  - name: Finanzierungsvorschlaege
+    description: Top-Finanzierungsvorschläge ermitteln
+paths:
+  /vorschlag/merken:
+    post:
+      tags:
+        - Finanzierungsvorschlag merken
+      summary: 'Merken eines Finanzierungsvorschlags'
+      operationId: vorschlagMerken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlagMerkenRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/VorschlagMerkenResponse'
+        404:
+          description: Keine Vorschläge für die AnfrageId gefunden
+        419:
+          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
+        500:
+          description: Vorschlag konnte nicht abgelegt werden
+      security:
+        - OAuth2:
+            - read
+components:
+  schemas:
+    VorschlagMerkenRequest:
+      type: object
+      properties:
+        anfrageId:
+          type: string
+          description: 'Die gelieferte anfrageId aus der Ermittlung der Vorschläge'
+        vorgangId:
+          type: string
+          description: 'Die Id eines bestehenden Vorgangs'
+        vorschlagId:
+          type: string
+          description: 'Der Identifier eines ermittelten Vorschlags'
+      required:
+        - anfrageId
+        - vorgangId
+        - vorschlagId
+    VorschlagMerkenResponse:
+      type: object
+      properties:
+        message:
+          type: string
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.europace.de/auth/access-token
+          scopes:
+            baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
