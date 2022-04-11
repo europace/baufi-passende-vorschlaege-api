@@ -28,5 +28,5 @@ jobs:
           git commit -a -m "new merged openApi spec"
           git status
           git fetch
-          git rebase ${{ github.event.pull_request.head.ref }}
+          git pull --rebase origin ${{ github.event.pull_request.head.ref }}
           git push origin ${{ github.event.pull_request.head.ref }}
