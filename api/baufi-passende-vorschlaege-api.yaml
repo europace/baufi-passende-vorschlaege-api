@@ -14,34 +14,6 @@ tags:
 - name: Finanzierungsvorschlaege
   description: Top-Finanzierungsvorschläge ermitteln
 paths:
-  /vorschlag/merken:
-    post:
-      tags:
-      - Finanzierungsvorschlag merken
-      summary: Merken eines Finanzierungsvorschlags
-      operationId: vorschlagMerken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VorschlagMerkenRequest'
-        required: true
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/VorschlagMerkenResponse'
-        "404":
-          description: Keine Vorschläge für die AnfrageId gefunden
-        "419":
-          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
-        "500":
-          description: Vorschlag konnte nicht abgelegt werden
-      security:
-      - OAuth2:
-        - read
   /vorschlaege/ermitteln:
     post:
       tags:
@@ -143,6 +115,34 @@ paths:
             \ nicht mehr verfügbar)."
         "500":
           description: Internal server error
+      security:
+      - OAuth2:
+        - read
+  /vorschlag/merken:
+    post:
+      tags:
+      - Finanzierungsvorschlag merken
+      summary: Merken eines Finanzierungsvorschlags
+      operationId: vorschlagMerken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlagMerkenRequest'
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/VorschlagMerkenResponse'
+        "404":
+          description: Keine Vorschläge für die AnfrageId gefunden
+        "419":
+          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
+        "500":
+          description: Vorschlag konnte nicht abgelegt werden
       security:
       - OAuth2:
         - read
