@@ -25,7 +25,8 @@ jobs:
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
           git checkout -b ${{ github.event.pull_request.head.ref }}
-          git status
           git commit -a -m "new merged openApi spec"
           git status
-          git push
+          git fetch
+          git rebase ${{ github.event.pull_request.head.ref }}
+          git push origin ${{ github.event.pull_request.head.ref }}
