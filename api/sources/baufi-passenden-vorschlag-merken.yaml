@@ -1,15 +1,7 @@
 openapi: 3.0.3
 info:
-  description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.36
+  version: 0.0.0
   title: Empfohlene Finanzierungsvorschläge API
-  contact:
-    name: Europace AG
-    url: https://www.europace2.de
-    email: passt@europace.de
-servers:
-  - url: https://baufismart.api.europace.de
-    description: Production server
 tags:
   - name: Finanzierungsvorschlaege
     description: Top-Finanzierungsvorschläge ermitteln
