@@ -24,6 +24,8 @@ jobs:
         run: |
           git config --global user.email ${{secrets.USER_MAIL}}
           git config --global user.name ${{secrets.USER_NAME}}
+          echo 'BRANCH NAME:'
+          git rev-parse --abbrev-ref HEAD
           git status
           git commit -a -m "new merged openApi spec"
           git status
