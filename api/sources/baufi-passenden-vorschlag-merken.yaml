@@ -9,7 +9,7 @@ paths:
   /vorschlag/merken:
     post:
       tags:
-        - Finanzierungsvorschlag merken
+        - Finanzierungsvorschlaege
       summary: 'Merken eines Finanzierungsvorschlags'
       operationId: vorschlagMerken
       requestBody:
