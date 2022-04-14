@@ -1,4 +1,5 @@
 # BaufiSmart-passende-Vorschlaege-API
+
 Die API ermittelt passender Finanzierungsvorschläge anhand einer Verbraucher-Situation und -Präferenzen.
 
 ![Status](https://img.shields.io/badge/Status-preAlpha_Pilot-darkred)
@@ -7,40 +8,45 @@ Die API ermittelt passender Finanzierungsvorschläge anhand einer Verbraucher-Si
 ![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://github.com/europace/authorization-api)
-[![GitHub release](https://img.shields.io/github/v/release/europace/baufi-passende-vorschlaege-api)](https://github.com/europace/baufi-passende-vorschlaege-api/releases) 
+[![GitHub release](https://img.shields.io/github/v/release/europace/baufi-passende-vorschlaege-api)](https://github.com/europace/baufi-passende-vorschlaege-api/releases)
 [![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
 ## Dokumentation
+
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufi-passende-vorschlaege-api/gh-pages/index.html)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufi-passende-vorschlaege-api/master/baufi-passende-vorschlaege-api.yaml)
 
 ## Anwendungsfälle der API
+
 - liefert passende Finanzierungsvorschläge auf Basis der Kundensituation
+- merken von bis zu 3 Finanzierungsvorschlägen zur weiteren Beratung
 
 ### Authentifizierung
-Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
 
-| Scope                                  | API Usecase                                         |
-|----------------------------------------|-----------------------------------------------------|
-| `baufinanzierung:angebote:ermitteln`   | passende Finanzierungsvorschläge ermitteln          |
+Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um
+die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
 
+| Scope                                | API Usecase                                 |
+| -------------------------------------- | --------------------------------------------- |
+| `baufinanzierung:angebote:ermitteln` | passende Finanzierungsvorschläge ermitteln |
 
 ## Beispiel: passende Finanzierungsvorschläge ermitteln
-Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. 
-Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die Ermittlung asynchron angeboten.
 
-Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse 
-der Ermittlung ab. Dabei kann es vorkommen, dass die Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am 
-Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
+Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die
+Ermittlung asynchron angeboten.
 
-Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen Vorschlag liefern zu können. Es kann 
-deshalb vorkommen, dass das Lead Rating nicht direkt mit dem passenden Vorschlag zurückgegeben wird und somit auch nicht 
-in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also, 
+Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse der Ermittlung ab. Dabei kann es vorkommen, dass die
+Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
+
+Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen Vorschlag liefern zu können. Es kann deshalb vorkommen, dass das Lead Rating nicht direkt mit dem
+passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
 ### Schritt 1: relevante Daten für Ermittlung senden
+
 Request:
-``` http
+
+```http
 POST /vorschlaege HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
@@ -105,31 +111,37 @@ Authorization: Bearer [access_token]
                         "nichtAbgeloesteRatenkrediteRestschuld": 2000
                     }
                 }
-            
+          
             ]
         }
     }
 ```
 
-Response bei Ermittlung in Arbeit: 
-``` http
+Response bei Ermittlung in Arbeit:
+
+```http
 202 - Accepted
 ```
 
-Response nach Ermittlung: 
-``` http
+Response nach Ermittlung:
+
+```http
 200 - OK
 ```
-``` json
+
+```json
 {
-    "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef"
+  "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef"
 }
 ```
+
 ### Schritt 2: Finanzierungsvorschläge abrufen
+
 Mit der `anfrageId` können die passenden Finanzierungsvorschläge abgerufen werden.
 
 Request:
-``` http
+
+```http
 GET /vorschlaege/passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
@@ -137,19 +149,20 @@ Authorization: Bearer [access_token]]
 ```
 
 Response:
+
 > Hinweis: Banken und Konditionen sind nur Beispiele
 
-``` json
+```json
 {
-    "vorschlaege": [
+  "vorschlaege": [
+    {
+      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
+      "annahmeFrist": "2022-01-14",
+      "finanzierungsbausteine": [
         {
-            "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-            "annahmeFrist": "2022-01-14",
-            "finanzierungsbausteine": [
-                {
-                    "@type": "ANNUITAETENDARLEHEN",
-                    "darlehensbetrag": 189000.0,
-                    "annuitaetendetails": {
+          "@type": "ANNUITAETENDARLEHEN",
+          "darlehensbetrag": 189000.0,
+          "annuitaetendetails": {
                         "zinsbindungInJahren": 15,
                         "tilgung": {
                             "@type": "TILGUNG_IN_PROZENT",
@@ -234,24 +247,35 @@ Response:
             "kennung": "Regional BaufiBest",
             "machbarkeit": 100,
             "rank": 2,
-            "gesamtRateProMonat": 603.23,
-            "zinsbindungInJahrenMinMax": "15"
+          "gesamtRateProMonat": 603.23,
+          "zinsbindungInJahrenMinMax": "15"
         }
-    ],
-    "leadRating": {
-        "rating": "B"
-    }
+  ],
+  "leadRating": {
+    "rating": "B"
+  }
 }
 ```
 
-## Beispiel: passenden Finanzierungsvorschlag merken
-// TODO Beschreibung
-anfrageId: kommt aus dem POST Response
-finanzierungsVorschlagId aus dem GET Response
-vorgangId: einen Vorgang muss davor angelegt worden sein und sich in BaufiSmart wiederfinden
+## Beispiel: passende Finanzierungsvorschläge merken
+
+Um einen Lead zu einem erfolgreichen Abschluss zu bringen, können bis zu drei Finanzierungsvorschläge in der Europace Platform gemerkt werden, um diese zu einem späteren Zeitpunkt
+über BaufiSmart beraten zu können.
+
+Der zu merkende Finanzierungsvorschlag wird einem existierenden Vorgang in derEuropace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
+gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
+
+Es können bis zu drei Finanzierungsvorschläge zu einem Vorgang gemerkt werden. Ein bereits gemerkter Finanzierungsvorschlag wird überschrieben. Wurden bereits drei
+Finanzierungsvorschläge gemerkt, wird jeder weitere Finanzierungsvorschlag ignoriert.
+
+### Schritt 1: Bis zu 3 der passenden Finanzierungsvorschläge merken
+
+Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann eiin passender
+Finanzierungsvorschlag gemerkt werden.
 
 Request:
-``` http
+
+```http
 POST /vorschlaege HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
@@ -259,12 +283,17 @@ Authorization: Bearer [access_token]
 
     {
       "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
-      "vorschlagId": "d550a975da78f73d9e3256352ce0f366",
+      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
       "vorgangId": "TEST_VORGANG_ID"
     }
 ```
 
 Response:
+
+```http
+200 - OK
+```
+
 ```
     {
         "message": "Vorschlag abgelegt"
@@ -272,6 +301,7 @@ Response:
 ```
 
 ## Client generieren
+
 Ein Client kann mit Hilfe der [.yaml-Datei](api/baufi-passende-vorschlaege-api.yaml) über entsprechende Libraries generiert werden. z.B. :
 
 - [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
@@ -283,14 +313,19 @@ In der [build.gradle](build.gradle) ist exemplarisch der Task `openApiGenerate` 
 Nach Ausführung via `./gradlew openApiGenerate` finden sich im Ordner `/build/generated/src/` die generierten Modelle und Client.
 
 ## Support
+
 Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
 
 ## Nutzungsbedingungen
+
 Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
 
 ## Datenschutz
+
 Die Passende-Vorschläge-API ist fachlich darauf ausgelegt, DSGVO konform ohne personenbezogene Daten auszukommen. Dazu sind folgende Bedingungen auf Seiten des Senders einzuhalten um eine Rückverfolgbarkeit oder ein Tracking prinzipiell auszuschließen. Europace prüft die Anfragen stichprobenartig auf Einhaltung der Bedingungen. Da Europace von der Nicht-Nachverfolgbarkeit der Verbraucher ausgeht, finden auch keine entsprechenden Tracking-Verfahren statt.
+
 ### Fachliche Bedingungen für nicht-personenbeziehbare Anfragen
+
 - Metadaten sollen keine Tracking Ids enthalten, technische Ids (Session-Marker) werden nach max. 24h ungültig.
 - Grundsätzlich werden die Content-Daten der Requests nur max. 24h gespeichert, es erfolgt keine Archivierung der Anfragen
 - Personenbeziehbare Daten der Verbraucher sollen durch Rundung zusätzlich pseudonymisiert werden, dabei sind folgende Mindestanforderungen einzuhalten
