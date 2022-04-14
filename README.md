@@ -143,6 +143,7 @@ Response:
 {
     "vorschlaege": [
         {
+            "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
             "annahmeFrist": "2022-01-14",
             "finanzierungsbausteine": [
                 {
@@ -241,6 +242,33 @@ Response:
         "rating": "B"
     }
 }
+```
+
+## Beispiel: passenden Finanzierungsvorschlag merken
+// TODO Beschreibung
+anfrageId: kommt aus dem POST Response
+finanzierungsVorschlagId aus dem GET Response
+vorgangId: einen Vorgang muss davor angelegt worden sein und sich in BaufiSmart wiederfinden
+
+Request:
+``` http
+POST /vorschlaege HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+    {
+      "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
+      "vorschlagId": "d550a975da78f73d9e3256352ce0f366",
+      "vorgangId": "TEST_VORGANG_ID"
+    }
+```
+
+Response:
+```
+    {
+        "message": "Vorschlag abgelegt"
+    }
 ```
 
 ## Client generieren

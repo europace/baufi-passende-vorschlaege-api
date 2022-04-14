@@ -45,13 +45,13 @@ components:
         vorgangId:
           type: string
           description: 'Die Id eines bestehenden Vorgangs'
-        vorschlagId:
+        finanzierungsVorschlagId:
           type: string
           description: 'Der Identifier eines ermittelten Vorschlags'
       required:
         - anfrageId
         - vorgangId
-        - vorschlagId
+        - finanzierungsVorschlagId
     VorschlagMerkenResponse:
       type: object
       properties:
