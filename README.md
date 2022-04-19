@@ -53,67 +53,66 @@ Content-Type: application/json
 Authorization: Bearer [access_token]
 
     {
-        "metadaten": {
-            "datenkontext": "TEST_MODUS",
-            "kundenId": "WER03",
-            "clientId": "partner-Mobil-App-Ver.2.32",
-            "gewuenschteAnzahlVorschlaege": 5
+      "metadaten": {
+        "datenkontext": "TEST_MODUS",
+        "kundenId": "WER03",
+        "clientId": "partner-Mobil-App-Ver.2.32",
+        "gewuenschteAnzahlVorschlaege": 5
+      },
+      "kundenangaben": {
+        "finanzierungsbedarf": {
+          "finanzierungszweck": "KAUF",
+          "grundstueckKaufpreis": 0,
+          "modernisierungsKostenInklEigenleistungen": 5000,
+          "modernisierungEigenleistung": 2000,
+          "kaufpreis": 350000,
+          "praeferenzen": {
+            "wunschRate": 1000,
+            "faelligkeitsDatum": "2022-05-01",
+            "kreditEntscheidungsZeit": "2022-03-01",
+            "laufzeit": 37
+          }
         },
-        "kundenangaben": {
-            "finanzierungsbedarf": {
-                "finanzierungszweck": "KAUF",
-                "grundstueckKaufpreis": 0,
-                "modernisierungsKostenInklEigenleistungen": 5000,
-                "modernisierungEigenleistung":2000,
-                "kaufpreis": 350000,
-                "praeferenzen": {
-                    "wunschRate": 1000,
-                    "faelligkeitsDatum": "2022-05-01",
-                    "kreditEntscheidungsZeit": "2022-03-01",
-                    "laufzeit": 37
-                }
-            },
-            "finanzierungsobjekt": {
-                "objektArt": "EIGENTUMSWOHNUNG",
-                "vermietet": false,
-                "baujahr": 2014,
-                "gewerblicheNutzung": false,
-                "anschrift": {
-                    "plz": "10245",
-                    "ort": "unbekannt",
-                    "strasse": "unbekannt",
-                    "hausnummer": "unbekannt"
-                },
-                "wohnFlaeche": 140
-            },
-            "haushalte": [
-                {
-                    "kunden": [
-                        {
-                            "einkommenNetto": 3200,
-                            "beschaeftigtSeit": "2021-10-01",
-                            "arbeitBefristet": false,
-                            "geburtsdatum": "1974-01-01",
-                            "beschaeftigungsArt": "ANGESTELLTER"
-                        },
-                        {
-                            "einkommenNetto": 2500,
-                            "beschaeftigtSeit": "2020-09-01",
-                            "arbeitBefristet": false,
-                            "geburtsdatum": "1971-01-01",
-                            "beschaeftigungsArt": "ANGESTELLTER"
-                        }
-                    ],
-                    "finanzielleSituation": {
-                        "eigenKapital": 48000,
-                        "sonstigeEinnahmen": 300,
-                        "nichtAbgeloestePrivateDarlehenRestschuld": 5000,
-                        "nichtAbgeloesteRatenkrediteRestschuld": 2000
-                    }
-                }
-          
-            ]
-        }
+        "finanzierungsobjekt": {
+          "objektArt": "EIGENTUMSWOHNUNG",
+          "vermietet": false,
+          "baujahr": 2014,
+          "gewerblicheNutzung": false,
+          "anschrift": {
+            "plz": "10245",
+            "ort": "unbekannt",
+            "strasse": "unbekannt",
+            "hausnummer": "unbekannt"
+          },
+          "wohnFlaeche": 140
+        },
+        "haushalte": [
+          {
+            "kunden": [
+              {
+                "einkommenNetto": 3200,
+                "beschaeftigtSeit": "2021-10-01",
+                "arbeitBefristet": false,
+                "geburtsdatum": "1974-01-01",
+                "beschaeftigungsArt": "ANGESTELLTER"
+              },
+              {
+                "einkommenNetto": 2500,
+                "beschaeftigtSeit": "2020-09-01",
+                "arbeitBefristet": false,
+                "geburtsdatum": "1971-01-01",
+                "beschaeftigungsArt": "ANGESTELLTER"
+              }
+            ],
+            "finanzielleSituation": {
+              "eigenKapital": 48000,
+              "sonstigeEinnahmen": 300,
+              "nichtAbgeloestePrivateDarlehenRestschuld": 5000,
+              "nichtAbgeloesteRatenkrediteRestschuld": 2000
+            }
+          }
+        ]
+      }
     }
 ```
 
@@ -163,96 +162,100 @@ Response:
           "@type": "ANNUITAETENDARLEHEN",
           "darlehensbetrag": 189000.0,
           "annuitaetendetails": {
-                        "zinsbindungInJahren": 15,
-                        "tilgung": {
-                            "@type": "TILGUNG_IN_PROZENT",
-                            "tilgungssatzInProzent": 2.5,
-                            "tilgungsbeginn": "2022-02-27"
-                        },
-                        "sondertilgungJaehrlich": 5.0,
-                        "auszahlungszeitpunkt": "2022-02-27"
-                    },
-                    "bereitstellungszinsfreieZeitInMonaten": 12,
-                    "sollZins": 1.53,
-                    "effektivZins": 1.56,
-                    "rateMonatlich": 634.73,
-                    "produktAnbieter": "Deutsche Kreditbank AG"
-                }
-            ],
-            "darlehensSumme": 189000.00,
-            "sollZins": 1.530,
-            "effektivZins": 1.560,
-            "machbarkeit": 100,
-            "rank": 0,
-            "gesamtRateProMonat": 634.73,
-            "zinsbindungInJahrenMinMax": "15"
-        },
-        {
-            "annahmeFrist": "2022-01-17",
-            "finanzierungsbausteine": [
-                {
-                    "@type": "ANNUITAETENDARLEHEN",
-                    "darlehensbetrag": 189000.0,
-                    "annuitaetendetails": {
-                        "zinsbindungInJahren": 15,
-                        "tilgung": {
-                            "@type": "TILGUNG_IN_PROZENT",
-                            "tilgungssatzInProzent": 2.5,
-                            "tilgungsbeginn": "2022-02-27"
-                        },
-                        "sondertilgungJaehrlich": 5.0,
-                        "auszahlungszeitpunkt": "2022-02-27"
-                    },
-                    "bereitstellungszinsfreieZeitInMonaten": 12,
-                    "sollZins": 1.54,
-                    "effektivZins": 1.57,
-                    "rateMonatlich": 636.3,
-                    "produktAnbieter": "Allianz Lebensversicherung AG"
-                }
-            ],
-            "darlehensSumme": 189000.00,
-            "sollZins": 1.540,
-            "effektivZins": 1.570,
-            "machbarkeit": 100,
-            "rank": 1,
-            "gesamtRateProMonat": 636.3,
-            "zinsbindungInJahrenMinMax": "15"
-        },
-        {
-            "annahmeFrist": "2022-01-13",
-            "finanzierungsbausteine": [
-                {
-                    "@type": "ANNUITAETENDARLEHEN",
-                    "darlehensbetrag": 189000.0,
-                    "annuitaetendetails": {
-                        "zinsbindungInJahren": 15,
-                        "tilgung": {
-                            "@type": "TILGUNG_IN_PROZENT",
-                            "tilgungssatzInProzent": 2.5,
-                            "tilgungsbeginn": "2022-02-27"
-                        },
-                        "sondertilgungJaehrlich": 5.0,
-                        "auszahlungszeitpunkt": "2022-02-27"
-                    },
-                    "bereitstellungszinsfreieZeitInMonaten": 12,
-                    "sollZins": 1.33,
-                    "effektivZins": 1.36,
-                    "rateMonatlich": 603.23,
-                    "produktAnbieter": "Commerzbank AG"
-                }
-            ],
-            "darlehensSumme": 189000.00,
-            "sollZins": 1.330,
-            "effektivZins": 1.360,
-            "kennung": "Regional BaufiBest",
-            "machbarkeit": 100,
-            "rank": 2,
-          "gesamtRateProMonat": 603.23,
-          "zinsbindungInJahrenMinMax": "15"
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "TILGUNG_IN_PROZENT",
+              "tilgungssatzInProzent": 2.5,
+              "tilgungsbeginn": "2022-02-27"
+            },
+            "sondertilgungJaehrlich": 5.0,
+            "auszahlungszeitpunkt": "2022-02-27"
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 12,
+          "sollZins": 1.53,
+          "effektivZins": 1.56,
+          "rateMonatlich": 634.73,
+          "produktAnbieter": "Deutsche Kreditbank AG"
         }
+      ],
+      "darlehensSumme": 189000.00,
+      "sollZins": 1.530,
+      "effektivZins": 1.560,
+      "machbarkeit": 100,
+      "rank": 0,
+      "gesamtRateProMonat": 634.73,
+      "zinsbindungInJahrenMinMax": "15"
+    },
+    {
+      "annahmeFrist": "2022-01-17",
+      "finanzierungsbausteine": [
+        {
+          "@type": "ANNUITAETENDARLEHEN",
+          "darlehensbetrag": 189000.0,
+          "annuitaetendetails": {
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "TILGUNG_IN_PROZENT",
+              "tilgungssatzInProzent": 2.5,
+              "tilgungsbeginn": "2022-02-27"
+            },
+            "sondertilgungJaehrlich": 5.0,
+            "auszahlungszeitpunkt": "2022-02-27"
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 12,
+          "sollZins": 1.54,
+          "effektivZins": 1.57,
+          "rateMonatlich": 636.3,
+          "produktAnbieter": "Allianz Lebensversicherung AG"
+        }
+      ],
+      "darlehensSumme": 189000.00,
+      "sollZins": 1.540,
+      "effektivZins": 1.570,
+      "machbarkeit": 100,
+      "rank": 1,
+      "gesamtRateProMonat": 636.3,
+      "zinsbindungInJahrenMinMax": "15"
+    },
+    {
+      "annahmeFrist": "2022-01-13",
+      "finanzierungsbausteine": [
+        {
+          "@type": "ANNUITAETENDARLEHEN",
+          "darlehensbetrag": 189000.0,
+          "annuitaetendetails": {
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "TILGUNG_IN_PROZENT",
+              "tilgungssatzInProzent": 2.5,
+              "tilgungsbeginn": "2022-02-27"
+            },
+            "sondertilgungJaehrlich": 5.0,
+            "auszahlungszeitpunkt": "2022-02-27"
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 12,
+          "sollZins": 1.33,
+          "effektivZins": 1.36,
+          "rateMonatlich": 603.23,
+          "produktAnbieter": "Commerzbank AG"
+        }
+      ],
+      "darlehensSumme": 189000.00,
+      "sollZins": 1.330,
+      "effektivZins": 1.360,
+      "kennung": "Regional BaufiBest",
+      "machbarkeit": 100,
+      "rank": 2,
+      "gesamtRateProMonat": 603.23,
+      "zinsbindungInJahrenMinMax": "15"
+    }
   ],
   "leadRating": {
-    "rating": "B"
+    "successRating": "C",
+    "effortRating": {
+      "rating": false,
+      "explanations": []
+    }
   }
 }
 ```
@@ -294,10 +297,10 @@ Response:
 200 - OK
 ```
 
-```
-    {
-        "message": "Vorschlag abgelegt"
-    }
+```json
+{
+  "message": "Vorschlag abgelegt"
+}
 ```
 
 ## Client generieren
