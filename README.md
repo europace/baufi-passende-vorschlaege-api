@@ -257,20 +257,20 @@ Response:
 }
 ```
 
-## Beispiel: passende Finanzierungsvorschläge merken
+## Passende Finanzierungsvorschläge merken
 
 Um einen Lead zu einem erfolgreichen Abschluss zu bringen, können bis zu drei Finanzierungsvorschläge in der Europace Platform gemerkt werden, um diese zu einem späteren Zeitpunkt
 über BaufiSmart beraten zu können.
 
-Der zu merkende Finanzierungsvorschlag wird einem existierenden Vorgang in derEuropace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
+Der zu merkende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
 gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
 
 Es können bis zu drei Finanzierungsvorschläge zu einem Vorgang gemerkt werden. Ein bereits gemerkter Finanzierungsvorschlag wird überschrieben. Wurden bereits drei
 Finanzierungsvorschläge gemerkt, wird jeder weitere Finanzierungsvorschlag ignoriert.
 
-### Schritt 1: Bis zu 3 der passenden Finanzierungsvorschläge merken
+### Beispiel: Bis zu 3 der passenden Finanzierungsvorschläge merken
 
-Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann eiin passender
+Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
 Finanzierungsvorschlag gemerkt werden.
 
 Request:
