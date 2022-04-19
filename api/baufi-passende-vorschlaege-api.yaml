@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.38
+  version: 0.0.39
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -121,7 +121,7 @@ paths:
   /vorschlag/merken:
     post:
       tags:
-      - Finanzierungsvorschlag merken
+      - Finanzierungsvorschlaege
       summary: Merken eines Finanzierungsvorschlags
       operationId: vorschlagMerken
       requestBody:
@@ -874,8 +874,8 @@ components:
     VorschlagMerkenRequest:
       required:
       - anfrageId
+      - finanzierungsVorschlagId
       - vorgangId
-      - vorschlagId
       type: object
       properties:
         anfrageId:
@@ -884,7 +884,7 @@ components:
         vorgangId:
           type: string
           description: Die Id eines bestehenden Vorgangs
-        vorschlagId:
+        finanzierungsVorschlagId:
           type: string
           description: Der Identifier eines ermittelten Vorschlags
     VorschlagMerkenResponse:
