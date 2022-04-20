@@ -10,7 +10,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: 'ACHTUNG: Temporäre Implementierung für die Pilotphase!!!
+      summary: 'ACHTUNG: Temporäre Implementierung für die Pilotphase!
                 Synchrone Ermittlung eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.'
       operationId: vorschlaegeErmittelnSync
       requestBody:
@@ -227,6 +227,8 @@ components:
         - einkommenNetto
     Finanzierungsobjekt:
       type: object
+      required:
+        - anschrift
       properties:
         objektArt:
           type: string
@@ -267,6 +269,8 @@ components:
             $ref: '#/components/schemas/Darlehen'
     Finanzierungsbedarf:
       type: object
+      required:
+        - finanzierungszweck
       properties:
         finanzierungszweck:
           type: string
@@ -311,6 +315,8 @@ components:
           example: 250000.00
     Anschrift:
       type: object
+      required:
+        - plz
       properties:
         plz:
           pattern: '[0-9]{5}'
