@@ -251,6 +251,7 @@ components:
         gewerblicheNutzung:
           type: boolean
           description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
+          default: false
         anschrift:
           $ref: '#/components/schemas/Anschrift'
         wohnFlaeche:
