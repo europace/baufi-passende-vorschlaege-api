@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.39
+  version: 0.0.40
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -18,9 +18,9 @@ paths:
     post:
       tags:
       - Finanzierungsvorschlaege
-      summary: "ACHTUNG: Temporäre Implementierung für die Pilotphase!!! Synchrone\
-        \ Ermittlung eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden\
-        \ in Anspruch nehmen."
+      summary: "ACHTUNG: Temporäre Implementierung für die Pilotphase! Synchrone Ermittlung\
+        \ eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch\
+        \ nehmen."
       operationId: vorschlaegeErmittelnSync
       requestBody:
         content:
@@ -193,6 +193,8 @@ components:
           type: string
           format: date
     Anschrift:
+      required:
+      - plz
       type: object
       properties:
         plz:
@@ -361,6 +363,8 @@ components:
           PRIVATDARLEHEN: '#/components/schemas/Privatdarlehen'
           KFW_DARLEHEN: '#/components/schemas/KfwDarlehen'
     Finanzierungsbedarf:
+      required:
+      - finanzierungszweck
       type: object
       properties:
         finanzierungszweck:
@@ -407,6 +411,8 @@ components:
           description: Gewünschte Darlehensumme
           example: 250000.0
     Finanzierungsobjekt:
+      required:
+      - anschrift
       type: object
       properties:
         objektArt:
