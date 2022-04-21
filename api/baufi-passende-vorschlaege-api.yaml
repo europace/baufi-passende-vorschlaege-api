@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.41
+  version: 0.0.42
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -683,7 +683,7 @@ components:
               - ARBEITER
               - BEAMTER
               - FREIBERUFLER
-              - SELBSTSTAENDIGER
+              - SELBSTAENDIGER
               - RENTER
               - HAUSMANN
               - ARBEITSLOSER
