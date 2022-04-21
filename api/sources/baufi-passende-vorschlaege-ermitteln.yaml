@@ -219,7 +219,7 @@ components:
               - ARBEITER
               - BEAMTER
               - FREIBERUFLER
-              - SELBSTSTAENDIGER
+              - SELBSTAENDIGER
               - RENTER
               - HAUSMANN
               - ARBEITSLOSER
