@@ -43,13 +43,23 @@ passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response ent
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
 ### Metadaten
-
+Über die Metadaten kann das Verhalten der API beeinflusst werden. 
+Durch die Angabe einer mit und angestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
+Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 Vorschläge liefern.
+```http
+ "metadaten": {
+    "datenkontext": "TEST_MODUS",
+    "kundenId": "ALZ72",
+    "clientId": "prolo-demo-test-dummy-001",
+    "gewuenschteAnzahlVorschlaege": 5
+  },
+```
 
 ### Unterscheidung zwischen technischen Pflichtfeldern und fachlich notwendigen Daten für sinnvolle Antworten
 Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwendungszweck notwendig oder zumindest empfehlenswert.
 
 #### Verwendungszweck Kauf, Neubau von Bauträger (Erwerb einer Immobilie)
-- folgende Bonitätsinformationen zum Verbraucher werden benötigt (auch Näherungswerte)
+- die Bonitätsinformationen zum Verbraucher werden benötigt (auch Näherungswerte)
 
 ```http
 "kunden": [
