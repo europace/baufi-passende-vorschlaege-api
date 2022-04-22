@@ -42,9 +42,87 @@ Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen
 passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
-### Schritt 1: relevante Daten für Ermittlung senden
+### Unterscheidung zwischen technischen Pflichtfeldern und fachlich notwendigen Daten für sinnvolle Antworten
 
-Request:
+Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwendungszweck notwendig oder zumindest empfehlenswert.
+
+#### Verwendungszweck Kauf, Neubau von Bauträger (Erwerb einer Immobilie)
+- folgende Bonitätsinformationen zum Verbraucher werden benötigt (auch Näherungswerte)
+
+```http
+"kunden": [
+              {
+                "einkommenNetto": 3200,
+                "geburtsdatum": "1974-01-01",                
+               }
+          ],
+"finanzielleSituation":
+          {
+              "eigenKapital": 48000
+          }
+``` 
+
+- folgende technischen Informationen zur Immobilie werden benötigt
+
+```http
+ "finanzierungsobjekt": {
+                "objektArt": "EIGENTUMSWOHNUNG",
+                "anschrift": {
+                    "plz": "10245",
+                }
+``` 
+
+- Wird die API verwendet um ein LeadRating zur Bewertung der Anfrage zu erzeugen, sind weitere Daten zum Verbraucher und zur Immobilie wichtig aber nicht zwingend notwendig. Damit wird eine exakte Bewertung möglich (Daten zur finanziellen Situation sofern vorhanden).
+
+```http
+"kunden": [
+           {
+              "beschaeftigtSeit": "2021-12-01",
+              "arbeitBefristet": false,
+              "beschaeftigungsArt": "ANGESTELLTER"
+           }
+          ],
+"finanzielleSituation":
+          {
+              "sonstigeEinnahmen": 0,
+              "nichtAbgeloesteRatenkrediteRestschuld": 0
+          },
+ "finanzierungsobjekt":
+          {
+              "vermietet": false,
+              "baujahr": 2014,
+              "gewerblicheNutzung": false,       
+              "wohnFlaeche": 158.5
+           }
+``` 
+
+
+#### Verwendungszweck Anschlussfinanzierung (Prolongation)
+
+Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformationen zum Verbraucher notwendig, an der Immobilie wird dann lediglich die Postleitzahl benötigt um eine regionale Einschränkung treffen zu können.
+- sollen zusätzlich auch Umschuldungsangebote generiert werden, sind die Bonitätsdaten wie beim Immobilienerwerb notwendig
+- weiterhin sind für Anschlussfinanzierungen die Daten zu den Bestandsdarlehen und der Marktwert/Verkehrswert der Immobilie anzugeben
+
+```http     
+     "marktwert": 355000,
+     "darlehensliste": [
+        {
+          "wirdAbgeloest": true,
+          "darlehensgeber": "SPARDA_BW",
+          "grundschuld": 290000,
+          "zinsbindungBis": "2022-06-30",
+          "laufzeitende": "2040-09-30",
+          "restschuld": {
+            "aktuell": 245879.81,
+            "zumAbloeseTermin": 232410,30
+          },
+          "darlehenskontonummer": "0815-4711"
+        }
+     ]
+```
+
+
+Ein Beispiel-Request für eine Erwerbs-Finanzierung mit allen relevanten Daten zur Lead-Bewertung:
 
 ```http
 POST /vorschlaege HTTP/1.1
@@ -67,9 +145,9 @@ Authorization: Bearer [access_token]
           "modernisierungEigenleistung": 2000,
           "kaufpreis": 350000,
           "praeferenzen": {
-            "wunschRate": 1000,
-            "faelligkeitsDatum": "2022-05-01",
-            "kreditEntscheidungsZeit": "2022-03-01",
+            "rate": 1000,
+            "faelligkeitsDatum": "2022-08-01",
+            "kreditEntscheidungsZeit": "2022-05-01",
             "laufzeit": 37
           }
         },
@@ -115,6 +193,86 @@ Authorization: Bearer [access_token]
       }
     }
 ```
+
+
+Beispiel Request für eine Prolongations-Anfrage mit reduzierem Datenset
+
+```http
+POST /vorschlaege HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+{
+  "metadaten": {
+    "datenkontext": "TEST_MODUS",
+    "kundenId": "ALZ72",
+    "clientId": "prolo-demo-test-dummy-001",
+    "gewuenschteAnzahlVorschlaege": 5
+  },
+  "kundenangaben": {
+    "haushalte": [
+      {
+        "kunden": [
+          {
+            "einkommenNetto": 3500
+          }
+        ],
+        "finanzielleSituation": {
+         }
+      }
+    ],
+    "finanzierungsbedarf": {
+      "finanzierungszweck": "ANSCHLUSSFINANZIERUNG",
+      "praeferenzen": {
+        "tilgung": 2
+       },
+      "darlehenswunsch": 230000
+    },
+    "finanzierungsobjekt": {
+      "objektArt": "EINFAMILIENHAUS",
+        "anschrift": {
+        "plz": "01855"
+       },
+      "marktwert": 255800,
+      "darlehensliste": [
+        {
+          "wirdAbgeloest": true,
+          "darlehensgeber": "SPARDA_BW",
+          "grundschuld": 290000,
+          "zinsbindungBis": "2022-06-30",
+          "laufzeitende": "2044-09-30",
+          "restschuld": {
+            "aktuell": 245879.81,
+            "zumAbloeseTermin": 230000
+          },
+          "darlehenskontonummer": "0815-4711"
+        }
+      ]
+    }
+  }
+}
+```
+
+#### Präferenzen in der Anfrage bestimmen das Verhalten des Finanzierungswunschbestimmers
+
+Werden in der Anfrage konkrete Finanzierungswünsche angegeben, so werden die Wünsche bei der Angebotsermittlung berücksichtigt.
+
+```http
+     "praeferenzen": {
+        "rate": 900,
+        "faelligkeitsdatum": "2022-06-30",
+        "kreditEntscheidungsZeit": "2022-05-26",
+        "laufzeit": 30,
+        "zinsbindungInJahren": 15,
+        "sonderzahlung": 20000,
+        "bereitstellungszinsfreieZeit": 3,
+        "tilgung": 2
+      },
+      "darlehenswunsch": 200000
+```
+
+### HTTP Status Codes des Response
 
 Response bei Ermittlung in Arbeit:
 
