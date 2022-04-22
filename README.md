@@ -42,8 +42,10 @@ Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen
 passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
-### Unterscheidung zwischen technischen Pflichtfeldern und fachlich notwendigen Daten für sinnvolle Antworten
+### Metadaten
 
+
+### Unterscheidung zwischen technischen Pflichtfeldern und fachlich notwendigen Daten für sinnvolle Antworten
 Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwendungszweck notwendig oder zumindest empfehlenswert.
 
 #### Verwendungszweck Kauf, Neubau von Bauträger (Erwerb einer Immobilie)
@@ -195,7 +197,7 @@ Authorization: Bearer [access_token]
 ```
 
 
-Beispiel Request für eine Prolongations-Anfrage mit reduzierem Datenset
+Beispiel Request für eine Prolongations-Anfrage mit reduziertem Datenset
 
 ```http
 POST /vorschlaege HTTP/1.1
