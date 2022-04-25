@@ -111,7 +111,7 @@ Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwend
 
 #### Verwendungszweck Anschlussfinanzierung (Prolongation)
 
-Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformationen zum Verbraucher notwendig, an der Immobilie wird dann lediglich die Postleitzahl benötigt um eine regionale Einschränkung treffen zu können.
+Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformationen zu Verbraucher:innen notwendig, an der Immobilie wird dann lediglich die Postleitzahl benötigt um eine regionale Einschränkung treffen zu können.
 - sollen zusätzlich auch Umschuldungsangebote generiert werden, sind die Bonitätsdaten wie beim Immobilienerwerb notwendig
 - weiterhin sind für Anschlussfinanzierungen die Daten zu den Bestandsdarlehen und der Marktwert/Verkehrswert der Immobilie anzugeben
 
