@@ -44,7 +44,7 @@ wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
 ### Metadaten
 Über die Metadaten kann das Verhalten der API beeinflusst werden. 
-Durch die Angabe einer mit und angestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
+Durch die Angabe einer mit uns abgestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
 Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 Vorschläge liefern.
 ```http
  "metadaten": {
