@@ -38,6 +38,10 @@ components:
   schemas:
     VorschlagMerkenRequest:
       type: object
+      required:
+        - anfrageId
+        - vorgangId
+        - finanzierungsVorschlagId
       properties:
         anfrageId:
           type: string
@@ -48,10 +52,6 @@ components:
         finanzierungsVorschlagId:
           type: string
           description: 'Der Identifier eines ermittelten Vorschlags'
-      required:
-        - anfrageId
-        - vorgangId
-        - finanzierungsVorschlagId
     VorschlagMerkenResponse:
       type: object
       properties:
