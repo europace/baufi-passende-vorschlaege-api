@@ -1,8 +1,6 @@
 name: Pull-Request
 on:
   pull_request:
-    branches:
-      - ${{ github.event.pull_request.head.ref }}
     paths:
       - 'api/sources/baufi-passende-vorschlaege-ermitteln.yaml'
       - 'api/sources/baufi-passenden-vorschlag-merken.yaml'
