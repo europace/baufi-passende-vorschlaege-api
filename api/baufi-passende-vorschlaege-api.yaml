@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.43
+  version: 0.0.44
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
