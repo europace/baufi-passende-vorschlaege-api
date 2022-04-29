@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.45
+  version: 0.0.46
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -456,11 +456,13 @@ components:
           items:
             $ref: '#/components/schemas/Darlehen'
     Haushalt:
+      required:
+      - kunden
       type: object
       properties:
         kunden:
-          maximum: 2
-          minimum: 1
+          maxItems: 2
+          minItems: 1
           type: array
           items:
             $ref: '#/components/schemas/Kunde'
@@ -696,8 +698,8 @@ components:
       type: object
       properties:
         haushalte:
-          maximum: 1
-          minimum: 1
+          maxItems: 1
+          minItems: 1
           type: array
           items:
             $ref: '#/components/schemas/Haushalt'
@@ -846,6 +848,8 @@ components:
             type: string
             format: date
     VorschlaegeErmittlungPartnerDaten:
+      required:
+      - datenkontext
       type: object
       properties:
         datenkontext:

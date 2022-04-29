@@ -107,16 +107,18 @@ components:
           example: passende-vorschlaege-ABC123456789
     VorschlaegeErmittlungRequest:
       type: object
+      required:
+        - metadaten
+        - kundenangaben
       properties:
         metadaten:
           $ref: '#/components/schemas/VorschlaegeErmittlungPartnerDaten'
         kundenangaben:
           $ref: '#/components/schemas/Kundenangaben'
-      required:
-        - metadaten
-        - kundenangaben
     VorschlaegeErmittlungPartnerDaten:
       type: object
+      required:
+        - datenkontext
       properties:
         datenkontext:
           type: string
@@ -137,30 +139,32 @@ components:
           maximum: 10
     Kundenangaben:
       type: object
+      required:
+        - haushalte
+        - finanzierungsbedarf
+        - finanzierungsobjekt
       properties:
         haushalte:
           type: array
           items:
             $ref: '#/components/schemas/Haushalt'
-          minimum: 1
-          maximum: 1
+          minItems: 1
+          maxItems: 1
         finanzierungsbedarf:
           $ref: '#/components/schemas/Finanzierungsbedarf'
         finanzierungsobjekt:
           $ref: '#/components/schemas/Finanzierungsobjekt'
-      required:
-        - haushalte
-        - finanzierungsbedarf
-        - finanzierungsobjekt
     Haushalt:
       type: object
+      required:
+        - kunden
       properties:
         kunden:
           type: array
           items:
             $ref: '#/components/schemas/Kunde'
-          minimum: 1
-          maximum: 2
+          minItems: 1
+          maxItems: 2
         finanzielleSituation:
           $ref: '#/components/schemas/FinanzielleSituation'
     FinanzielleSituation:
@@ -192,6 +196,8 @@ components:
           maximum: 10000000
     Kunde:
       type: object
+      required:
+        - einkommenNetto
       properties:
         beschaeftigtSeit:
           type: string
@@ -223,8 +229,6 @@ components:
               - RENTER
               - HAUSMANN
               - ARBEITSLOSER
-      required:
-        - einkommenNetto
     Finanzierungsobjekt:
       type: object
       required:
@@ -420,6 +424,8 @@ components:
           example: 251210.85
     FinanzierungsVorschlaege:
       type: object
+      required:
+        - vorschlaege
       properties:
         vorschlaege:
           type: array
@@ -444,8 +450,6 @@ components:
                     type: string
                   description: Erklaerungen warum der Vorgang aufwendig ist
 
-      required:
-        - vorschlaege
     FinanzierungsVorschlag:
       type: object
       properties:
@@ -573,11 +577,11 @@ components:
           type: string
           format: date
     KfwDarlehen:
+      type: object
       required:
         - darlehensbetrag
         - kfwEndfaellig
         - programm
-      type: object
       allOf:
         - $ref: '#/components/schemas/Finanzierungsbaustein'
         - type: object
