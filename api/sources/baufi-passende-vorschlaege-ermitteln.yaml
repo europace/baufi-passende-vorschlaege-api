@@ -128,8 +128,17 @@ components:
             - ECHT_GESCHAEFT
         kundenId:
           type: string
-          description: Identifikator für den Nutzer/Partner der API, auch als ep2PartnerId. Bsp. WER03
+          description: Deprecated, wird durch extKundenId ersetzt! Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG
+          deprecated: true
+        extKundenId:
+          type: string
+          description: Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG
+          example: ImmoFin
         clientId:
+          type: string
+          description: Deprecated, wird künftig umbenannt in extClientId! Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
+          deprecated: true
+        extClientId:
           type: string
           description: Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
         gewuenschteAnzahlVorschlaege:
