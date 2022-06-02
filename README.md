@@ -49,8 +49,8 @@ Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 V
 ```http
  "metadaten": {
     "datenkontext": "TEST_MODUS",
-    "kundenId": "ALZ72",
-    "clientId": "prolo-demo-test-dummy-001",
+    "extKundenId": "PartnerBank",
+    "extClientId": "prolo-demo-test-dummy-001",
     "gewuenschteAnzahlVorschlaege": 5
   },
 ```
@@ -145,8 +145,8 @@ Authorization: Bearer [access_token]
     {
       "metadaten": {
         "datenkontext": "TEST_MODUS",
-        "kundenId": "WER03",
-        "clientId": "partner-Mobil-App-Ver.2.32",
+        "extKundenId": "PartnerBank",
+        "extClientId": "partner-Mobil-App-Ver.2.32",
         "gewuenschteAnzahlVorschlaege": 5
       },
       "kundenangaben": {
@@ -218,8 +218,8 @@ Authorization: Bearer [access_token]
 {
   "metadaten": {
     "datenkontext": "TEST_MODUS",
-    "kundenId": "ALZ72",
-    "clientId": "prolo-demo-test-dummy-001",
+    "extKundenId": "PartnerBank",
+    "extClientId": "prolo-demo-test-dummy-001",
     "gewuenschteAnzahlVorschlaege": 5
   },
   "kundenangaben": {
