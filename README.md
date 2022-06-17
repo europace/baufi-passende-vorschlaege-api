@@ -104,7 +104,7 @@ Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwend
               "vermietet": false,
               "baujahr": 2014,
               "gewerblicheNutzung": false,       
-              "wohnFlaeche": 158.5
+              "wohnflaeche": 158.5
            }
 ``` 
 
@@ -174,7 +174,7 @@ Authorization: Bearer [access_token]
             "strasse": "unbekannt",
             "hausnummer": "unbekannt"
           },
-          "wohnFlaeche": 140
+          "wohnflaeche": 140
         },
         "haushalte": [
           {
