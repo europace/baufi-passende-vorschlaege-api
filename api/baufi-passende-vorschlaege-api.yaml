@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.47
+  version: 0.0.48
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -14,34 +14,6 @@ tags:
 - name: Finanzierungsvorschlaege
   description: Top-Finanzierungsvorschläge ermitteln
 paths:
-  /vorschlag/merken:
-    post:
-      tags:
-      - Finanzierungsvorschlaege
-      summary: Merken eines Finanzierungsvorschlags
-      operationId: vorschlagMerken
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VorschlagMerkenRequest'
-        required: true
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/VorschlagMerkenResponse'
-        "404":
-          description: Keine Vorschläge für die AnfrageId gefunden
-        "419":
-          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
-        "500":
-          description: Vorschlag konnte nicht abgelegt werden
-      security:
-      - OAuth2:
-        - read
   /vorschlaege/ermitteln:
     post:
       tags:
@@ -143,6 +115,34 @@ paths:
             \ nicht mehr verfügbar)."
         "500":
           description: Internal server error
+      security:
+      - OAuth2:
+        - read
+  /vorschlag/merken:
+    post:
+      tags:
+      - Finanzierungsvorschlaege
+      summary: Merken eines Finanzierungsvorschlags
+      operationId: vorschlagMerken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlagMerkenRequest'
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/VorschlagMerkenResponse'
+        "404":
+          description: Keine Vorschläge für die AnfrageId gefunden
+        "419":
+          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
+        "500":
+          description: Vorschlag konnte nicht abgelegt werden
       security:
       - OAuth2:
         - read
@@ -686,8 +686,8 @@ components:
               - BEAMTER
               - FREIBERUFLER
               - SELBSTAENDIGER
-              - RENTER
-              - HAUSMANN
+              - RENTNER
+              - HAUSFRAU
               - ARBEITSLOSER
           example: ANGESTELLTER
     Kundenangaben:

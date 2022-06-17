@@ -235,8 +235,8 @@ components:
               - BEAMTER
               - FREIBERUFLER
               - SELBSTAENDIGER
-              - RENTER
-              - HAUSMANN
+              - RENTNER
+              - HAUSFRAU
               - ARBEITSLOSER
     Finanzierungsobjekt:
       type: object
