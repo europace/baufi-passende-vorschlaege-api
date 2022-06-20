@@ -267,7 +267,7 @@ components:
           default: false
         anschrift:
           $ref: '#/components/schemas/Anschrift'
-        wohnFlaeche:
+        wohnflaeche:
           type: number
           description: Wohn- oder Nutzfläche in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
           example: 120.50
