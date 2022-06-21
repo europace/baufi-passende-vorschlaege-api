@@ -6,7 +6,7 @@ info:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.48
+  version: 0.0.49
 servers:
 - url: https://baufismart.api.europace.de
   description: Production server
@@ -440,7 +440,7 @@ components:
           default: false
         anschrift:
           $ref: '#/components/schemas/Anschrift'
-        wohnFlaeche:
+        wohnflaeche:
           maximum: 1000
           minimum: 20
           type: number
