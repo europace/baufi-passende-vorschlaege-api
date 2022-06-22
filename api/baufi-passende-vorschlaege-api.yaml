@@ -118,6 +118,41 @@ paths:
       security:
       - OAuth2:
         - read
+  /vorschlaege/list/{vorgangId}:
+    get:
+      tags:
+      - Finanzierungsvorschlaege
+      summary: "Liefert die empfohlenen Finanzierungsvorschläge für die angegebene\
+        \ VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked\
+        \ wurden"
+      operationId: listVorschlaege
+      parameters:
+      - name: vorgangId
+        in: path
+        description: "ID, die aus KundenangabenApi ermittelt wird"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        "400":
+          description: Bad request
+        "404":
+          description: "Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID\
+            \ gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis\
+            \ nicht mehr verfügbar)."
+        "500":
+          description: Internal server error
+      security:
+      - OAuth2:
+        - read
   /vorschlag/merken:
     post:
       tags:
