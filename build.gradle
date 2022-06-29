@@ -13,7 +13,6 @@ plugins {
   id 'java'
   id 'maven-publish'
   id 'net.researchgate.release' version '2.8.1'
-  id "com.rameshkp.openapi-merger-gradle-plugin" version "1.0.4"
 }
 
 project.ext {
@@ -29,12 +28,10 @@ repositories {
   mavenCentral()
 }
 
-def apiVersion = "${property("version")}".toString()
-
 publishing {
   publications {
     mavenJava(MavenPublication) {
-      version = apiVersion
+      version = "${property("version")}".toString()
       artifact "$rootDir/api/baufi-passende-vorschlaege-api.yaml"
     }
   }
@@ -72,35 +69,6 @@ release {
   git {
     requireBranch = 'main'
     pushToRemote = 'origin'
-  }
-}
-
-openApiMerger {
-  inputDirectory.set(file("./api/sources"))
-
-  output {
-    directory.set(new File("api"))
-    fileName.set("baufi-passende-vorschlaege-api")
-  }
-
-  openApi {
-    openApiVersion.set("3.0.3")
-    info {
-      title.set("Empfohlene Finanzierungsvorschläge API")
-      description.set("API zum Abruf und Merken passender empfohlener Finanzierungsvorschläge")
-      version.set(apiVersion)
-      contact {
-        name.set("Europace AG")
-        url.set("https://www.europace2.de")
-        email.set("passt@europace.de")
-      }
-    }
-    servers {
-      register("production") {
-        url.set("https://baufismart.api.europace.de")
-        description.set("Production server")
-      }
-    }
   }
 }
 
