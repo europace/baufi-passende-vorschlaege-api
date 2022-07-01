@@ -1,207 +1,432 @@
 openapi: 3.0.3
 info:
+  description: API zum Abruf passender empfohlener Finanzierungsvorschläge
+  version: 0.0.51
   title: Empfohlene Finanzierungsvorschläge API
-  description: API zum Abruf und Merken passender empfohlener Finanzierungsvorschläge
   contact:
     name: Europace AG
     url: https://www.europace2.de
     email: passt@europace.de
-  version: 0.0.49
 servers:
-- url: https://baufismart.api.europace.de
-  description: Production server
+  - url: https://baufismart.api.europace.de
+    description: Production server
 tags:
-- name: Finanzierungsvorschlaege
-  description: Top-Finanzierungsvorschläge ermitteln
+  - name: Finanzierungsvorschlaege
+    description: Top-Finanzierungsvorschläge ermitteln
 paths:
   /vorschlaege/ermitteln:
     post:
       tags:
-      - Finanzierungsvorschlaege
-      summary: "ACHTUNG: Temporäre Implementierung für die Pilotphase! Synchrone Ermittlung\
-        \ eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch\
-        \ nehmen."
+        - Finanzierungsvorschlaege
+      summary: 'ACHTUNG: Temporäre Implementierung für die Pilotphase!
+                Synchrone Ermittlung eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.'
       operationId: vorschlaegeErmittelnSync
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/VorschlaegeErmittlungRequest'
-        required: true
       responses:
-        "200":
+        200:
           description: Success
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
-        "400":
+        400:
           description: Bad request
-        "408":
-          description: "Request timed out. Mit der AnfrageId kann über GET /vorschlaege/{anfrageId}\
-            \ zu einem späteren Zeitpunkt abgefragt werden."
-        "500":
+        408:
+          description: Request timed out. Mit der AnfrageId kann über GET /vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
+        500:
           description: Internal server error
       security:
-      - OAuth2:
-        - read
+        - OAuth2:
+            - read
   /vorschlaege:
     post:
       tags:
-      - Finanzierungsvorschlaege
-      summary: "Startet Ermittlung empfohlener Finanzierungsvorschläge. Das Ergebnis\
-        \ enthält IDs, mit denen via Polling die berechnete Vorschläge abgerufen werden\
-        \ können. Die Berechnung kann mehrere Sekunden in Anspruch nehmen."
+        - Finanzierungsvorschlaege
+      summary: Startet Ermittlung empfohlener Finanzierungsvorschläge. Das Ergebnis enthält IDs, mit denen via Polling die berechnete Vorschläge abgerufen werden können. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.
       operationId: ermittleVorschlaege
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/VorschlaegeErmittlungRequest'
-        required: true
       responses:
-        "200":
+        200:
           description: Success
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/ErmittlungsLinks'
-        "400":
+        400:
           description: Bad request
-        "422":
-          description: "Unprocessable Entity (wird zurückgegeben, wenn der Input valide\
-            \ ist, aber dennoch keine Vorschläge ermittelt werden konnten)"
-        "405":
+        422:
+          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
+        405:
           description: Invalid input
-        "500":
+        500:
           description: Internal server error
       security:
-      - OAuth2:
-        - read
+        - OAuth2:
+            - read
   /vorschlaege/{anfrageId}:
     get:
       tags:
-      - Finanzierungsvorschlaege
-      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene
-        ID. Die Ergebnisse stehen nach Ermittlung für einige Zeit zum Abruf bereit
-        und werden dann verworfen. Die Ergebnisse können beliebig oft abgerufen werden
-        so lange sie bereit stehen.
+        - Finanzierungsvorschlaege
+      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene ID. Die Ergebnisse stehen nach Ermittlung für einige Zeit zum Abruf bereit und werden dann verworfen. Die Ergebnisse können beliebig oft abgerufen werden so lange sie bereit stehen.
       operationId: getVorschlaege
       parameters:
-      - name: anfrageId
-        in: path
-        description: "ID, die bei Start der ErmittlungsAnfrage als Ergebnis erhalten\
-          \ wurde."
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - in: path
+          name: anfrageId
+          schema:
+            type: string
+          required: true
+          description: ID, die bei Start der ErmittlungsAnfrage als Ergebnis erhalten wurde.
       responses:
-        "200":
+        200:
           description: Success
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
-        "202":
-          description: "Wird ausgeliefert, wenn eine Ermittlung für die gegebene ID\
-            \ ausgelöst wurde, aber noch keine Vorschläge bereit stehen (request pending)."
-        "400":
+        202:
+          description: Wird ausgeliefert, wenn eine Ermittlung für die gegebene ID ausgelöst wurde, aber noch keine Vorschläge bereit stehen (request pending).
+        400:
           description: Bad request
-        "404":
-          description: "Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID\
-            \ gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis\
-            \ nicht mehr verfügbar)."
-        "500":
+        404:
+          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+        500:
           description: Internal server error
       security:
-      - OAuth2:
-        - read
-  /vorschlag/merken:
+        - OAuth2:
+            - read
+  /vorschlaege/list/{vorgangId}:
+      get:
+        tags:
+          - Finanzierungsvorschlaege
+        summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden
+        operationId: listVorschlaege
+        parameters:
+          - in: path
+            name: vorgangId
+            schema:
+              type: string
+            required: true
+            description: ID, die aus KundenangabenApi ermittelt wird
+        responses:
+          200:
+            description: Success
+            content:
+              application/json; charset=utf-8:
+                schema:
+                  $ref: '#/components/schemas/FinanzierungsVorschlaege'
+          400:
+            description: Bad request
+          404:
+            description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+          500:
+            description: Internal server error
+        security:
+          - OAuth2:
+              - read
+  /vorschlag/bookmark:
     post:
       tags:
-      - Finanzierungsvorschlaege
-      summary: Merken eines Finanzierungsvorschlags
-      operationId: vorschlagMerken
+        - Finanzierungsvorschlaege
+      summary: 'Bookmark eines Finanzierungsvorschlags'
+      operationId: bookmarkVorschlag
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VorschlagMerkenRequest'
-        required: true
+              $ref: '#/components/schemas/VorschlagBookmarkRequest'
       responses:
-        "200":
+        200:
           description: Success
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/VorschlagMerkenResponse'
-        "404":
+                $ref: '#/components/schemas/VorschlagBookmarkResponse'
+        404:
           description: Keine Vorschläge für die AnfrageId gefunden
-        "419":
-          description: Maximale Anzahl gemerkter Vorschläge bereits erreicht
-        "500":
+        419:
+          description: Maximale Anzahl gebookmarked Vorschläge bereits erreicht
+        500:
           description: Vorschlag konnte nicht abgelegt werden
-      security:
-      - OAuth2:
-        - read
+  /vorschlag/accept:
+    post:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: 'Accept eines Finanzierungsvorschlags'
+      operationId: acceptVorschlag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlagAcceptRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/VorschlagAcceptResponse'
+        404:
+          description: Keine Vorschläge für die VorschlagId gefunden
+        419:
+          description: Vorschlag bereits accepted
+        500:
+          description: Vorschlag konnte nicht abgelegt werden
 components:
   schemas:
-    Annuitaetendarlehen:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Finanzierungsbaustein'
-      - type: object
-        properties:
-          darlehensbetrag:
-            type: number
-            format: double
-          annuitaetendetails:
-            $ref: '#/components/schemas/Annuitaetendetails'
-          bereitstellungszinsfreieZeitInMonaten:
-            type: integer
-            format: int32
-          provision:
-            type: number
-            description: Angabe in Prozent.
-            format: double
-          sollZins:
-            type: number
-            format: double
-          effektivZins:
-            type: number
-            format: double
-          rateMonatlich:
-            type: number
-            format: double
-          produktAnbieter:
-            type: string
-    Annuitaetendetails:
+    ErmittlungsLinks:
       type: object
       properties:
-        zinsbindungInJahren:
+        anfrageId:
+          type: string
+          description: UUID, die eine Anfrage eindeutig identifiziert.
+          example: passende-vorschlaege-ABC123456789
+    VorschlaegeErmittlungRequest:
+      type: object
+      required:
+        - metadaten
+        - kundenangaben
+      properties:
+        metadaten:
+          $ref: '#/components/schemas/VorschlaegeErmittlungPartnerDaten'
+        kundenangaben:
+          $ref: '#/components/schemas/Kundenangaben'
+    VorschlaegeErmittlungPartnerDaten:
+      type: object
+      required:
+        - datenkontext
+      properties:
+        datenkontext:
+          type: string
+          description: In welchem Kontext (Echtgeschäft oder Testmodus) wird der Request verarbeitet.
+          enum:
+            - TEST_MODUS
+            - ECHT_GESCHAEFT
+        kundenId:
+          type: string
+          description: Deprecated, wird durch extKundenId ersetzt! Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG
+          deprecated: true
+        extKundenId:
+          type: string
+          description: Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG
+          example: ImmoFin
+        clientId:
+          type: string
+          description: Deprecated, wird künftig umbenannt in extClientId! Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
+          deprecated: true
+        extClientId:
+          type: string
+          description: Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
+        gewuenschteAnzahlVorschlaege:
           type: integer
-          format: int32
-        tilgung:
-          $ref: '#/components/schemas/Tilgung'
-        sondertilgungJaehrlich:
+          default: 2
+          minimum: 1
+          maximum: 10
+        stage:
+          default: "default"
+          type: string
+    Kundenangaben:
+      type: object
+      required:
+        - haushalte
+        - finanzierungsbedarf
+        - finanzierungsobjekt
+      properties:
+        haushalte:
+          type: array
+          items:
+            $ref: '#/components/schemas/Haushalt'
+          minItems: 1
+          maxItems: 1
+        finanzierungsbedarf:
+          $ref: '#/components/schemas/Finanzierungsbedarf'
+        finanzierungsobjekt:
+          $ref: '#/components/schemas/Finanzierungsobjekt'
+    Haushalt:
+      type: object
+      required:
+        - kunden
+      properties:
+        kunden:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kunde'
+          minItems: 1
+          maxItems: 2
+        finanzielleSituation:
+          $ref: '#/components/schemas/FinanzielleSituation'
+    FinanzielleSituation:
+      type: object
+      properties:
+        eigenKapital:
           type: number
-          description: Angabe in Prozent.
-          format: double
-        auszahlungszeitpunkt:
+          example: 34500
+          description: Summe aller einzubringender Vermögenswerte. In Euro
+          minimum: 0
+          maximum: 10000000
+        sonstigeEinnahmen:
+          type: number
+          example: 380
+          description: Einnahmen, die nicht als `nettoEinkommen` erfasst sind. In Euro, monatlich, Bsp. Mieteinnahmen, Nebenjob
+          minimum: 0
+          maximum: 100000
+        nichtAbgeloestePrivateDarlehenRestschuld:
+          type: number
+          example: 4000
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus privaten Darlehen. In Euro
+          minimum: 0
+          maximum: 10000000
+        nichtAbgeloesteRatenkrediteRestschuld:
+          type: number
+          example: 8500
+          description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten. In Euro
+          minimum: 0
+          maximum: 10000000
+    Kunde:
+      type: object
+      required:
+        - einkommenNetto
+      properties:
+        beschaeftigtSeit:
           type: string
           format: date
-    Anschrift:
-      required:
-      - plz
+          example: 2015-05-21
+        arbeitBefristet:
+          type: boolean
+          description: true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false
+        einkommenNetto:
+          type: number
+          description: monatliches Nettoeinkommen lt. Gehaltsnachweis ohne Sonderzahlungen, in Euro
+          example: 3500.00
+          minimum: 0
+          maximum: 100000
+        geburtsdatum:
+          type: string
+          format: date
+          example: 1991-05-21
+        beschaeftigungsArt:
+          type: string
+          example: ANGESTELLTER
+          description: |
+            Kann einen der folgenden Werte annehmen:
+              - ANGESTELLTER
+              - ARBEITER
+              - BEAMTER
+              - FREIBERUFLER
+              - SELBSTAENDIGER
+              - RENTNER
+              - HAUSFRAU
+              - ARBEITSLOSER
+    Finanzierungsobjekt:
       type: object
+      required:
+        - anschrift
+      properties:
+        objektArt:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+            - DOPPELHAUSHAELFTE
+            - EINFAMILIENHAUS
+            - MEHRFAMILIENHAUS
+            - REIHENHAUS
+            - ZWEIFAMILIENHAUS
+            - GRUNDSTUECK
+            - EIGENTUMSWOHNUNG
+        vermietet:
+          type: boolean
+          description: true, wenn das Objekt vermietet ist, ansonsten false
+        baujahr:
+          type: integer
+          example: 1952
+          description: Jahr der Errichtung des Gebäudes oder der letzen Komplettsanierung
+        gewerblicheNutzung:
+          type: boolean
+          description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
+          default: false
+        anschrift:
+          $ref: '#/components/schemas/Anschrift'
+        wohnflaeche:
+          type: number
+          description: Wohn- oder Nutzfläche in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
+          example: 120.50
+          minimum: 20
+          maximum: 1000
+        marktwert:
+          type: number
+          description: Beleihungswert (ggf. auch Verkehrswert oder Kaufpreis) in Euro
+          example: 250000.00
+        darlehensliste:
+          type: array
+          items:
+            $ref: '#/components/schemas/Darlehen'
+    Finanzierungsbedarf:
+      type: object
+      required:
+        - finanzierungszweck
+      properties:
+        finanzierungszweck:
+          type: string
+          description: |
+            Kann einen der folgenden Werte annehmen:
+            - ANSCHLUSSFINANZIERUNG
+            - KAUF
+            - KAUF_NEUBAU_VOM_BAUTRAEGER
+            - MODERNISIERUNG_UMBAU_ANBAU
+            - NEUBAU
+            - KAPITALBESCHAFFUNG
+          example: KAUF
+        grundstueckKaufpreis:
+          type: number
+          description: Anteil des Grundstückswertes (wenn bekannt) In Euro
+          example: 38000.00
+          minimum: 0
+          maximum: 1000000
+        kaufpreis:
+          type: number
+          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
+          example: 250000.00
+          minimum: 0
+          maximum: 10000000
+        modernisierungsKostenInklEigenleistungen:
+          type: number
+          description: Kosten der im Zuge des Erwerbs geplanten Modernisierung inklusive Eigenleistung. In Euro
+          example: 50000.00
+          minimum: 0
+          maximum: 1000000
+        modernisierungEigenleistung:
+          type: number
+          description: Anteil der Eigenleistung an den Modernisierungskosten. In Euro
+          example: 25000.00
+          minimum: 0
+          maximum: 1000000
+        praeferenzen:
+          $ref: '#/components/schemas/Praeferenzen'
+        darlehenswunsch:
+          type: number
+          description: Gewünschte Darlehensumme
+          example: 250000.00
+    Anschrift:
+      type: object
+      required:
+        - plz
       properties:
         plz:
-          pattern: "[0-9]{5}"
+          pattern: '[0-9]{5}'
           type: string
+          example: 10117
           description: Postleitzahl
-          example: "10117"
         ort:
           type: string
           example: Berlin
@@ -216,8 +441,7 @@ components:
       properties:
         wirdAbgeloest:
           type: boolean
-          description: "true, wenn Darlehen mit der Finanzierung abgelöst werden soll,\
-            \ ansonsten false"
+          description: true, wenn Darlehen mit der Finanzierung abgelöst werden soll, ansonsten false
         darlehensgeber:
           type: string
           description: Produktanbieter-ID des Darlehensgebers
@@ -237,49 +461,70 @@ components:
           $ref: '#/components/schemas/Restschuld'
         darlehenskontonummer:
           type: string
-          description: "Bezeichnung Ablösedarlehen, wenn zu prolongierendes Darlehen,\
-            \ sonst Nummer des Kontos"
-    ErmittlungsLinks:
+          description: Bezeichnung Ablösedarlehen, wenn zu prolongierendes Darlehen, sonst Nummer des Kontos
+    Praeferenzen:
       type: object
       properties:
-        anfrageId:
+        rate:
+          type: number
+          description: In Euro, monatlich
+          example: 850.00
+          minimum: 10
+          maximum: 10000
+        faelligkeitsdatum:
           type: string
-          description: "UUID, die eine Anfrage eindeutig identifiziert."
-          example: passende-vorschlaege-ABC123456789
-    FinanzielleSituation:
+          format: date
+          description: Wann ist die Auszahlung / Ablösung des Darlehens geplant?
+          example: 2022-06-30
+        kreditEntscheidungsZeit:
+          type: string
+          format: date
+          description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
+          example: 2021-04-21
+        laufzeit:
+          type: integer
+          format: int32
+          description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+          example: 25
+          minimum: 0
+          maximum: 70
+        zinsbindungInJahren:
+          type: integer
+          format: int32
+          description: Gewünschte Zinsbindung des abzuschließenden Darlehens in Jahren
+          example: 10
+        sonderzahlung:
+          type: number
+          description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
+          example: 20000.00
+        tilgung:
+          type: number
+          description: Gewünschte anfängliche Tilgung des abzuschließenden Darlehens in Prozent
+          example: 2.50
+        sondertilgung:
+          type: number
+          description: Höhe der gewünschten optionalen Sondertilgung während der Zinsbindungsfrist in Prozent
+          example: 5.0
+        bereitstellungszinsfreieZeit:
+          type: integer
+          format: int32
+          description: Gewünschte bereitstellungszinsfreie Zeit in Monaten
+          example: 6
+    Restschuld:
       type: object
       properties:
-        eigenKapital:
-          maximum: 10000000
-          minimum: 0
+        aktuell:
           type: number
-          description: Summe aller einzubringender Vermögenswerte. In Euro
-          example: 34500
-        sonstigeEinnahmen:
-          maximum: 100000
-          minimum: 0
+          description: In Euro
+          example: 255879.81
+        zumAbloeseTermin:
           type: number
-          description: "Einnahmen, die nicht als `nettoEinkommen` erfasst sind. In\
-            \ Euro, monatlich, Bsp. Mieteinnahmen, Nebenjob"
-          example: 380
-        nichtAbgeloestePrivateDarlehenRestschuld:
-          maximum: 10000000
-          minimum: 0
-          type: number
-          description: Summe aller nicht abgelösten Verbindlichkeiten aus privaten
-            Darlehen. In Euro
-          example: 4000
-        nichtAbgeloesteRatenkrediteRestschuld:
-          maximum: 10000000
-          minimum: 0
-          type: number
-          description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten.
-            In Euro
-          example: 8500
+          description: In Euro
+          example: 251210.85
     FinanzierungsVorschlaege:
-      required:
-      - vorschlaege
       type: object
+      required:
+        - vorschlaege
       properties:
         vorschlaege:
           type: array
@@ -290,24 +535,20 @@ components:
           properties:
             successRating:
               type: string
-              description: "Rating zeigt die Abschlusswahrscheinlichkeit eines Vorgangs\
-                \ an. Dabei wird in den Kategorien A, B, C und D aufgegliedert, wie\
-                \ hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem\
-                \ erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste\
-                \ Kategorie"
-              example: B
+              description: Rating zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C und D aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
+              example: "B"
             effortRating:
               type: object
               properties:
                 rating:
                   type: boolean
-                  description: Indikator ob der Vorgang mit einem hohem Arbeitsaufwand
-                    verbunden ist
+                  description: Indikator ob der Vorgang mit einem hohem Arbeitsaufwand verbunden ist
                 explanations:
                   type: array
-                  description: Erklaerungen warum der Vorgang aufwendig ist
                   items:
                     type: string
+                  description: Erklaerungen warum der Vorgang aufwendig ist
+
     FinanzierungsVorschlag:
       type: object
       properties:
@@ -332,17 +573,15 @@ components:
         kennung:
           type: string
         machbarkeit:
-          maximum: 100
+          type: integer
+          description: Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben unterstützen wird (1=unwahrscheinlich 100=sehr wahrscheinlich)
           minimum: 1
-          type: integer
-          description: Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben
-            unterstützen wird (1=unwahrscheinlich 100=sehr wahrscheinlich)
+          maximum: 100
         rank:
-          minimum: 0
           type: integer
-          description: "0-basierter Rang dieses Vorschlages im Vergleich zu anderen\
-            \ Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch."
+          minimum: 0
           example: 0
+          description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch.
         gesamtRateProMonat:
           type: number
           format: double
@@ -350,156 +589,171 @@ components:
           type: string
     Finanzierungsbaustein:
       required:
-      - '@type'
+        - '@type'
       type: object
       properties:
         '@type':
           type: string
-      description: "Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen"
+      description: 'Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
       discriminator:
         propertyName: '@type'
         mapping:
           ANNUITAETENDARLEHEN: '#/components/schemas/Annuitaetendarlehen'
           PRIVATDARLEHEN: '#/components/schemas/Privatdarlehen'
           KFW_DARLEHEN: '#/components/schemas/KfwDarlehen'
-    Finanzierungsbedarf:
-      required:
-      - finanzierungszweck
-      type: object
-      properties:
-        finanzierungszweck:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - ANSCHLUSSFINANZIERUNG
-            - KAUF
-            - KAUF_NEUBAU_VOM_BAUTRAEGER
-            - MODERNISIERUNG_UMBAU_ANBAU
-            - NEUBAU
-            - KAPITALBESCHAFFUNG
-          example: KAUF
-        grundstueckKaufpreis:
-          maximum: 1000000
-          minimum: 0
-          type: number
-          description: Anteil des Grundstückswertes (wenn bekannt) In Euro
-          example: 38000.0
-        kaufpreis:
-          maximum: 10000000
-          minimum: 0
-          type: number
-          description: "Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis\
-            \ und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro"
-          example: 250000.0
-        modernisierungsKostenInklEigenleistungen:
-          maximum: 1000000
-          minimum: 0
-          type: number
-          description: Kosten der im Zuge des Erwerbs geplanten Modernisierung inklusive
-            Eigenleistung. In Euro
-          example: 50000.0
-        modernisierungEigenleistung:
-          maximum: 1000000
-          minimum: 0
-          type: number
-          description: Anteil der Eigenleistung an den Modernisierungskosten. In Euro
-          example: 25000.0
-        praeferenzen:
-          $ref: '#/components/schemas/Praeferenzen'
-        darlehenswunsch:
-          type: number
-          description: Gewünschte Darlehensumme
-          example: 250000.0
-    Finanzierungsobjekt:
-      required:
-      - anschrift
-      type: object
-      properties:
-        objektArt:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-            - DOPPELHAUSHAELFTE
-            - EINFAMILIENHAUS
-            - MEHRFAMILIENHAUS
-            - REIHENHAUS
-            - ZWEIFAMILIENHAUS
-            - GRUNDSTUECK
-            - EIGENTUMSWOHNUNG
-        vermietet:
-          type: boolean
-          description: "true, wenn das Objekt vermietet ist, ansonsten false"
-        baujahr:
-          type: integer
-          description: Jahr der Errichtung des Gebäudes oder der letzen Komplettsanierung
-          example: 1952
-        gewerblicheNutzung:
-          type: boolean
-          description: "true, wenn das Objekt überwiegend oder ausschließlich gewerblich\
-            \ genutzt wird, ansonsten false"
-          default: false
-        anschrift:
-          $ref: '#/components/schemas/Anschrift'
-        wohnflaeche:
-          maximum: 1000
-          minimum: 20
-          type: number
-          description: "Wohn- oder Nutzfläche in Quadratmetern, irrelevant bei objektArt\
-            \ = GRUNDSTUECK"
-          example: 120.5
-        marktwert:
-          type: number
-          description: Beleihungswert (ggf. auch Verkehrswert oder Kaufpreis) in Euro
-          example: 250000.0
-        darlehensliste:
-          type: array
-          items:
-            $ref: '#/components/schemas/Darlehen'
-    Haushalt:
-      required:
-      - kunden
-      type: object
-      properties:
-        kunden:
-          maxItems: 2
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Kunde'
-        finanzielleSituation:
-          $ref: '#/components/schemas/FinanzielleSituation'
-    KfwDarlehen:
-      required:
-      - darlehensbetrag
-      - kfwEndfaellig
-      - programm
+    Annuitaetendarlehen:
       type: object
       allOf:
-      - $ref: '#/components/schemas/Finanzierungsbaustein'
-      - type: object
-        properties:
-          darlehensbetrag:
-            type: number
-            format: double
-          kfwEndfaellig:
-            type: string
-            enum:
-            - NEIN
-            - ENDFAELLIG_BERECHNET
-            - ENDFAELLIG_EIGENES_ANGEBOT
-          tilgung:
-            $ref: '#/components/schemas/Tilgung'
-          programm:
-            $ref: '#/components/schemas/KfwProgramm'
-    KfwProgramm:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            annuitaetendetails:
+              $ref: '#/components/schemas/Annuitaetendetails'
+            bereitstellungszinsfreieZeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
+    Privatdarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            laufzeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: Angabe in Prozent.
+              format: double
+            zinsbindungInJahren:
+              type: integer
+              format: int32
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
+    Annuitaetendetails:
+      type: object
+      properties:
+        zinsbindungInJahren:
+          type: integer
+          format: int32
+        tilgung:
+          $ref: '#/components/schemas/Tilgung'
+        sondertilgungJaehrlich:
+          type: number
+          description: Angabe in Prozent.
+          format: double
+        auszahlungszeitpunkt:
+          type: string
+          format: date
+    KfwDarlehen:
+      type: object
       required:
-      - '@type'
+        - darlehensbetrag
+        - kfwEndfaellig
+        - programm
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            kfwEndfaellig:
+              type: string
+              enum:
+                - NEIN
+                - ENDFAELLIG_BERECHNET
+                - ENDFAELLIG_EIGENES_ANGEBOT
+            tilgung:
+              $ref: '#/components/schemas/Tilgung'
+            programm:
+              $ref: '#/components/schemas/KfwProgramm'
+    Tilgung:
+      required:
+        - '@type'
       type: object
       properties:
         '@type':
           type: string
-      description: "Mögliche Typen: KfwProgramm124, KfwProgramm159,\\ \\ KfwProgramm261Neubau,\
-        \ KfwProgramm261Sanierung, KfwProgramm262"
+      description: 'Mögliche Typen: TilgungInProzent, Volltilger, Rate.'
+      discriminator:
+        propertyName: '@type'
+        mapping:
+          TILGUNG_IN_PROZENT: '#/components/schemas/TilgungInProzent'
+          VOLLTILGER: '#/components/schemas/Volltilger'
+          RATE: '#/components/schemas/Rate'
+    TilgungInProzent:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            tilgungssatzInProzent:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    Volltilger:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            tilgungsbeginn:
+              type: string
+              format: date
+    Rate:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Tilgung'
+        - type: object
+          properties:
+            rate:
+              type: number
+              format: double
+            tilgungsbeginn:
+              type: string
+              format: date
+    KfwProgramm:
+      required:
+        - '@type'
+      type: object
+      properties:
+        '@type':
+          type: string
+      description: 'Mögliche Typen: KfwProgramm124, KfwProgramm159,\
+            \ KfwProgramm261Neubau, KfwProgramm261Sanierung, KfwProgramm262'
       discriminator:
         propertyName: '@type'
         mapping:
@@ -510,407 +764,186 @@ components:
           KFW_PROGRAMM_262: '#/components/schemas/KfwProgramm262'
     KfwProgramm124:
       required:
-      - laufzeitInJahren
-      - tilgungsfreieAnlaufjahre
-      - zinsbindungInJahren
+        - laufzeitInJahren
+        - tilgungsfreieAnlaufjahre
+        - zinsbindungInJahren
       type: object
-      description: "Wohneigentum Schaffen: Selbstgenutztes Eigentum (Programm-Nr.:\\\
-        \ \\ 124)"
+      description: 'Wohneigentum Schaffen: Selbstgenutztes Eigentum (Programm-Nr.:\
+          \ 124)'
       allOf:
-      - $ref: '#/components/schemas/KfwProgramm'
-      - type: object
-        properties:
-          laufzeitInJahren:
-            maximum: 25
-            minimum: 1
-            type: integer
-            format: int32
-          zinsbindungInJahren:
-            type: integer
-            description: 5 oder 10 Jahre
-            format: int32
-          tilgungsfreieAnlaufjahre:
-            maximum: 3
-            minimum: 1
-            type: integer
-            format: int32
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 25
+              minimum: 1
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 3
+              minimum: 1
+              type: integer
+              format: int32
     KfwProgramm159:
       required:
-      - tilgungsfreieAnlaufjahre
+        - tilgungsfreieAnlaufjahre
       type: object
-      description: "Wohnraum Modernisieren: Altersgerecht Umbauen (Programm-Nr.: 159)"
+      description: 'Wohnraum Modernisieren: Altersgerecht Umbauen (Programm-Nr.: 159)'
       allOf:
-      - $ref: '#/components/schemas/KfwProgramm'
-      - type: object
-        properties:
-          laufzeitInJahren:
-            maximum: 30
-            minimum: 4
-            type: integer
-            format: int32
-          zinsbindungInJahren:
-            type: integer
-            description: 5 oder 10 Jahre
-            format: int32
-          tilgungsfreieAnlaufjahre:
-            maximum: 5
-            minimum: 1
-            type: integer
-            format: int32
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            zinsbindungInJahren:
+              type: integer
+              description: 5 oder 10 Jahre
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
     KfwProgramm261Neubau:
       type: object
-      description: "Energieeffizient Bauen: bauen oder kaufen (Programm-Nr.: 261).\\\
-        \ \\ Die Zinsbindung beträgt immer 10 Jahre."
+      description: 'Energieeffizient Bauen: bauen oder kaufen (Programm-Nr.: 261).\
+          \ Die Zinsbindung beträgt immer 10 Jahre.'
       allOf:
-      - $ref: '#/components/schemas/KfwProgramm'
-      - type: object
-        properties:
-          kfwEnergieEffizienzStandard:
-            type: string
-            description: "Erlaubte Werte sind: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\\\
-              \ \\ STANDARD_55, STANDARD_55_EEK"
-            enum:
-            - STANDARD_40
-            - STANDARD_40_PLUS
-            - STANDARD_40_EEK
-            - STANDARD_55
-            - STANDARD_55_EEK
-            - STANDARD_70
-            - STANDARD_70_EEK
-            - STANDARD_85
-            - STANDARD_85_EEK
-            - STANDARD_100
-            - STANDARD_100_EEK
-            - STANDARD_DENKMAL
-            - STANDARD_DENKMAL_EEK
-          laufzeitInJahren:
-            maximum: 30
-            minimum: 4
-            type: integer
-            format: int32
-          tilgungsfreieAnlaufjahre:
-            maximum: 5
-            minimum: 1
-            type: integer
-            format: int32
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: 'Erlaubte Werte sind: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\
+                \ STANDARD_55, STANDARD_55_EEK'
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
     KfwProgramm261Sanierung:
       type: object
-      description: "Energieeffizient Sanieren: sanieren oder ein frisch saniertes\\\
-        \ \\ Effizienzhaus kaufen (Programm-Nr.: 261). Die Zinsbindung beträgt immer\\\
-        \ \\ 10 Jahre."
+      description: 'Energieeffizient Sanieren: sanieren oder ein frisch saniertes\
+          \ Effizienzhaus kaufen (Programm-Nr.: 261). Die Zinsbindung beträgt immer\
+          \ 10 Jahre.'
       allOf:
-      - $ref: '#/components/schemas/KfwProgramm'
-      - type: object
-        properties:
-          kfwEnergieEffizienzStandard:
-            type: string
-            description: "Erlaubte Werte sind: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\\\
-              \ \\ STANDARD_55_EEK, STANDARD_70, STANDARD_70_EEK, STANDARD_85, STANDARD_85_EEK,\\\
-              \ \\ STANDARD_100, STANDARD_100_EEK, STANDARD_DENKMAL, STANDARD_DENKMAL_EEK"
-            enum:
-            - STANDARD_40
-            - STANDARD_40_PLUS
-            - STANDARD_40_EEK
-            - STANDARD_55
-            - STANDARD_55_EEK
-            - STANDARD_70
-            - STANDARD_70_EEK
-            - STANDARD_85
-            - STANDARD_85_EEK
-            - STANDARD_100
-            - STANDARD_100_EEK
-            - STANDARD_DENKMAL
-            - STANDARD_DENKMAL_EEK
-          kfwSanierungsFahrplanLiegtVor:
-            type: boolean
-          laufzeitInJahren:
-            maximum: 30
-            minimum: 4
-            type: integer
-            format: int32
-          tilgungsfreieAnlaufjahre:
-            maximum: 5
-            minimum: 1
-            type: integer
-            format: int32
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwEnergieEffizienzStandard:
+              type: string
+              description: 'Erlaubte Werte sind: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\
+                \ STANDARD_55_EEK, STANDARD_70, STANDARD_70_EEK, STANDARD_85, STANDARD_85_EEK,\
+                \ STANDARD_100, STANDARD_100_EEK, STANDARD_DENKMAL, STANDARD_DENKMAL_EEK'
+              enum:
+                - STANDARD_40
+                - STANDARD_40_PLUS
+                - STANDARD_40_EEK
+                - STANDARD_55
+                - STANDARD_55_EEK
+                - STANDARD_70
+                - STANDARD_70_EEK
+                - STANDARD_85
+                - STANDARD_85_EEK
+                - STANDARD_100
+                - STANDARD_100_EEK
+                - STANDARD_DENKMAL
+                - STANDARD_DENKMAL_EEK
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
     KfwProgramm262:
       type: object
-      description: "Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\\\
-        \ \\ 262). Die Zinsbindung beträgt immer 10 Jahre."
+      description: 'Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\
+          \ 262). Die Zinsbindung beträgt immer 10 Jahre.'
       allOf:
-      - $ref: '#/components/schemas/KfwProgramm'
-      - type: object
-        properties:
-          kfwSanierungsFahrplanLiegtVor:
-            type: boolean
-          laufzeitInJahren:
-            maximum: 30
-            minimum: 4
-            type: integer
-            format: int32
-          tilgungsfreieAnlaufjahre:
-            maximum: 5
-            minimum: 1
-            type: integer
-            format: int32
-    Kunde:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
+            kfwSanierungsFahrplanLiegtVor:
+              type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    VorschlagBookmarkRequest:
+      type: object
       required:
-      - einkommenNetto
-      type: object
-      properties:
-        beschaeftigtSeit:
-          type: string
-          format: date
-          example: 2015-05-21
-        arbeitBefristet:
-          type: boolean
-          description: "true, wenn Beschäftigungsverhältnis befristet ist, ansonsten\
-            \ false"
-        einkommenNetto:
-          maximum: 100000
-          minimum: 0
-          type: number
-          description: "monatliches Nettoeinkommen lt. Gehaltsnachweis ohne Sonderzahlungen,\
-            \ in Euro"
-          example: 3500.0
-        geburtsdatum:
-          type: string
-          format: date
-          example: 1991-05-21
-        beschaeftigungsArt:
-          type: string
-          description: |
-            Kann einen der folgenden Werte annehmen:
-              - ANGESTELLTER
-              - ARBEITER
-              - BEAMTER
-              - FREIBERUFLER
-              - SELBSTAENDIGER
-              - RENTNER
-              - HAUSFRAU
-              - ARBEITSLOSER
-          example: ANGESTELLTER
-    Kundenangaben:
-      required:
-      - finanzierungsbedarf
-      - finanzierungsobjekt
-      - haushalte
-      type: object
-      properties:
-        haushalte:
-          maxItems: 1
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Haushalt'
-        finanzierungsbedarf:
-          $ref: '#/components/schemas/Finanzierungsbedarf'
-        finanzierungsobjekt:
-          $ref: '#/components/schemas/Finanzierungsobjekt'
-    Praeferenzen:
-      type: object
-      properties:
-        rate:
-          maximum: 10000
-          minimum: 10
-          type: number
-          description: "In Euro, monatlich"
-          example: 850.0
-        faelligkeitsdatum:
-          type: string
-          description: Wann ist die Auszahlung / Ablösung des Darlehens geplant?
-          format: date
-          example: 2022-06-30
-        kreditEntscheidungsZeit:
-          type: string
-          description: Bis wann ist eine Entscheidung seitens des Produktanbieters
-            gewünscht?
-          format: date
-          example: 2021-04-21
-        laufzeit:
-          maximum: 70
-          minimum: 0
-          type: integer
-          description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein?
-            Angabe der Laufzeit in Jahren
-          format: int32
-          example: 25
-        zinsbindungInJahren:
-          type: integer
-          description: Gewünschte Zinsbindung des abzuschließenden Darlehens in Jahren
-          format: int32
-          example: 10
-        sonderzahlung:
-          type: number
-          description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
-          example: 20000.0
-        tilgung:
-          type: number
-          description: Gewünschte anfängliche Tilgung des abzuschließenden Darlehens
-            in Prozent
-          example: 2.5
-        sondertilgung:
-          type: number
-          description: Höhe der gewünschten optionalen Sondertilgung während der Zinsbindungsfrist
-            in Prozent
-          example: 5.0
-        bereitstellungszinsfreieZeit:
-          type: integer
-          description: Gewünschte bereitstellungszinsfreie Zeit in Monaten
-          format: int32
-          example: 6
-    Privatdarlehen:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Finanzierungsbaustein'
-      - type: object
-        properties:
-          darlehensbetrag:
-            type: number
-            format: double
-          laufzeitInMonaten:
-            type: integer
-            format: int32
-          provision:
-            type: number
-            description: Angabe in Prozent.
-            format: double
-          zinsbindungInJahren:
-            type: integer
-            format: int32
-          sollZins:
-            type: number
-            format: double
-          effektivZins:
-            type: number
-            format: double
-          rateMonatlich:
-            type: number
-            format: double
-          produktAnbieter:
-            type: string
-    Rate:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Tilgung'
-      - type: object
-        properties:
-          rate:
-            type: number
-            format: double
-          tilgungsbeginn:
-            type: string
-            format: date
-    Restschuld:
-      type: object
-      properties:
-        aktuell:
-          type: number
-          description: In Euro
-          example: 255879.81
-        zumAbloeseTermin:
-          type: number
-          description: In Euro
-          example: 251210.85
-    Tilgung:
-      required:
-      - '@type'
-      type: object
-      properties:
-        '@type':
-          type: string
-      description: "Mögliche Typen: TilgungInProzent, Volltilger, Rate."
-      discriminator:
-        propertyName: '@type'
-        mapping:
-          TILGUNG_IN_PROZENT: '#/components/schemas/TilgungInProzent'
-          VOLLTILGER: '#/components/schemas/Volltilger'
-          RATE: '#/components/schemas/Rate'
-    TilgungInProzent:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Tilgung'
-      - type: object
-        properties:
-          tilgungssatzInProzent:
-            type: number
-            format: double
-          tilgungsbeginn:
-            type: string
-            format: date
-    Volltilger:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Tilgung'
-      - type: object
-        properties:
-          tilgungsbeginn:
-            type: string
-            format: date
-    VorschlaegeErmittlungPartnerDaten:
-      required:
-      - datenkontext
-      type: object
-      properties:
-        datenkontext:
-          type: string
-          description: In welchem Kontext (Echtgeschäft oder Testmodus) wird der Request
-            verarbeitet.
-          enum:
-          - TEST_MODUS
-          - ECHT_GESCHAEFT
-        kundenId:
-          type: string
-          description: "Deprecated, wird durch extKundenId ersetzt! Identifikator\
-            \ für den Nutzer/Partner der API, Bsp. ImmoFin AG"
-          deprecated: true
-        extKundenId:
-          type: string
-          description: "Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin\
-            \ AG"
-          example: ImmoFin
-        clientId:
-          type: string
-          description: "Deprecated, wird künftig umbenannt in extClientId! Identifikator\
-            \ für den aufrufenden Client um Client-Implementierungen (web/mobile oder\
-            \ A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32"
-          deprecated: true
-        extClientId:
-          type: string
-          description: Identifikator für den aufrufenden Client um Client-Implementierungen
-            (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
-        gewuenschteAnzahlVorschlaege:
-          maximum: 10
-          minimum: 1
-          type: integer
-          default: 2
-    VorschlaegeErmittlungRequest:
-      required:
-      - kundenangaben
-      - metadaten
-      type: object
-      properties:
-        metadaten:
-          $ref: '#/components/schemas/VorschlaegeErmittlungPartnerDaten'
-        kundenangaben:
-          $ref: '#/components/schemas/Kundenangaben'
-    VorschlagMerkenRequest:
-      required:
-      - anfrageId
-      - finanzierungsVorschlagId
-      - vorgangId
-      type: object
+        - anfrageId
+        - vorgangId
+        - finanzierungsVorschlagId
       properties:
         anfrageId:
           type: string
-          description: Die gelieferte anfrageId aus der Ermittlung der Vorschläge
+          description: 'Die gelieferte anfrageId aus der Ermittlung der Vorschläge'
         vorgangId:
           type: string
-          description: Die Id eines bestehenden Vorgangs
+          description: 'Die Id eines bestehenden Vorgangs'
         finanzierungsVorschlagId:
           type: string
-          description: Der Identifier eines ermittelten Vorschlags
-    VorschlagMerkenResponse:
+          description: 'Der Identifier eines ermittelten Vorschlags'
+    VorschlagBookmarkResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    VorschlagAcceptRequest:
+      type: object
+      required:
+        - finanzierungsVorschlagId
+        - vorgangId
+      properties:
+        anfrageId:
+          type: string
+          description: 'Die gelieferte anfrageId aus der Ermittlung der Vorschläge'
+        vorgangId:
+          type: string
+          description: 'Die Id eines bestehenden Vorgangs'
+        finanzierungsVorschlagId:
+          type: string
+          description: 'Der Identifier eines ermittelten Vorschlags'
+    VorschlagAcceptResponse:
       type: object
       properties:
         message:
