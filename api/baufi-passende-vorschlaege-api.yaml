@@ -956,3 +956,4 @@ components:
           tokenUrl: https://api.europace.de/auth/access-token
           scopes:
             baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
+
