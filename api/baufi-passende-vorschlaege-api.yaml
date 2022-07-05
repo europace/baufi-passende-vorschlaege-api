@@ -105,39 +105,39 @@ paths:
         - OAuth2:
             - read
   /vorschlaege/list/{vorgangId}:
-      get:
-        tags:
-          - Finanzierungsvorschlaege
-        summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden
-        operationId: listVorschlaege
-        parameters:
-          - in: path
-            name: vorgangId
-            schema:
-              type: string
-            required: true
-            description: ID, die aus KundenangabenApi ermittelt wird
-        responses:
-          200:
-            description: Success
-            content:
-              application/json; charset=utf-8:
-                schema:
-                  $ref: '#/components/schemas/FinanzierungsVorschlaege'
-          400:
-            description: Bad request
-          404:
-            description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
-          500:
-            description: Internal server error
-        security:
-          - OAuth2:
-              - read
+    get:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden.
+      operationId: listVorschlaege
+      parameters:
+        - in: path
+          name: vorgangId
+          schema:
+            type: string
+          required: true
+          description: ID, die aus KundenangabenApi ermittelt wird
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        400:
+          description: Bad request
+        404:
+          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+        500:
+          description: Internal server error
+      security:
+        - OAuth2:
+            - read
   /vorschlag/bookmark:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: 'Bookmark eines Finanzierungsvorschlags'
+      summary: Der Vorschlag wird nach BaufiSmart importiert. Damit wird ein Vorschlag einem Vorgang zugeordnet und ist persistiert.
       operationId: bookmarkVorschlag
       requestBody:
         required: true
@@ -162,7 +162,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: 'Accept eines Finanzierungsvorschlags'
+      summary: damit kann der Client einen Vorschlag markieren als den Vorschlag, den der Kunde auch akzeptiern möchte. Damit steht der Voschlag im EP2Core zur Verfüfung.
       operationId: acceptVorschlag
       requestBody:
         required: true
@@ -956,4 +956,3 @@ components:
           tokenUrl: https://api.europace.de/auth/access-token
           scopes:
             baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
-

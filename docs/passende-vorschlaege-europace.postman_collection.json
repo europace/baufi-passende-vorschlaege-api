@@ -394,7 +394,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"anfrageId\": \"passende-vorschlaege-2d803d32-84e5-42cd-9613-44713df86edb\",\n    \"finanzierungsVorschlagId\": \"84b98ead4d1e75aefb7c15a343c7e37\",\n    \"vorgangId\": \"TEST_VORGANG_ID\"\n\n}"
+					"raw": "{\n    \"anfrageId\": \"passende-vorschlaege-2d803d32-84e5-42cd-9613-44713df86edb\",\n    \"finanzierungsVorschlagId\": \"84b98ead4d1e75aefb7c15a343c7e37\",\n    \"vorgangId\": \"TESTID\"\n\n}"
 				},
 				"url": {
 					"raw": "https://baufinanzierung.api.europace.de/vorschlag/bookmark",
@@ -516,7 +516,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"finanzierungsVorschlagId\": \"86250395b4cb4890a5c40b67059b9057\",\n  \"vorgangId\": \"TEST_VORGANG_ID\"\n}"
+					"raw": "{\n  \"finanzierungsVorschlagId\": \"86250395b4cb4890a5c40b67059b9057\",\n  \"vorgangId\": \"TESTID\"\n}"
 				},
 				"url": {
 					"raw": "https://baufinanzierung.api.europace.de/vorschlag/accept",
@@ -535,131 +535,8 @@
 				"description": "Triggert die Akzeptieren von Vorschlaegen schiebt das Angebot auf S3 in accepted"
 			},
 			"response": []
-		},
-    {
-      "name": "GET bookmarked Vorschlaege",
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {
-          "content-type": true
-        },
-        "disableBodyPruning": true
-      },
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{ps_jwt_access_token}}",
-            "type": "text"
-          },
-          {
-            "key": "User-Agent",
-            "value": "{{passt_user_agent}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": ""
-        },
-        "url": {
-          "raw": "https://baufinanzierung.api.europace.de/vorschlaege/list/{{vorgangId}}",
-          "protocol": "https",
-          "host": [
-            "baufinanzierung",
-            "api",
-            "europace",
-            "de"
-          ],
-          "path": [
-            "vorschlaege",
-            "{{vorgangId}}"
-          ]
-        },
-        "description": "Holt die bookmarked Vorschlaege für die gegebene VorgangId"
-      },
-      "response": []
-    },
-    {
-      "name": "Accept Vorschlaege",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [],
-            "type": "text/javascript"
-          }
-        },
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "auth": {
-          "type": "noauth"
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "type": "text",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{ps_jwt_access_token}}",
-            "type": "text"
-          },
-          {
-            "key": "User-Agent",
-            "value": "{{passt_user_agent}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"finanzierungsVorschlagId\": \"3dad06f6c23003b260fdda425fbe4778\",\n  \"vorgangId\": \"HG7BSC\"\n}"
-        },
-        "url": {
-          "raw": "https://baufinanzierung.api.europace.de/vorschlaege/accept",
-          "protocol": "https",
-          "host": [
-            "passende-vorschlaege-service",
-            "k8s",
-            "ps",
-            "bs",
-            "ep",
-            "aws",
-            "it-hps",
-            "de"
-          ],
-          "path": [
-            "vorschlag",
-            "accept"
-          ]
-        },
-        "description": "Triggert die Akzeptieren von Vorschlaegen schiebt das Angebot auf S3 in accepted"
-      },
-      "response": []
-    }
-  ],
+		}
+	],
 	"variable": [
 		{
 			"key": "anfrageId",
