@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.51
+  version: 0.0.52
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -105,39 +105,39 @@ paths:
         - OAuth2:
             - read
   /vorschlaege/list/{vorgangId}:
-      get:
-        tags:
-          - Finanzierungsvorschlaege
-        summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden
-        operationId: listVorschlaege
-        parameters:
-          - in: path
-            name: vorgangId
-            schema:
-              type: string
-            required: true
-            description: ID, die aus KundenangabenApi ermittelt wird
-        responses:
-          200:
-            description: Success
-            content:
-              application/json; charset=utf-8:
-                schema:
-                  $ref: '#/components/schemas/FinanzierungsVorschlaege'
-          400:
-            description: Bad request
-          404:
-            description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
-          500:
-            description: Internal server error
-        security:
-          - OAuth2:
-              - read
+    get:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden.
+      operationId: listVorschlaege
+      parameters:
+        - in: path
+          name: vorgangId
+          schema:
+            type: string
+          required: true
+          description: ID, die aus KundenangabenApi ermittelt wird
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        400:
+          description: Bad request
+        404:
+          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+        500:
+          description: Internal server error
+      security:
+        - OAuth2:
+            - read
   /vorschlag/bookmark:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: 'Bookmark eines Finanzierungsvorschlags'
+      summary: Der Vorschlag wird nach BaufiSmart importiert. Damit wird ein Vorschlag einem Vorgang zugeordnet und ist persistiert.
       operationId: bookmarkVorschlag
       requestBody:
         required: true
@@ -162,7 +162,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: 'Accept eines Finanzierungsvorschlags'
+      summary: damit kann der Client einen Vorschlag markieren als den Vorschlag, den der Kunde auch akzeptiern möchte. Damit steht der Voschlag im EP2Core zur Verfüfung.
       operationId: acceptVorschlag
       requestBody:
         required: true
@@ -417,6 +417,13 @@ components:
           type: number
           description: Gewünschte Darlehensumme
           example: 250000.00
+        herstellungskostenInklusiveEigenleistungen:
+          type: number
+          description: Herstellungskosten bei Neubau
+          example: 250000.00
+        grundstueckBereitsBezahlt:
+          type: boolean
+          description: True, wenn Grundstueck bereits bezahlt
     Anschrift:
       type: object
       required:
@@ -594,6 +601,19 @@ components:
       properties:
         '@type':
           type: string
+        restschuldNachZinsbindungsEnde:
+          type: number
+          format: double
+        schlussrate:
+          type: number
+          format: double
+        datumLetzteRate:
+          type: string
+          format: date
+          example: 2021-05-21
+        anzahlRaten:
+          type: integer
+          format: int32
       description: 'Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
       discriminator:
         propertyName: '@type'
@@ -956,4 +976,3 @@ components:
           tokenUrl: https://api.europace.de/auth/access-token
           scopes:
             baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
-
