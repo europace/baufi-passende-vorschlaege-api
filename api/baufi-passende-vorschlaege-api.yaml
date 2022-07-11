@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.52
+  version: 0.0.53
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -36,13 +36,12 @@ paths:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
         400:
           description: Bad request
+        401:
+          description: Authorization information is missing or invalid.
         408:
           description: Request timed out. Mit der AnfrageId kann über GET /vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
         500:
           description: Internal server error
-      security:
-        - OAuth2:
-            - read
   /vorschlaege:
     post:
       tags:
@@ -64,15 +63,14 @@ paths:
                 $ref: '#/components/schemas/ErmittlungsLinks'
         400:
           description: Bad request
-        422:
-          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
+        401:
+          description: Authorization information is missing or invalid.
         405:
           description: Invalid input
+        422:
+          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
         500:
           description: Internal server error
-      security:
-        - OAuth2:
-            - read
   /vorschlaege/{anfrageId}:
     get:
       tags:
@@ -97,13 +95,12 @@ paths:
           description: Wird ausgeliefert, wenn eine Ermittlung für die gegebene ID ausgelöst wurde, aber noch keine Vorschläge bereit stehen (request pending).
         400:
           description: Bad request
+        401:
+          description: Authorization information is missing or invalid.
         404:
           description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
         500:
           description: Internal server error
-      security:
-        - OAuth2:
-            - read
   /vorschlaege/list/{vorgangId}:
     get:
       tags:
@@ -137,7 +134,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: Der Vorschlag wird nach BaufiSmart importiert. Damit wird ein Vorschlag einem Vorgang zugeordnet und ist persistiert.
+      summary: Ein Vorschlag kann in der EP Plattform hinterlegt werden. Hinterlegte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
       operationId: bookmarkVorschlag
       requestBody:
         required: true
@@ -152,6 +149,8 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/VorschlagBookmarkResponse'
+        401:
+          description: Authorization information is missing or invalid.
         404:
           description: Keine Vorschläge für die AnfrageId gefunden
         419:
@@ -162,7 +161,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: damit kann der Client einen Vorschlag markieren als den Vorschlag, den der Kunde auch akzeptiern möchte. Damit steht der Voschlag im EP2Core zur Verfüfung.
+      summary: Ein Vorschlag kann in der EP Plattform hinterlegt uund als vom Verbraucher akzeptiert markiert werden. Akzeptierte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
       operationId: acceptVorschlag
       requestBody:
         required: true
@@ -177,12 +176,16 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/VorschlagAcceptResponse'
+        401:
+          description: Authorization information is missing or invalid.
         404:
           description: Keine Vorschläge für die VorschlagId gefunden
         419:
           description: Vorschlag bereits accepted
         500:
           description: Vorschlag konnte nicht abgelegt werden
+security:
+  - bearerAuth: [ ]
 components:
   schemas:
     ErmittlungsLinks:
@@ -969,10 +972,8 @@ components:
         message:
           type: string
   securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        clientCredentials:
-          tokenUrl: https://api.europace.de/auth/access-token
-          scopes:
-            baufinanzierung:angebot:ermitteln: Ermitteln von Baufinanzierungs-Vorschlägen
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
