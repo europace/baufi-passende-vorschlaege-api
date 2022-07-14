@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8b791d26-b9db-4419-bf02-7cd709ab50bc",
+		"_postman_id": "4d81f802-e4d2-487f-aef9-c1644bc334ed",
 		"name": "passende-vorschlaege-europace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -531,6 +531,77 @@
 					"path": [
 						"vorschlag",
 						"accept"
+					]
+				},
+				"description": "Triggert die Akzeptieren von Vorschlaegen schiebt das Angebot auf S3 in accepted"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Vorschlag",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ps_jwt_access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "{{passt_user_agent}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"finanzierungsVorschlagId\": \"86250395b4cb4890a5c40b67059b9057\",\n  \"vorgangId\": \"TESTID\"\n}"
+				},
+				"url": {
+					"raw": "https://baufinanzierung.api.europace.de/vorschlag/delete",
+					"protocol": "https",
+					"host": [
+						"baufinanzierung",
+						"api",
+						"europace",
+						"de"
+					],
+					"path": [
+						"vorschlag",
+						"delete"
 					]
 				},
 				"description": "Triggert die Akzeptieren von Vorschlaegen schiebt das Angebot auf S3 in accepted"
