@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.53
+  version: 0.0.56
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -148,7 +148,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/VorschlagBookmarkResponse'
+                $ref: '#/components/schemas/VorschlagResponse'
         401:
           description: Authorization information is missing or invalid.
         404:
@@ -161,7 +161,7 @@ paths:
     post:
       tags:
         - Finanzierungsvorschlaege
-      summary: Ein Vorschlag kann in der EP Plattform hinterlegt uund als vom Verbraucher akzeptiert markiert werden. Akzeptierte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
+      summary: Ein Vorschlag kann in der EP Plattform hinterlegt und als vom Verbraucher akzeptiert markiert werden. Akzeptierte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
       operationId: acceptVorschlag
       requestBody:
         required: true
@@ -175,7 +175,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/VorschlagAcceptResponse'
+                $ref: '#/components/schemas/VorschlagResponse'
         401:
           description: Authorization information is missing or invalid.
         404:
@@ -184,6 +184,31 @@ paths:
           description: Vorschlag bereits accepted
         500:
           description: Vorschlag konnte nicht abgelegt werden
+  /vorschlag/delete:
+    post:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: Gebookmarkte oder akzeptierte Vorschläge können gelöscht werden.
+      operationId: deleteVorschlag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VorschlagDeleteRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/VorschlagResponse'
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: Keine Vorschläge für die VorschlagId gefunden
+        500:
+          description: Vorschlag konnte nicht gelöscht werden
 security:
   - bearerAuth: [ ]
 components:
@@ -558,7 +583,10 @@ components:
                   items:
                     type: string
                   description: Erklaerungen warum der Vorgang aufwendig ist
-
+            feasibilityRating:
+              type: integer
+              description: Zeigt den Machbarkeitswert an
+              example: 50
     FinanzierungsVorschlag:
       type: object
       properties:
@@ -617,6 +645,9 @@ components:
         anzahlRaten:
           type: integer
           format: int32
+        tilgungssatzInProzent:
+          type: number
+          format: double
       description: 'Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
       discriminator:
         propertyName: '@type'
@@ -946,7 +977,7 @@ components:
         finanzierungsVorschlagId:
           type: string
           description: 'Der Identifier eines ermittelten Vorschlags'
-    VorschlagBookmarkResponse:
+    VorschlagResponse:
       type: object
       properties:
         message:
@@ -966,11 +997,18 @@ components:
         finanzierungsVorschlagId:
           type: string
           description: 'Der Identifier eines ermittelten Vorschlags'
-    VorschlagAcceptResponse:
+    VorschlagDeleteRequest:
       type: object
+      required:
+        - finanzierungsVorschlagId
+        - vorgangId
       properties:
-        message:
+        vorgangId:
           type: string
+          description: 'Die Id eines bestehenden Vorgangs'
+        finanzierungsVorschlagId:
+          type: string
+          description: 'Der Identifier eines ermittelten und gebookmarkten oder akzeptierten Vorschlags'
   securitySchemes:
     bearerAuth:
       type: http
