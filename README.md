@@ -441,10 +441,10 @@ gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlage
 Ein bereits gebookmarkter Finanzierungsvorschlag wird überschrieben. Wurden bereits 10
 Finanzierungsvorschläge gebookmarked, wird jeder weitere Finanzierungsvorschlag ignoriert.
 
-### Beispiel: Bis zu 10 der passenden Finanzierungsvorschläge merken
+### Beispiel: Bis zu 10 der passenden Finanzierungsvorschläge bookmarken
 
 Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
-Finanzierungsvorschlag gemerkt werden.
+Finanzierungsvorschlag gebookmarked werden.
 
 Request:
 
@@ -486,7 +486,7 @@ Wurde bereits ein Finanzierungsvorschlag akzeptiert, wird jeder weitere Finanzie
 ### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
 
 Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
-Finanzierungsvorschlag gemerkt werden. Sollte der FInanzierungvorschlag schon vorher gebookmarked worden sein, ist die `anfrageId` optional.
+Finanzierungsvorschlag akzeptiert werden. Sollte der Finanzierungvorschlag schon vorher gebookmarked worden sein, ist die `anfrageId` optional.
 
 Request:
 
