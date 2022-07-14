@@ -430,18 +430,18 @@ Response:
 }
 ```
 
-## Passende Finanzierungsvorschläge merken
+## Passende Finanzierungsvorschläge bookmarken
 
-Um einen Lead zu einem erfolgreichen Abschluss zu bringen, können bis zu drei Finanzierungsvorschläge in der Europace Platform gemerkt werden, um diese zu einem späteren Zeitpunkt
+Um einen Lead zu einem erfolgreichen Abschluss zu bringen, können bis zu 10 Finanzierungsvorschläge in der Europace Platform gebookmarked werden, um diese zu einem späteren Zeitpunkt
 über BaufiSmart beraten zu können.
 
-Der zu merkende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
+Der zu bookmarkende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
 gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
 
-Es können bis zu drei Finanzierungsvorschläge zu einem Vorgang gemerkt werden. Ein bereits gemerkter Finanzierungsvorschlag wird überschrieben. Wurden bereits drei
-Finanzierungsvorschläge gemerkt, wird jeder weitere Finanzierungsvorschlag ignoriert.
+Ein bereits gebookmarkter Finanzierungsvorschlag wird überschrieben. Wurden bereits 10
+Finanzierungsvorschläge gebookmarked, wird jeder weitere Finanzierungsvorschlag ignoriert.
 
-### Beispiel: Bis zu 3 der passenden Finanzierungsvorschläge merken
+### Beispiel: Bis zu 10 der passenden Finanzierungsvorschläge merken
 
 Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
 Finanzierungsvorschlag gemerkt werden.
@@ -449,7 +449,7 @@ Finanzierungsvorschlag gemerkt werden.
 Request:
 
 ```http
-POST /vorschlaege HTTP/1.1
+POST /vorschlag/bookmark HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer [access_token]
@@ -457,7 +457,7 @@ Authorization: Bearer [access_token]
     {
       "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
       "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "TEST_VORGANG_ID"
+      "vorgangId": "TESTID"
     }
 ```
 
@@ -469,7 +469,220 @@ Response:
 
 ```json
 {
-  "message": "Vorschlag abgelegt"
+  "message": "Vorschlag abgelegt."
+}
+```
+
+## Passende Finanzierungsvorschläge akzeptieren
+
+Um einen Lead zu einem erfolgreichen Abschluss zu bringen, kann maximal ein Finanzierungsvorschlag in der Europace Platform akzeptiert werden, um diese zu einem späteren Zeitpunkt
+über BaufiSmart beraten zu können. Der Finanzierungsvorschlag kann so einer sein, der vorher schon gebookmarked wurde oder auch ein neuer.
+
+Der zu akzeptierende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
+gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
+
+Wurde bereits ein Finanzierungsvorschlag akzeptiert, wird jeder weitere Finanzierungsvorschlag ignoriert.
+
+### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
+
+Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
+Finanzierungsvorschlag gemerkt werden. Sollte der FInanzierungvorschlag schon vorher gebookmarked worden sein, ist die `anfrageId` optional.
+
+Request:
+
+```http
+POST /vorschlag/accept HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+    {
+      "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
+      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
+      "vorgangId": "TESTID"
+    }
+```
+
+Response:
+
+```http
+200 - OK
+```
+
+```json
+{
+  "message": "Vorschlag akzeptiert."
+}
+```
+
+## Finanzierungsvorschläge, welche gebookmarked oder akzeptiert worden sind, auflisten
+
+Um zu sehen welche Finanzierungsvorschläge man gebookmarked oder aktzepiert hat, kann man list verwenden. 
+
+### Beispiel: 
+
+Mit der `vorgangId` zu einem vorhandenen Vorgang können alle Vorschläge aufgelistet werden
+
+Request:
+
+```http
+GET /vorschlaege/list/TESTID HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+```
+
+Response:
+
+```http
+200 - OK
+```
+
+> Hinweis: Banken und Konditionen sind nur Beispiele
+```json
+{
+  "vorschlaege": [
+    {
+      "finanzierungsVorschlagId": "72027af9f2890bad4506998f37fa7b49",
+      "annahmeFrist": "2022-07-13",
+      "finanzierungsbausteine": [
+        {
+          "@type": "ANNUITAETENDARLEHEN",
+          "restschuldNachZinsbindungsEnde": 113938.09,
+          "schlussrate": 366.82,
+          "datumLetzteRate": "2050-12-31",
+          "anzahlRaten": 352,
+          "tilgungssatzInProzent": 2.03,
+          "darlehensbetrag": 189000.0,
+          "annuitaetendetails": {
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "RATE",
+              "rate": 900.9,
+              "tilgungsbeginn": "2022-11-30"
+            },
+            "sondertilgungJaehrlich": 5.0,
+            "auszahlungszeitpunkt": "2022-10-30"
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 12,
+          "sollZins": 3.69,
+          "effektivZins": 3.78,
+          "rateMonatlich": 900.9,
+          "produktAnbieter": "Deutsche Kreditbank AG"
+        }
+      ],
+      "darlehensSumme": 189000.00,
+      "sollZins": 3.690,
+      "effektivZins": 3.780,
+      "gesamtRateProMonat": 900.9,
+      "zinsbindungInJahrenMinMax": "15"
+    },
+    {
+      "finanzierungsVorschlagId": "c2d526946ad73efcf27385a363bdbafc",
+      "annahmeFrist": "2022-07-05",
+      "finanzierungsbausteine": [
+        {
+          "@type": "ANNUITAETENDARLEHEN",
+          "restschuldNachZinsbindungsEnde": 211525.79,
+          "schlussrate": 1022.09,
+          "datumLetzteRate": "2060-05-31",
+          "anzahlRaten": 465,
+          "tilgungssatzInProzent": 1.0,
+          "darlehensbetrag": 270000.0,
+          "annuitaetendetails": {
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "RATE",
+              "rate": 1253.25,
+              "tilgungsbeginn": "2022-11-30"
+            },
+            "sondertilgungJaehrlich": 5.0
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 6,
+          "sollZins": 4.57,
+          "effektivZins": 4.69,
+          "rateMonatlich": 1253.25,
+          "produktAnbieter": "ING-DiBa AG"
+        }
+      ],
+      "darlehensSumme": 270000.00,
+      "sollZins": 4.570,
+      "effektivZins": 4.690,
+      "gesamtRateProMonat": 1253.25,
+      "zinsbindungInJahrenMinMax": "15"
+    },
+    {
+      "finanzierungsVorschlagId": "feac4e6004939e52dd925d8414ec0a9",
+      "annahmeFrist": "2022-01-26",
+      "finanzierungsbausteine": [
+        {
+          "@type": "ANNUITAETENDARLEHEN",
+          "restschuldNachZinsbindungsEnde": 104065.92,
+          "schlussrate": 463.13,
+          "datumLetzteRate": "2053-08-31",
+          "anzahlRaten": 392,
+          "tilgungssatzInProzent": 2.5,
+          "darlehensbetrag": 179000.0,
+          "annuitaetendetails": {
+            "zinsbindungInJahren": 15,
+            "tilgung": {
+              "@type": "TILGUNG_IN_PROZENT",
+              "tilgungssatzInProzent": 2.5,
+              "tilgungsbeginn": "2022-02-28"
+            },
+            "sondertilgungJaehrlich": 5.0,
+            "auszahlungszeitpunkt": "2022-02-27"
+          },
+          "bereitstellungszinsfreieZeitInMonaten": 3,
+          "sollZins": 1.45,
+          "effektivZins": 1.48,
+          "rateMonatlich": 589.21,
+          "produktAnbieter": "Commerzbank AG"
+        }
+      ],
+      "darlehensSumme": 179000.00,
+      "sollZins": 1.450,
+      "effektivZins": 1.480,
+      "kennung": "Regional",
+      "gesamtRateProMonat": 589.21,
+      "zinsbindungInJahrenMinMax": "15"
+    }
+  ]
+}
+```
+
+## Passende Finanzierungsvorschläge löschen
+
+Zum Löschen von gebookmarkten oder akzepierten Finanzierungsvorschlägen.
+
+### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
+
+Mit der `vorgangId` zu einem vorhandenen Vorgang und der `finanzierungsVorschlagId` kann der passende
+Finanzierungsvorschlag gelöscht werden. 
+Request:
+
+```http
+POST /vorschlag/delete HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+    {
+      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
+      "vorgangId": "TESTID"
+    }
+```
+
+Response:
+
+```http
+200 - OK
+```
+
+```json
+{
+  "message": "Vorschlag d550a975da78f73d9e3256352ce0f366 erfolgreich gelöscht."
 }
 ```
 
