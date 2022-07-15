@@ -481,12 +481,12 @@ Um einen Lead zu einem erfolgreichen Abschluss zu bringen, kann maximal ein Fina
 Der zu akzeptierende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
 gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
 
-Wurde bereits ein Finanzierungsvorschlag akzeptiert, wird jeder weitere Finanzierungsvorschlag ignoriert.
+Ein akzeptierter Finanzierungsvorschlag kann mit delete gelöscht werden. So könnte ein anderer Finanzierungsvorschlag akzeptiert werden.
 
 ### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
 
 Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
-Finanzierungsvorschlag akzeptiert werden. Sollte der Finanzierungvorschlag schon vorher gebookmarked worden sein, ist die `anfrageId` optional.
+Finanzierungsvorschlag akzeptiert werden. Sollte der Finanzierungsvorschlag bereits gebookmarked sein, ist die `anfrageId` optional.
 
 Request:
 
@@ -517,7 +517,7 @@ Response:
 
 ## Finanzierungsvorschläge, welche gebookmarked oder akzeptiert worden sind, auflisten
 
-Um zu sehen welche Finanzierungsvorschläge man gebookmarked oder aktzepiert hat, kann man list verwenden. 
+Um zu sehen welche Finanzierungsvorschläge man gebookmarked oder akzeptiert hat, kann man list verwenden. 
 
 ### Beispiel: 
 
@@ -654,7 +654,7 @@ Response:
 
 ## Passende Finanzierungsvorschläge löschen
 
-Zum Löschen von gebookmarkten oder akzepierten Finanzierungsvorschlägen.
+Zum Löschen von gebookmarkten oder akzeptierten Finanzierungsvorschlägen.
 
 ### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
 
