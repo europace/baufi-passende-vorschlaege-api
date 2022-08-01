@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: API zum Abruf passender empfohlener Finanzierungsvorschläge
-  version: 0.0.56
+  version: 0.0.57
   title: Empfohlene Finanzierungsvorschläge API
   contact:
     name: Europace AG
@@ -14,7 +14,7 @@ tags:
   - name: Finanzierungsvorschlaege
     description: Top-Finanzierungsvorschläge ermitteln
 paths:
-  /vorschlaege/ermitteln:
+  /v1/vorschlaege/ermitteln:
     post:
       tags:
         - Finanzierungsvorschlaege
@@ -39,10 +39,10 @@ paths:
         401:
           description: Authorization information is missing or invalid.
         408:
-          description: Request timed out. Mit der AnfrageId kann über GET /vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
+          description: Request timed out. Mit der AnfrageId kann über GET /v1/vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
         500:
           description: Internal server error
-  /vorschlaege:
+  /v1/vorschlaege:
     post:
       tags:
         - Finanzierungsvorschlaege
@@ -71,7 +71,7 @@ paths:
           description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
         500:
           description: Internal server error
-  /vorschlaege/{anfrageId}:
+  /v1/vorschlaege/{anfrageId}:
     get:
       tags:
         - Finanzierungsvorschlaege
@@ -101,7 +101,7 @@ paths:
           description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
         500:
           description: Internal server error
-  /vorschlaege/list/{vorgangId}:
+  /v1/vorschlaege/list/{vorgangId}:
     get:
       tags:
         - Finanzierungsvorschlaege
@@ -130,7 +130,7 @@ paths:
       security:
         - OAuth2:
             - read
-  /vorschlag/bookmark:
+  /v1/vorschlag/bookmark:
     post:
       tags:
         - Finanzierungsvorschlaege
@@ -157,7 +157,7 @@ paths:
           description: Maximale Anzahl gebookmarked Vorschläge bereits erreicht
         500:
           description: Vorschlag konnte nicht abgelegt werden
-  /vorschlag/accept:
+  /v1/vorschlag/accept:
     post:
       tags:
         - Finanzierungsvorschlaege
@@ -184,7 +184,7 @@ paths:
           description: Vorschlag bereits accepted
         500:
           description: Vorschlag konnte nicht abgelegt werden
-  /vorschlag/delete:
+  /v1/vorschlag/delete:
     post:
       tags:
         - Finanzierungsvorschlaege
