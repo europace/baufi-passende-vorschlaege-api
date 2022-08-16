@@ -134,7 +134,7 @@ Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformation
 ```
 
 
-Ein Beispiel-Request für eine Erwerbs-Finanzierung mit allen relevanten Daten zur Lead-Bewertung:
+Ein Beispiel-Request für eine Erwerbs-Finanzierung mit den relevanten Daten zur Lead-Bewertung, besonders relevant sind die Informationen zu Einkommne, Vermögen, Beschäftigungsart und -Dauer sowie Objekteigenschaften wie Wohnfläche und Baujahr:
 
 ```http
 POST /vorschlaege HTTP/1.1
@@ -143,67 +143,69 @@ Content-Type: application/json
 Authorization: Bearer [access_token]
 
     {
-      "metadaten": {
+    "metadaten": {
         "datenkontext": "TEST_MODUS",
-        "extKundenId": "PartnerBank",
-        "extClientId": "partner-Mobil-App-Ver.2.32",
-        "gewuenschteAnzahlVorschlaege": 5
-      },
-      "kundenangaben": {
+        "extKundenId": "github-partner",
+        "extClientId": "PostmanRuntime-github-partner",
+        "gewuenschteAnzahlVorschlaege": 1,
+        "stage":  "default"
+    },
+    "kundenangaben": {
         "finanzierungsbedarf": {
-          "finanzierungszweck": "KAUF",
-          "grundstueckKaufpreis": 0,
-          "modernisierungsKostenInklEigenleistungen": 5000,
-          "modernisierungEigenleistung": 2000,
-          "kaufpreis": 350000,
-          "praeferenzen": {
-            "rate": 1000,
-            "faelligkeitsDatum": "2022-08-01",
-            "kreditEntscheidungsZeit": "2022-05-01",
-            "laufzeit": 37
-          }
+            "finanzierungszweck": "KAUF",
+            "grundstueckKaufpreis": null,
+            "modernisierungsKostenInklEigenleistungen": null,
+            "modernisierungEigenleistung":null,
+            "kaufpreis": 487000,
+            
+            "praeferenzen": { 
+                "faelligkeitsDatum": "2022-08-30",
+                "kreditEntscheidungsZeit": "2022-08-30",
+                "bereitstellungszinsfreieZeit": 3
+            }
         },
         "finanzierungsobjekt": {
-          "objektArt": "EIGENTUMSWOHNUNG",
-          "vermietet": false,
-          "baujahr": 2014,
-          "gewerblicheNutzung": false,
-          "anschrift": {
-            "plz": "10245",
-            "ort": "unbekannt",
-            "strasse": "unbekannt",
-            "hausnummer": "unbekannt"
-          },
-          "wohnflaeche": 140
+            "objektArt": "EINFAMILIENHAUS",
+            "vermietet": false,
+            "baujahr": 2005,
+            "gewerblicheNutzung": false,
+            "anschrift": {
+                "plz": "15711",
+                "ort": "KWH",
+                "strasse": "unbekannt",
+                "hausnummer": "unbekannt"
+            },
+            "wohnflaeche": 150
         },
         "haushalte": [
-          {
-            "kunden": [
-              {
-                "einkommenNetto": 3200,
-                "beschaeftigtSeit": "2021-10-01",
-                "arbeitBefristet": false,
-                "geburtsdatum": "1974-01-01",
-                "beschaeftigungsArt": "ANGESTELLTER"
-              },
-              {
-                "einkommenNetto": 2500,
-                "beschaeftigtSeit": "2020-09-01",
-                "arbeitBefristet": false,
-                "geburtsdatum": "1971-01-01",
-                "beschaeftigungsArt": "ANGESTELLTER"
-              }
-            ],
-            "finanzielleSituation": {
-              "eigenKapital": 48000,
-              "sonstigeEinnahmen": 300,
-              "nichtAbgeloestePrivateDarlehenRestschuld": 5000,
-              "nichtAbgeloesteRatenkrediteRestschuld": 2000
+            {
+                "kunden": [
+                    {
+                        "einkommenNetto": 2684,
+                        "beschaeftigtSeit": "2008-01-01",
+                        "arbeitBefristet": false,
+                        "geburtsdatum": "1983-05-29",
+                        "beschaeftigungsArt": "ANGESTELLTER"
+                    },
+                    {
+                        "einkommenNetto": 3300,
+                        "beschaeftigtSeit": "2005-05-01",
+                        "arbeitBefristet": false,
+                        "geburtsdatum": "1990-03-08",
+                        "beschaeftigungsArt": "ANGESTELLTER"
+                    }
+                ],
+                "finanzielleSituation": {
+                    "eigenKapital": 70000,
+                    "sonstigeEinnahmen": 0,
+                    "nichtAbgeloestePrivateDarlehenRestschuld": 0,
+                    "nichtAbgeloesteRatenkrediteRestschuld": 0
+                }
             }
-          }
+           
         ]
-      }
     }
+}
 ```
 
 
