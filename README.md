@@ -134,7 +134,7 @@ Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformation
 ```
 
 
-Ein Beispiel-Request für eine Erwerbs-Finanzierung mit den relevanten Daten zur Lead-Bewertung, besonders relevant sind die Informationen zu Einkommne, Vermögen, Beschäftigungsart und -Dauer sowie Objekteigenschaften wie Wohnfläche und Baujahr:
+Ein Beispiel-Request für eine Erwerbs-Finanzierung mit den relevanten Daten zur Lead-Bewertung, besonders relevant sind die Informationen zu Einkommen, Eigenkapital, Beschäftigungsart und -Dauer sowie Objekteigenschaften wie Wohnfläche und Baujahr. Auch wenn es keine Pflichtfelder sind, haben sie signifikanten Einfluss auf die Lead-Bewertung:
 
 ```http
 POST /vorschlaege HTTP/1.1
