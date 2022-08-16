@@ -84,31 +84,6 @@ Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwend
                 }
 ``` 
 
-- Wird die API verwendet um ein LeadRating zur Bewertung der Anfrage zu erzeugen, sind weitere Daten zum Verbraucher und zur Immobilie wichtig aber nicht zwingend notwendig. Damit wird eine exakte Bewertung möglich (Daten zur finanziellen Situation sofern vorhanden).
-
-```http
-"kunden": [
-           {
-              "beschaeftigtSeit": "2021-12-01",
-              "arbeitBefristet": false,
-              "beschaeftigungsArt": "ANGESTELLTER"
-           }
-          ],
-"finanzielleSituation":
-          {
-              "sonstigeEinnahmen": 0,
-              "nichtAbgeloesteRatenkrediteRestschuld": 0
-          },
- "finanzierungsobjekt":
-          {
-              "vermietet": false,
-              "baujahr": 2014,
-              "gewerblicheNutzung": false,       
-              "wohnflaeche": 158.5
-           }
-``` 
-
-
 #### Verwendungszweck Anschlussfinanzierung (Prolongation)
 
 Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformationen zu Verbraucher:innen notwendig, an der Immobilie wird dann lediglich die Postleitzahl benötigt um eine regionale Einschränkung treffen zu können.
@@ -133,6 +108,90 @@ Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformation
      ]
 ```
 
+
+Beispiel Request für eine Prolongations-Anfrage mit reduziertem Datenset
+
+```http
+POST /vorschlaege HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+
+{
+  "metadaten": {
+    "datenkontext": "TEST_MODUS",
+    "extKundenId": "PartnerBank",
+    "extClientId": "prolo-demo-test-dummy-001",
+    "gewuenschteAnzahlVorschlaege": 5
+  },
+  "kundenangaben": {
+    "haushalte": [
+      {
+        "kunden": [
+          {
+            "einkommenNetto": 3500
+          }
+        ],
+        "finanzielleSituation": {
+         }
+      }
+    ],
+    "finanzierungsbedarf": {
+      "finanzierungszweck": "ANSCHLUSSFINANZIERUNG",
+      "praeferenzen": {
+        "tilgung": 2
+       },
+      "darlehenswunsch": 230000
+    },
+    "finanzierungsobjekt": {
+      "objektArt": "EINFAMILIENHAUS",
+        "anschrift": {
+        "plz": "01855"
+       },
+      "marktwert": 255800,
+      "darlehensliste": [
+        {
+          "wirdAbgeloest": true,
+          "darlehensgeber": "SPARDA_BW",
+          "grundschuld": 290000,
+          "zinsbindungBis": "2022-06-30",
+          "laufzeitende": "2044-09-30",
+          "restschuld": {
+            "aktuell": 245879.81,
+            "zumAbloeseTermin": 230000
+          },
+          "darlehenskontonummer": "0815-4711"
+        }
+      ]
+    }
+  }
+}
+```
+
+#### Verwendung der API für Lead Rating
+Wird die API verwendet um ein LeadRating zur Bewertung der Anfrage zu erzeugen, sind weitere Daten zum Verbraucher und zur Immobilie wichtig aber nicht zwingend notwendig. Damit wird eine exakte Bewertung möglich (Daten zur finanziellen Situation sofern vorhanden).
+
+```http
+"kunden": [
+           {
+              "beschaeftigtSeit": "2021-12-01",
+              "arbeitBefristet": false,
+              "beschaeftigungsArt": "ANGESTELLTER"
+           }
+          ],
+"finanzielleSituation":
+          {
+              "sonstigeEinnahmen": 0,
+              "nichtAbgeloesteRatenkrediteRestschuld": 0
+          },
+ "finanzierungsobjekt":
+          {
+              "vermietet": false,
+              "baujahr": 2014,
+              "gewerblicheNutzung": false,       
+              "wohnflaeche": 158.5
+           }
+``` 
 
 Ein Beispiel-Request für eine Erwerbs-Finanzierung mit den relevanten Daten zur Lead-Bewertung, besonders relevant sind die Informationen zu Einkommen, Eigenkapital, Beschäftigungsart und -Dauer sowie Objekteigenschaften wie Wohnfläche und Baujahr. Auch wenn es keine Pflichtfelder sind, haben sie signifikanten Einfluss auf die Lead-Bewertung:
 
@@ -205,66 +264,6 @@ Authorization: Bearer [access_token]
            
         ]
     }
-}
-```
-
-
-Beispiel Request für eine Prolongations-Anfrage mit reduziertem Datenset
-
-```http
-POST /vorschlaege HTTP/1.1
-Host: baufinanzierung.api.europace.de
-Content-Type: application/json
-Authorization: Bearer [access_token]
-
-{
-  "metadaten": {
-    "datenkontext": "TEST_MODUS",
-    "extKundenId": "PartnerBank",
-    "extClientId": "prolo-demo-test-dummy-001",
-    "gewuenschteAnzahlVorschlaege": 5
-  },
-  "kundenangaben": {
-    "haushalte": [
-      {
-        "kunden": [
-          {
-            "einkommenNetto": 3500
-          }
-        ],
-        "finanzielleSituation": {
-         }
-      }
-    ],
-    "finanzierungsbedarf": {
-      "finanzierungszweck": "ANSCHLUSSFINANZIERUNG",
-      "praeferenzen": {
-        "tilgung": 2
-       },
-      "darlehenswunsch": 230000
-    },
-    "finanzierungsobjekt": {
-      "objektArt": "EINFAMILIENHAUS",
-        "anschrift": {
-        "plz": "01855"
-       },
-      "marktwert": 255800,
-      "darlehensliste": [
-        {
-          "wirdAbgeloest": true,
-          "darlehensgeber": "SPARDA_BW",
-          "grundschuld": 290000,
-          "zinsbindungBis": "2022-06-30",
-          "laufzeitende": "2044-09-30",
-          "restschuld": {
-            "aktuell": 245879.81,
-            "zumAbloeseTermin": 230000
-          },
-          "darlehenskontonummer": "0815-4711"
-        }
-      ]
-    }
-  }
 }
 ```
 
