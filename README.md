@@ -13,8 +13,7 @@ Die API ermittelt passender Finanzierungsvorschläge anhand einer Verbraucher-Si
 
 ## Dokumentation
 
-[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufi-passende-vorschlaege-api/gh-pages/index.html)
-[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufi-passende-vorschlaege-api/master/baufi-passende-vorschlaege-api.yaml)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml)
 
 ## Anwendungsfälle der API
 
@@ -52,6 +51,14 @@ Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 V
     "extKundenId": "PartnerBank",
     "extClientId": "prolo-demo-test-dummy-001",
     "gewuenschteAnzahlVorschlaege": 5
+  },
+```
+
+Um zwischen Test_Modus und Echt_Geschaeft zu wechseln, muss der Datenkontext angepasst werden.
+
+```http
+ "metadaten": {
+    "datenkontext": "ECHT_GESCHAEFT",
   },
 ```
 
@@ -305,7 +312,7 @@ Response nach Ermittlung:
 }
 ```
 
-### Schritt 2: Finanzierungsvorschläge abrufen
+### Finanzierungsvorschläge abrufen
 
 Mit der `anfrageId` können die passenden Finanzierungsvorschläge abgerufen werden.
 
@@ -698,6 +705,10 @@ Ein Client kann mit Hilfe der [.yaml-Datei](api/baufi-passende-vorschlaege-api.y
 In der [build.gradle](build.gradle) ist exemplarisch der Task `openApiGenerate` für JavaScript konfiguriert.
 
 Nach Ausführung via `./gradlew openApiGenerate` finden sich im Ordner `/build/generated/src/` die generierten Modelle und Client.
+
+## Postman Collection
+
+Mit der [Postman Collection](https://github.com/europace/passende-vorschlaege-service/blob/02ac924c829679905090138891ad2f38479d4148/docs/passende-vorschlaege-europace.postman_collection.json) wurde eine Möglichkeit bereitgestellt, die einzelnen Schritte zu testen.
 
 ## Support
 
