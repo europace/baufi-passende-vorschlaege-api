@@ -41,7 +41,7 @@ Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen
 passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
-### Testen der API
+### Anpassen Verhalten der API beeinflussen
 Über die Metadaten kann das Verhalten der API beeinflusst werden. 
 Durch die Angabe einer mit uns abgestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
 Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 Vorschläge liefern.
@@ -54,7 +54,7 @@ Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 V
   },
 ```
 
-### Anpassen Verhalten der API beeinflussen
+### Testen der API
 Um zwischen Test_Modus und Echt_Geschaeft zu wechseln, muss der Datenkontext angepasst werden.
 
 ```http
