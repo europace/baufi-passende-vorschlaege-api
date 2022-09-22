@@ -13,8 +13,7 @@ Die API ermittelt passender Finanzierungsvorschläge anhand einer Verbraucher-Si
 
 ## Dokumentation
 
-[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufi-passende-vorschlaege-api/gh-pages/index.html)
-[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufi-passende-vorschlaege-api/master/baufi-passende-vorschlaege-api.yaml)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml)
 
 ## Anwendungsfälle der API
 
@@ -42,7 +41,7 @@ Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen
 passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
 wenn erforderlich, mit einem weiteren Request abgerufen werden.
 
-### Metadaten
+### Verhalten der API beeinflussen
 Über die Metadaten kann das Verhalten der API beeinflusst werden. 
 Durch die Angabe einer mit uns abgestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
 Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 Vorschläge liefern.
@@ -52,6 +51,15 @@ Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 V
     "extKundenId": "PartnerBank",
     "extClientId": "prolo-demo-test-dummy-001",
     "gewuenschteAnzahlVorschlaege": 5
+  },
+```
+
+### Testen der API
+Um zwischen TEST_MODUS und ECHT_GESCHAEFT zu wechseln, muss der Datenkontext angepasst werden.
+
+```http
+ "metadaten": {
+    "datenkontext": "TEST_MODUS",
   },
 ```
 
@@ -305,7 +313,7 @@ Response nach Ermittlung:
 }
 ```
 
-### Schritt 2: Finanzierungsvorschläge abrufen
+### Finanzierungsvorschläge abrufen
 
 Mit der `anfrageId` können die passenden Finanzierungsvorschläge abgerufen werden.
 
@@ -698,6 +706,10 @@ Ein Client kann mit Hilfe der [.yaml-Datei](api/baufi-passende-vorschlaege-api.y
 In der [build.gradle](build.gradle) ist exemplarisch der Task `openApiGenerate` für JavaScript konfiguriert.
 
 Nach Ausführung via `./gradlew openApiGenerate` finden sich im Ordner `/build/generated/src/` die generierten Modelle und Client.
+
+## Postman Collection
+
+Mit der [Postman Collection](https://github.com/europace/passende-vorschlaege-service/blob/02ac924c829679905090138891ad2f38479d4148/docs/passende-vorschlaege-europace.postman_collection.json) wurde eine Möglichkeit bereitgestellt, die einzelnen Schritte zu testen.
 
 ## Support
 
