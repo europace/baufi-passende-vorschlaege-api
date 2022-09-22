@@ -55,11 +55,11 @@ Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 V
 ```
 
 ### Testen der API
-Um zwischen Test_Modus und Echt_Geschaeft zu wechseln, muss der Datenkontext angepasst werden.
+Um zwischen TEST_MODUS und ECHT_GESCHAEFT zu wechseln, muss der Datenkontext angepasst werden.
 
 ```http
  "metadaten": {
-    "datenkontext": "ECHT_GESCHAEFT",
+    "datenkontext": "TEST_MODUS",
   },
 ```
 
