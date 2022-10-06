@@ -40,8 +40,23 @@ As consumer, I can find financial proposals to compare and pick suitable solutio
 
 The experience of determining appropriate financing proposals is one of the deciding factors for the success of the lead. In order for the user to get a quick feedback, the determination is offered asynchronously.
 
-![find](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/europace/baufi-passende-vorschlaege-api/tree/main/docs/find-fin-props-seq.puml&fmt=svg)
-
+```mermaid
+sequenceDiagram
+    participant c as Client
+    participant a as Vorschlaege API
+    note over a,c: request financial proposals
+    c->>a: POST /vorschlaege
+    activate a 
+    a->>c: 200 Accepted {anfrageId}
+    note over a,c: query financial proposals
+    c->>a: GET /vorschlaege/{anfrageId}
+    alt determination in progress
+      a->>c: 202 Accepted - pls repeat
+    else
+      a->>c: 200 Ok {financial proposes}
+    end
+    deactivate a
+```
 ### request financial proposals
 
 To find the right financial proposals we some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be.
