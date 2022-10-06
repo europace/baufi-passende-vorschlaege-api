@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  description: API zum Abruf passender empfohlener Finanzierungsvorschläge
+  description: As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.
   version: 0.0.57
-  title: Empfohlene Finanzierungsvorschläge API
+  title: Vorschlaege API
   contact:
     name: Europace AG
     url: https://www.europace2.de
@@ -11,13 +11,13 @@ servers:
   - url: https://baufismart.api.europace.de
     description: Production server
 tags:
-  - name: Finanzierungsvorschlaege
-    description: Top-Finanzierungsvorschläge ermitteln
+  - name: financial proposals
+    description: determine appropriate financing proposals
 paths:
   /v1/vorschlaege/ermitteln:
     post:
       tags:
-        - Finanzierungsvorschlaege
+        - financial proposals
       summary: 'ACHTUNG: Temporäre Implementierung für die Pilotphase!
                 Synchrone Ermittlung eines Finanzierungsvorschlags. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.'
       operationId: vorschlaegeErmittelnSync
@@ -39,14 +39,14 @@ paths:
         401:
           description: Authorization information is missing or invalid.
         408:
-          description: Request timed out. Mit der AnfrageId kann über GET /v1/vorschlaege/{anfrageId} zu einem späteren Zeitpunkt abgefragt werden.
+          description: Request timed out. With the AnfrageId can be queried via GET /v1/vorschlaege/{anfrageId} at a later time.
         500:
           description: Internal server error
   /v1/vorschlaege:
     post:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Startet Ermittlung empfohlener Finanzierungsvorschläge. Das Ergebnis enthält IDs, mit denen via Polling die berechnete Vorschläge abgerufen werden können. Die Berechnung kann mehrere Sekunden in Anspruch nehmen.
+        - financial proposals
+      summary: As consumer, I can request financial proposals to find, compare and pick suitable solutions for my mortage.
       operationId: ermittleVorschlaege
       requestBody:
         required: true
@@ -68,14 +68,14 @@ paths:
         405:
           description: Invalid input
         422:
-          description: Unprocessable Entity (wird zurückgegeben, wenn der Input valide ist, aber dennoch keine Vorschläge ermittelt werden konnten)
+          description: Unprocessable Entity (returned if the input is valid but still no proposals could be determined)
         500:
           description: Internal server error
   /v1/vorschlaege/{anfrageId}:
     get:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene ID. Die Ergebnisse stehen nach Ermittlung für einige Zeit zum Abruf bereit und werden dann verworfen. Die Ergebnisse können beliebig oft abgerufen werden so lange sie bereit stehen.
+        - financial proposals
+      summary: As consumer, I get the determined financial proposals to compare and pick suitable solutions for my mortage.
       operationId: getVorschlaege
       parameters:
         - in: path
@@ -83,7 +83,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID, die bei Start der ErmittlungsAnfrage als Ergebnis erhalten wurde.
+          description: ID that was received as a result when the determination request was started.
       responses:
         200:
           description: Success
@@ -92,20 +92,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
         202:
-          description: Wird ausgeliefert, wenn eine Ermittlung für die gegebene ID ausgelöst wurde, aber noch keine Vorschläge bereit stehen (request pending).
+          description: Pending determination
         400:
           description: Bad request
         401:
           description: Authorization information is missing or invalid.
         404:
-          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+          description: No determination triggered for this ID or result no longer available
         500:
           description: Internal server error
   /v1/vorschlaege/list/{vorgangId}:
     get:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Liefert die empfohlenen Finanzierungsvorschläge für die angegebene VorgangID. Es werden nur Vorschlaege ausgeliefert, die vorher gebookmarked wurden.
+        - financial proposals
+      summary: As consumer, I get all bookmarked financial proposals to get an overview of my suitable solutions.
       operationId: listVorschlaege
       parameters:
         - in: path
@@ -113,7 +113,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID, die aus KundenangabenApi ermittelt wird
+          description: Vorgangsnummer as result of Kundenangaben-API
       responses:
         200:
           description: Success
@@ -124,7 +124,7 @@ paths:
         400:
           description: Bad request
         404:
-          description: Wird ausgeliefert, wenn kein Vorschlag mit der gegebenen ID gefunden wurde (keine Ermittlung für diese ID ausgelöst oder Ergebnis nicht mehr verfügbar).
+          description: No determination triggered for this ID or result no longer available
         500:
           description: Internal server error
       security:
@@ -133,8 +133,8 @@ paths:
   /v1/vorschlag/bookmark:
     post:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Ein Vorschlag kann in der EP Plattform hinterlegt werden. Hinterlegte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
+        - financial proposals
+      summary: As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.
       operationId: bookmarkVorschlag
       requestBody:
         required: true
@@ -150,18 +150,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/VorschlagResponse'
         401:
-          description: Authorization information is missing or invalid.
+          description: Authorization information is missing or invalid
         404:
-          description: Keine Vorschläge für die AnfrageId gefunden
+          description: No financial proposals found for AnfrageId
         419:
-          description: Maximale Anzahl gebookmarked Vorschläge bereits erreicht
+          description: Max count of bookmarks exceeded 
         500:
-          description: Vorschlag konnte nicht abgelegt werden
+          description: Financial proposals could not bookmarked
   /v1/vorschlag/accept:
     post:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Ein Vorschlag kann in der EP Plattform hinterlegt und als vom Verbraucher akzeptiert markiert werden. Akzeptierte Vorschläge können über /list wieder abgerufen oder von einem Berater in BaufiSmart beraten werden.
+        - financial proposals
+      summary: As consumer, I can accept the loan prologation offer to get the contract from the loan provider.
       operationId: acceptVorschlag
       requestBody:
         required: true
@@ -177,18 +177,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/VorschlagResponse'
         401:
-          description: Authorization information is missing or invalid.
+          description: Authorization information is missing or invalid
         404:
-          description: Keine Vorschläge für die VorschlagId gefunden
+          description: No financial proposals found for AnfrageId
         419:
-          description: Vorschlag bereits accepted
+          description: Financial proposals already accepted
         500:
-          description: Vorschlag konnte nicht abgelegt werden
+          description: Financial proposals could not accepted
   /v1/vorschlag/delete:
     post:
       tags:
-        - Finanzierungsvorschlaege
-      summary: Gebookmarkte oder akzeptierte Vorschläge können gelöscht werden.
+        - financial proposals
+      summary: As consumer, I delete bookmarked financial proposals to disqualify them and get a better overview. 
       operationId: deleteVorschlag
       requestBody:
         required: true
@@ -204,11 +204,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/VorschlagResponse'
         401:
-          description: Authorization information is missing or invalid.
+          description: Authorization information is missing or invalid
         404:
-          description: Keine Vorschläge für die VorschlagId gefunden
+          description: No financial proposals found for finanzierungsVorschlagId
         500:
-          description: Vorschlag konnte nicht gelöscht werden
+          description: Financial proposals could not deleted
 security:
   - bearerAuth: [ ]
 components:
