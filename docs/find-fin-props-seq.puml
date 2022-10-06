@@ -1,0 +1,20 @@
+@startuml
+title find financial proposes
+
+participant Client as c
+participant "Vorschlaege API" as api
+
+== request financial proposes ==
+c -> api: POST /vorschlaege 
+note right
+   data and preferences
+end note
+api --> c: 200 Accepted {anfrageId}
+
+== query financial proposes ==
+c -> api: GET /vorschlaege/{anfrageId}
+api --> c: 202 Accepted - pls wait
+c -> api: GET /vorschlaege/{anfrageId}
+api --> c: 200 OK {financial proposes}
+
+@enduml
