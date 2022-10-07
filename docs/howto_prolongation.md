@@ -36,9 +36,9 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 | `baufinanzierung:angebote:ermitteln` | to determine financial proposes |
 | `baufinanzierung:vorgaenge:schreiben` | to create case and bookmark and/or accept offer |
 
-## Find loan prologation offer
+## Find loan prolongation offer
 
-As consumer, I want to get a loan prologation offer and/or debt restructuring offers to find a financial solution for my mortgage.
+As consumer, I want to get a loan prolongation offer and/or debt restructuring offers to find a financial solution for my mortgage.
 
 The experience of determining appropriate financing proposals is one of the deciding factors for the success of the lead. In order for the user to get a quick feedback, the determination is offered asynchronously.
 
@@ -59,9 +59,9 @@ sequenceDiagram
     end
     deactivate a
 ```
-### request loan prologation offer
+### Request loan prolongation offer
 
-To find the right financial proposals for prologation, the data of the old loan(s) (`darlehensliste`) is mandatory .
+To find the right financial proposals for prolongation, the data of the old loan(s) (`darlehensliste`) is mandatory .
 
 For prolongation offers no creditworthiness information on consumers is required, only the zip code is needed at the property in order to be able to make a regional restriction.
 
@@ -134,7 +134,7 @@ example response:
 }
 ```
 
-### query loan prologation offer
+### Query loan prolongation offer
 
 The `anfrageId` can be used to retrieve the appropriate financing proposals.
 
@@ -210,13 +210,13 @@ If determination is finished, the financing proposals will be delivered:
 }
 ```
 
-## Bookmark loan prologation offer
+## Bookmark loan prolongation offer
 
 As advisor or consumer, I can bookmark financial proposals for later review. Therefor, you will find instructions in the [Vorschlaege-API](https://docs.api.europace.de/baufinanzierung/showcase_conditions/vorschlaege-api/).
 
-## Accept loan prologation offer
+## Accept loan prolongation offer
 
-As consumer, I can accept the loan prologation offer to get the contract from the loan provider.
+As consumer, I can accept the loan prolongation offer to get the contract from the loan provider.
 
 example request:
 ```http
