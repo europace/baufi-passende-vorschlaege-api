@@ -42,8 +42,23 @@ As consumer, I want to get a loan prologation offer and/or debt restructuring of
 
 The experience of determining appropriate financing proposals is one of the deciding factors for the success of the lead. In order for the user to get a quick feedback, the determination is offered asynchronously.
 
-![find](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/europace/baufi-passende-vorschlaege-api/tree/main/docs/find-fin-props-seq.puml&fmt=svg)
-
+```mermaid
+sequenceDiagram
+    participant c as Client
+    participant a as Vorschlaege API
+    note over a,c: request financial proposals
+    c->>a: POST /vorschlaege
+    activate a 
+    a->>c: 200 Accepted {anfrageId}
+    note over a,c: query financial proposals
+    c->>a: GET /vorschlaege/{anfrageId}
+    alt determination in progress
+      a->>c: 202 Accepted - pls repeat
+    else
+      a->>c: 200 Ok {financial proposes}
+    end
+    deactivate a
+```
 ### request loan prologation offer
 
 To find the right financial proposals for prologation, the data of the old loan(s) (`darlehensliste`) is mandatory .
