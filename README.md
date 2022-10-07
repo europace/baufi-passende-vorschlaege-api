@@ -24,6 +24,7 @@ As consumer, I want to determine appropriate financing proposals based on my sit
 ## Requirements
 - authenticated as advisor
 - privacy statement acknowledged ([How to get](https://docs.api.europace.de/common/privacystatement/)) 
+
 ## Quick Start
 To test our APIs and your use cases as quickly as possible, we have created a [Postman Collection](https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs) for you.
 
@@ -58,9 +59,9 @@ sequenceDiagram
     end
     deactivate a
 ```
-### request financial proposals
+### Request financial proposals
 
-To find the right financial proposals we some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be.
+To find the right financial proposals we need some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be. Please note [using without privacy statement](#usage-without-privacy-statement).
 
 We recommend the following fields for buying or build with Bauträger to get relevant financial proposals:
 - einkommenNetto
@@ -69,7 +70,7 @@ We recommend the following fields for buying or build with Bauträger to get rel
 - objektArt
 - plz
 
-We recommend to get relevant LeadRating results:
+We recommend the following fields to get relevant LeadRating results:
 - beschaeftigtSeit
 - arbeitBefristet
 - beschaeftigungsArt
@@ -94,7 +95,8 @@ Content-Length: 1332
     "metadaten": {
         "datenkontext": "TEST_MODUS",
         "extKundenId": "",
-        "extClientId": ""
+        "extClientId": "",
+        "gewuenschteAnzahlVorschlaege": 2
     },
     "kundenangaben": {
         "haushalte": [
@@ -153,7 +155,7 @@ example response:
 }
 ```
 
-### query financial proposals
+### Query financial proposals
 
 The `anfrageId` can be used to retrieve the appropriate financing proposals.
 
@@ -273,7 +275,7 @@ When finding the appropriate proposals, we attach importance to being able to de
 
 As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.
 
-You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before. After that, you can bookmark a financial propose into the case. 
+You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case. 
 
 example request:
 
