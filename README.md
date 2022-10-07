@@ -459,6 +459,18 @@ example response:
 ```
 
 ## Usage without privacy statement
+In the sales journey it can be a problem to hit the consumer to early with privacy statements.
+With the Vorschlaege-API it is possible to find appropriate financial proposals without personell information but the same results. 
+The solution is to pseudonominate the input values in a following way:
+
+- Date of birth as any day in the year (ex.: 1991-01-01)
+- Nettoeinkommen rounded to 100€
+- BeschäftigtSeit at least rounded to month (the longer in the past, the less accurate the value can be)
+- Eigenkapital round to 1000€, for values from 1 Mio also to 10.000€.
+- Kredit-Restschuld round to 1000€
+- sontige Einnahmen round to 100€
+- Detailed address data for the property are not required for the calculation, only the zip code or alternatively the selection of a federal state is required to calculate realistic ancillary costs and to enable regional offers.
+- Technical parameters of the object (living space, year of construction) can be rounded, but are not relevant for the consumer's personal relationship, because at the time of the request there is no relationship between the consumer and the object.
 
 ## Support
 If you have any questions or problems, please contact helpdesk@europace2.de.
