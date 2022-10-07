@@ -23,6 +23,7 @@ As consumer, I want to determine appropriate financing proposals based on my sit
 - bookmark up to 10 financal proposals for further advice
 ## Requirements
 - authenticated as advisor
+- privacy statement acknowledged ([How to get](https://docs.api.europace.de/common/privacystatement/)) 
 ## Quick Start
 To test our APIs and your use cases as quickly as possible, we have created a [Postman Collection](https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs) for you.
 
@@ -456,6 +457,9 @@ example response:
   "message": "Vorschlag d550a975da78f73d9e3256352ce0f366 erfolgreich gelöscht."
 }
 ```
+
+## Usage without privacy statement
+
 ## Support
 If you have any questions or problems, please contact helpdesk@europace2.de.
 
