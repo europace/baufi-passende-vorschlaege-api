@@ -218,7 +218,7 @@ components:
       properties:
         anfrageId:
           type: string
-          description: UUID, die eine Anfrage eindeutig identifiziert.
+          description: UUID that uniquely identifies a request.
           example: passende-vorschlaege-ABC123456789
     VorschlaegeErmittlungRequest:
       type: object
@@ -237,7 +237,7 @@ components:
       properties:
         datenkontext:
           type: string
-          description: In welchem Kontext (Echtgeschäft oder Testmodus) wird der Request verarbeitet.
+          description: In which context (real business or test mode) is the request processed.
           enum:
             - TEST_MODUS
             - ECHT_GESCHAEFT
@@ -247,15 +247,15 @@ components:
           deprecated: true
         extKundenId:
           type: string
-          description: Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG
+          description: Identifier for the user/partner of the API, e.g. ImmoFin AG
           example: ImmoFin
         clientId:
           type: string
-          description: Deprecated, wird künftig umbenannt in extClientId! Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
+          description: Deprecated, will be renamed to extClientId! Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32
           deprecated: true
         extClientId:
           type: string
-          description: Identifikator für den aufrufenden Client um Client-Implementierungen (web/mobile oder A/B) unterscheiden zu können. Bsp. Mobil-App-Ver.2.32
+          description: Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32
         gewuenschteAnzahlVorschlaege:
           type: integer
           default: 2
@@ -300,25 +300,25 @@ components:
         eigenKapital:
           type: number
           example: 34500
-          description: Summe aller einzubringender Vermögenswerte. In Euro
+          description: Total of all assets to be contributed. In euros
           minimum: 0
           maximum: 10000000
         sonstigeEinnahmen:
           type: number
           example: 380
-          description: Einnahmen, die nicht als `nettoEinkommen` erfasst sind. In Euro, monatlich, Bsp. Mieteinnahmen, Nebenjob
+          description: Income that is not recorded as 'net income'. In euros, monthly, e.g. rental income, part-time job
           minimum: 0
           maximum: 100000
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 4000
-          description: Summe aller nicht abgelösten Verbindlichkeiten aus privaten Darlehen. In Euro
+          description: Total of all unredeemed liabilities from private loans. In euros
           minimum: 0
           maximum: 10000000
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
-          description: Summe aller nicht abgelösten Verbindlichkeiten aus Ratenkrediten. In Euro
+          description: Total of all unredeemed liabilities from installment loans. In euros
           minimum: 0
           maximum: 10000000
     Kunde:
@@ -332,10 +332,10 @@ components:
           example: 2015-05-21
         arbeitBefristet:
           type: boolean
-          description: true, wenn Beschäftigungsverhältnis befristet ist, ansonsten false
+          description: true, if employment relationship is temporary, otherwise false
         einkommenNetto:
           type: number
-          description: monatliches Nettoeinkommen lt. Gehaltsnachweis ohne Sonderzahlungen, in Euro
+          description: Monthly net income according to salary statement without special payments, in EuroMonthly net income according to salary statement without special payments, in Euro
           example: 3500.00
           minimum: 0
           maximum: 100000
@@ -347,7 +347,7 @@ components:
           type: string
           example: ANGESTELLTER
           description: |
-            Kann einen der folgenden Werte annehmen:
+            Allowed values:
               - ANGESTELLTER
               - ARBEITER
               - BEAMTER
@@ -364,7 +364,7 @@ components:
         objektArt:
           type: string
           description: |
-            Kann einen der folgenden Werte annehmen:
+            Allowed values:
             - DOPPELHAUSHAELFTE
             - EINFAMILIENHAUS
             - MEHRFAMILIENHAUS
@@ -374,26 +374,26 @@ components:
             - EIGENTUMSWOHNUNG
         vermietet:
           type: boolean
-          description: true, wenn das Objekt vermietet ist, ansonsten false
+          description: true, if the object is rented, else false
         baujahr:
           type: integer
           example: 1952
-          description: Jahr der Errichtung des Gebäudes oder der letzen Komplettsanierung
+          description: Year of construction of the building or last complete renovation
         gewerblicheNutzung:
           type: boolean
-          description: true, wenn das Objekt überwiegend oder ausschließlich gewerblich genutzt wird, ansonsten false
+          description: true, if the property is used predominantly or exclusively for commercial purposes, otherwise false
           default: false
         anschrift:
           $ref: '#/components/schemas/Anschrift'
         wohnflaeche:
           type: number
-          description: Wohn- oder Nutzfläche in Quadratmetern, irrelevant bei objektArt = GRUNDSTUECK
+          description: Living or usable space in square meters, irrelevant for objektArt = GRUNDSTUECK
           example: 120.50
           minimum: 20
           maximum: 1000
         marktwert:
           type: number
-          description: Beleihungswert (ggf. auch Verkehrswert oder Kaufpreis) in Euro
+          description: Mortgage lending value (if applicable, also market value or purchase price) in euros
           example: 250000.00
         darlehensliste:
           type: array
@@ -407,7 +407,7 @@ components:
         finanzierungszweck:
           type: string
           description: |
-            Kann einen der folgenden Werte annehmen:
+            Allowed values:
             - ANSCHLUSSFINANZIERUNG
             - KAUF
             - KAUF_NEUBAU_VOM_BAUTRAEGER
@@ -417,25 +417,25 @@ components:
           example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: Anteil des Grundstückswertes (wenn bekannt) In Euro
+          description: Share of land value (if known) In euros
           example: 38000.00
           minimum: 0
           maximum: 1000000
         kaufpreis:
           type: number
-          description: Primäre Kosten zum Erwerb / Erstellung des Objekts ohne grundstueckKaufpreis und Nebenkosten (Notargebühren, Grunderwerbssteuer, ...). In Euro
+          description: Primary costs to acquire / create the property excluding grundstueckKaufpreis and incidental costs (notary fees, land transfer tax, ...). In euros
           example: 250000.00
           minimum: 0
           maximum: 10000000
         modernisierungsKostenInklEigenleistungen:
           type: number
-          description: Kosten der im Zuge des Erwerbs geplanten Modernisierung inklusive Eigenleistung. In Euro
+          description: Cost of the modernization planned in the course of the acquisition, including own contribution. In euros
           example: 50000.00
           minimum: 0
           maximum: 1000000
         modernisierungEigenleistung:
           type: number
-          description: Anteil der Eigenleistung an den Modernisierungskosten. In Euro
+          description: Proportion of own contribution to modernization costs. In euros
           example: 25000.00
           minimum: 0
           maximum: 1000000
@@ -443,15 +443,15 @@ components:
           $ref: '#/components/schemas/Praeferenzen'
         darlehenswunsch:
           type: number
-          description: Gewünschte Darlehensumme
+          description: Desired loan amount
           example: 250000.00
         herstellungskostenInklusiveEigenleistungen:
           type: number
-          description: Herstellungskosten bei Neubau
+          description: Production costs for new construction
           example: 250000.00
         grundstueckBereitsBezahlt:
           type: boolean
-          description: True, wenn Grundstueck bereits bezahlt
+          description: True, if property already paid
     Anschrift:
       type: object
       required:
@@ -461,28 +461,29 @@ components:
           pattern: '[0-9]{5}'
           type: string
           example: 10117
-          description: Postleitzahl
+          description: zip code
         ort:
           type: string
           example: Berlin
         strasse:
           type: string
-          description: ohne Hausnummer (siehe Feld 'hausnummer')
+          description: street without house number (see field 'hausnummer')
         hausnummer:
           type: string
           example: 17a
+          description: house number
     Darlehen:
       type: object
       properties:
         wirdAbgeloest:
           type: boolean
-          description: true, wenn Darlehen mit der Finanzierung abgelöst werden soll, ansonsten false
+          description: true, if loan is to be paid off with financing, otherwise false
         darlehensgeber:
           type: string
-          description: Produktanbieter-ID des Darlehensgebers
+          description: Produktanbieter-ID of the loan provider
         grundschuld:
           type: number
-          description: im Grundbuch eingetragene Grundschuld
+          description: land charge entered in the land register
           example: 125867.85
         zinsbindungBis:
           type: string
@@ -496,54 +497,54 @@ components:
           $ref: '#/components/schemas/Restschuld'
         darlehenskontonummer:
           type: string
-          description: Bezeichnung Ablösedarlehen, wenn zu prolongierendes Darlehen, sonst Nummer des Kontos
+          description: Designation of replacement loan, if loan to be rolled over, otherwise account number
     Praeferenzen:
       type: object
       properties:
         rate:
           type: number
-          description: In Euro, monatlich
+          description: In Euro, monthly
           example: 850.00
           minimum: 10
           maximum: 10000
         faelligkeitsdatum:
           type: string
           format: date
-          description: Wann ist die Auszahlung / Ablösung des Darlehens geplant?
+          description: When is the disbursement / redemption of the loan planned?
           example: 2022-06-30
         kreditEntscheidungsZeit:
           type: string
           format: date
-          description: Bis wann ist eine Entscheidung seitens des Produktanbieters gewünscht?
+          description: By when is a decision on the part of the product provider desired?
           example: 2021-04-21
         laufzeit:
           type: integer
           format: int32
-          description: Bis wann soll die Finanzierung vollständig zurückgezahlt sein? Angabe der Laufzeit in Jahren
+          description: By when should the financing be fully repaid? Indication of the term in years
           example: 25
           minimum: 0
           maximum: 70
         zinsbindungInJahren:
           type: integer
           format: int32
-          description: Gewünschte Zinsbindung des abzuschließenden Darlehens in Jahren
+          description: Desired fixed interest rate of the loan to be taken out in years
           example: 10
         sonderzahlung:
           type: number
-          description: Höhe der geplanten Sonderzahlung zum Zinsbindungsende in Euro
+          description: Amount of the planned special payment at the end of the fixed-interest period in euros
           example: 20000.00
         tilgung:
           type: number
-          description: Gewünschte anfängliche Tilgung des abzuschließenden Darlehens in Prozent
+          description: Desired initial repayment of the loan to be concluded in percent
           example: 2.50
         sondertilgung:
           type: number
-          description: Höhe der gewünschten optionalen Sondertilgung während der Zinsbindungsfrist in Prozent
+          description: Amount of the desired optional unscheduled repayment during the fixed-interest period in percent
           example: 5.0
         bereitstellungszinsfreieZeit:
           type: integer
           format: int32
-          description: Gewünschte bereitstellungszinsfreie Zeit in Monaten
+          description: Desired provision interest-free period in months
           example: 6
     Restschuld:
       type: object
@@ -570,22 +571,22 @@ components:
           properties:
             successRating:
               type: string
-              description: Rating zeigt die Abschlusswahrscheinlichkeit eines Vorgangs an. Dabei wird in den Kategorien A, B, C und D aufgegliedert, wie hoch die Wahrscheinlichkeit ist, dass ein Vorgang auch zu einem erfolgreichen Abschluss kommt. A ist die beste, also aussichtsreichste Kategorie
+              description: Rating indicates the probability of a transaction being completed. Categories A, B, C and D indicate the probability that a transaction will be successfully completed. A is the best, i.e. most promising, category.
               example: "B"
             effortRating:
               type: object
               properties:
                 rating:
                   type: boolean
-                  description: Indikator ob der Vorgang mit einem hohem Arbeitsaufwand verbunden ist
+                  description: Indicator whether the operation is associated with a high workload
                 explanations:
                   type: array
                   items:
                     type: string
-                  description: Erklaerungen warum der Vorgang aufwendig ist
+                  description: Explanations why the process is complex
             feasibilityRating:
               type: integer
-              description: Zeigt den Machbarkeitswert an
+              description: Displays the feasibility value
               example: 50
     FinanzierungsVorschlag:
       type: object
@@ -612,14 +613,14 @@ components:
           type: string
         machbarkeit:
           type: integer
-          description: Wahrscheinlichkeit mit der ein ProduktAnbieter dieses Vorhaben unterstützen wird (1=unwahrscheinlich 100=sehr wahrscheinlich)
+          description: Probability with which a loan provider will support this project (1=unlikely 100=very likely)
           minimum: 1
           maximum: 100
         rank:
           type: integer
           minimum: 0
           example: 0
-          description: 0-basierter Rang dieses Vorschlages im Vergleich zu anderen Vorschlägen. Je kleiner, desto besser passt der Vorschlag zum Wunsch.
+          description: 0-based rank of this proposal compared to other proposals. The smaller, the better the proposal matches the wish.
         gesamtRateProMonat:
           type: number
           format: double
@@ -648,7 +649,7 @@ components:
         tilgungssatzInProzent:
           type: number
           format: double
-      description: 'Mögliche Typen: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
+      description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
       discriminator:
         propertyName: '@type'
         mapping:
@@ -671,7 +672,7 @@ components:
               format: int32
             provision:
               type: number
-              description: Angabe in Prozent.
+              description: Percentage
               format: double
             sollZins:
               type: number
@@ -698,7 +699,7 @@ components:
               format: int32
             provision:
               type: number
-              description: Angabe in Prozent.
+              description: Percentage
               format: double
             zinsbindungInJahren:
               type: integer
@@ -724,7 +725,7 @@ components:
           $ref: '#/components/schemas/Tilgung'
         sondertilgungJaehrlich:
           type: number
-          description: Angabe in Prozent.
+          description: Percentage
           format: double
         auszahlungszeitpunkt:
           type: string
@@ -759,7 +760,7 @@ components:
       properties:
         '@type':
           type: string
-      description: 'Mögliche Typen: TilgungInProzent, Volltilger, Rate.'
+      description: 'Possible types: TilgungInProzent, Volltilger, Rate.'
       discriminator:
         propertyName: '@type'
         mapping:
@@ -806,7 +807,7 @@ components:
       properties:
         '@type':
           type: string
-      description: 'Mögliche Typen: KfwProgramm124, KfwProgramm159,\
+      description: 'Possible types: KfwProgramm124, KfwProgramm159,\
             \ KfwProgramm261Neubau, KfwProgramm261Sanierung, KfwProgramm262'
       discriminator:
         propertyName: '@type'
@@ -875,7 +876,7 @@ components:
           properties:
             kfwEnergieEffizienzStandard:
               type: string
-              description: 'Erlaubte Werte sind: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\
+              description: 'Allowed values are: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\
                 \ STANDARD_55, STANDARD_55_EEK'
               enum:
                 - STANDARD_40
@@ -912,7 +913,7 @@ components:
           properties:
             kfwEnergieEffizienzStandard:
               type: string
-              description: 'Erlaubte Werte sind: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\
+              description: 'Allowed values are: STANDARD_40, STANDARD_40_EEK, STANDARD_55,\
                 \ STANDARD_55_EEK, STANDARD_70, STANDARD_70_EEK, STANDARD_85, STANDARD_85_EEK,\
                 \ STANDARD_100, STANDARD_100_EEK, STANDARD_DENKMAL, STANDARD_DENKMAL_EEK'
               enum:
@@ -944,7 +945,7 @@ components:
     KfwProgramm262:
       type: object
       description: 'Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\
-          \ 262). Die Zinsbindung beträgt immer 10 Jahre.'
+          \ 262). The fixed interest period is always 10 years.'
       allOf:
         - $ref: '#/components/schemas/KfwProgramm'
         - type: object
@@ -970,13 +971,13 @@ components:
       properties:
         anfrageId:
           type: string
-          description: 'Die gelieferte anfrageId aus der Ermittlung der Vorschläge'
+          description: 'The supplied anfrageId from the determination of the proposals'
         vorgangId:
           type: string
-          description: 'Die Id eines bestehenden Vorgangs'
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: 'Der Identifier eines ermittelten Vorschlags'
+          description: 'The identifier of a determined proposal'
     VorschlagResponse:
       type: object
       properties:
@@ -990,13 +991,13 @@ components:
       properties:
         anfrageId:
           type: string
-          description: 'Die gelieferte anfrageId aus der Ermittlung der Vorschläge'
+          description: 'The supplied anfrageId from the determination of the proposals'
         vorgangId:
           type: string
-          description: 'Die Id eines bestehenden Vorgangs'
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: 'Der Identifier eines ermittelten Vorschlags'
+          description: 'The identifier of a determined proposal'
     VorschlagDeleteRequest:
       type: object
       required:
@@ -1005,10 +1006,10 @@ components:
       properties:
         vorgangId:
           type: string
-          description: 'Die Id eines bestehenden Vorgangs'
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: 'Der Identifier eines ermittelten und gebookmarkten oder akzeptierten Vorschlags'
+          description: 'The identifier of a bookmarked proposal'
   securitySchemes:
     bearerAuth:
       type: http
