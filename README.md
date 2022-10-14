@@ -1,461 +1,283 @@
-# BaufiSmart-passende-Vorschlaege-API
+# Vorschlaege-API
 
-Die API ermittelt passender Finanzierungsvorschläge anhand einer Verbraucher-Situation und -Präferenzen.
+As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.
 
 ![Status](https://img.shields.io/badge/Status-preAlpha_Pilot-darkred)
 
-![Vertrieb](https://img.shields.io/badge/-Vertrieb-lightblue)
-![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
+![consumer](https://img.shields.io/badge/-consumer-lightblue)
+![advisor](https://img.shields.io/badge/-advisor-lightblue)
+![mortgageLoan](https://img.shields.io/badge/-mortgageLoan-lightblue)
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://github.com/europace/authorization-api)
 [![GitHub release](https://img.shields.io/github/v/release/europace/baufi-passende-vorschlaege-api)](https://github.com/europace/baufi-passende-vorschlaege-api/releases)
 [![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
-## Dokumentation
-
+## Documentation
+[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufi-passende-vorschlaege-api/docs/swaggerui.html)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml)
 
-## Anwendungsfälle der API
+## Usecases
 
-- liefert passende Finanzierungsvorschläge auf Basis der Kundensituation
-- merken von bis zu 3 Finanzierungsvorschlägen zur weiteren Beratung
+- determine appropriate financing proposals on the base of the consumer needs
+- get lead rating information (rate of success, effort and feasability)
+- bookmark up to 10 financal proposals for further advice
+## Requirements
+- authenticated as advisor
+- privacy statement acknowledged ([How to get](https://docs.api.europace.de/common/privacystatement/)) 
 
-### Authentifizierung
+## Quick Start
+To test our APIs and your use cases as quickly as possible, we have created a [Postman Collection](https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs) for you.
 
-Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um
-die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
+### Authentication
+Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/common/authentifizierung/authorization-api/) to get access to the APIs. The OAuth2 client requires the following scopes:
 
 | Scope                                | API Usecase                                 |
 | -------------------------------------- | --------------------------------------------- |
-| `baufinanzierung:angebote:ermitteln` | passende Finanzierungsvorschläge ermitteln |
+| `baufinanzierung:angebote:ermitteln` | to determine financial proposes |
+| `baufinanzierung:vorgaenge:schreiben` | to create case and bookmark and/or accept offer |
 
-## Beispiel: passende Finanzierungsvorschläge ermitteln
+## Find financial proposals
 
-Das Erlebnis bei der Ermittlung von passenden Finanzierungsvorschlägen ist mitentscheidend für den Erfolg des Leads. Damit der Benutzer eine schnelle Rückmeldung bekommt, wird die
-Ermittlung asynchron angeboten.
+As consumer, I can find financial proposals to compare and pick suitable solutions for my mortage.
 
-Im ersten Schritt übermittelst du die relevanten Daten für die Ermittlung und im zweiten Schritt holst du die Ergebnisse der Ermittlung ab. Dabei kann es vorkommen, dass die
-Ermittlung noch nicht beendet wurde. Diesen Zustand erkennst du am Statuscode=202 Accepted, ansonsten bekommst du den Statuscode=200 OK.
+The experience of determining appropriate financing proposals is one of the deciding factors for the success of the lead. In order for the user to get a quick feedback, the determination is offered asynchronously.
 
-Bei der Ermittlung der passenden Vorschläge legen wir Wert darauf schnell einen Vorschlag liefern zu können. Es kann deshalb vorkommen, dass das Lead Rating nicht direkt mit dem
-passenden Vorschlag zurückgegeben wird und somit auch nicht in der Response enthalten ist. Zu jedem passenden Vorschlag wird immer auch ein Lead Rating ermittelt. Es kann also,
-wenn erforderlich, mit einem weiteren Request abgerufen werden.
-
-### Verhalten der API beeinflussen
-Über die Metadaten kann das Verhalten der API beeinflusst werden. 
-Durch die Angabe einer mit uns abgestimmmten kundenId können partnerspezifische Funktionen aufgerufen werden. Die clientId ermöglicht unterschiedliche Antworten oder Verhalten der API bei mehreren Client-Applikationen (web/mobile) eines Kunden/Partners oder das Erkennen bestimmter App-Versionen.
-Die "gewünschteAnzahlVorschlaege" ist mit 2 vorbelegt. Die API kann bis zu 10 Vorschläge liefern.
-```http
- "metadaten": {
-    "datenkontext": "TEST_MODUS",
-    "extKundenId": "PartnerBank",
-    "extClientId": "prolo-demo-test-dummy-001",
-    "gewuenschteAnzahlVorschlaege": 5
-  },
+```mermaid
+sequenceDiagram
+    participant c as Client
+    participant a as Vorschlaege API
+    note over a,c: request financial proposals
+    c->>a: POST /vorschlaege
+    activate a 
+    a->>c: 200 Accepted {anfrageId}
+    note over a,c: query financial proposals
+    c->>a: GET /vorschlaege/{anfrageId}
+    alt determination in progress
+      a->>c: 202 Accepted - pls repeat
+    else
+      a->>c: 200 Ok {financial proposes}
+    end
+    deactivate a
 ```
+### Request financial proposals
 
-### Testen der API
-Um zwischen TEST_MODUS und ECHT_GESCHAEFT zu wechseln, muss der Datenkontext angepasst werden.
+To find the right financial proposals we need some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be. Please note [using without privacy statement](#usage-without-privacy-statement).
 
-```http
- "metadaten": {
-    "datenkontext": "TEST_MODUS",
-  },
-```
+We recommend the following fields for buying or build with Bauträger to get relevant financial proposals:
+- einkommenNetto
+- geburtsdatum
+- eigenKapital
+- objektArt
+- plz
 
-### Unterscheidung zwischen technischen Pflichtfeldern und fachlich notwendigen Daten für sinnvolle Antworten
-Folgende Werte sind technisch nicht als Pflichfeld definiert aber je nach Anwendungszweck notwendig oder zumindest empfehlenswert.
+We recommend the following fields to get relevant LeadRating results:
+- beschaeftigtSeit
+- arbeitBefristet
+- beschaeftigungsArt
+- sonstigeEinnahmen
+- nichtAbgeloesteRatenkrediteRestschuld
+- vermietet
+- baujahr
+- gewerblicheNutzung
+- wohnflaeche
 
-#### Verwendungszweck Kauf, Neubau von Bauträger (Erwerb einer Immobilie)
-- die Bonitätsinformationen zum Verbraucher werden benötigt (auch Näherungswerte)
+To adjust the financial solution, you can define preferences in `praeferenzen`.
 
-```http
-"kunden": [
-              {
-                "einkommenNetto": 3200,
-                "geburtsdatum": "1974-01-01",                
-               }
-          ],
-"finanzielleSituation":
-          {
-              "eigenKapital": 48000
-          }
-``` 
-
-- folgende technischen Informationen zur Immobilie werden benötigt
-
-```http
- "finanzierungsobjekt": {
-                "objektArt": "EIGENTUMSWOHNUNG",
-                "anschrift": {
-                    "plz": "10245",
-                }
-``` 
-
-#### Verwendungszweck Anschlussfinanzierung (Prolongation)
-
-Sollen nur Prolongations-Angebote erzeugt werden sind keine Bonitätsinformationen zu Verbraucher:innen notwendig, an der Immobilie wird dann lediglich die Postleitzahl benötigt um eine regionale Einschränkung treffen zu können.
-- sollen zusätzlich auch Umschuldungsangebote generiert werden, sind die Bonitätsdaten wie beim Immobilienerwerb notwendig
-- weiterhin sind für Anschlussfinanzierungen die Daten zu den Bestandsdarlehen und der Marktwert/Verkehrswert der Immobilie anzugeben
-
-```http     
-     "marktwert": 355000,
-     "darlehensliste": [
-        {
-          "wirdAbgeloest": true,
-          "darlehensgeber": "SPARDA_BW",
-          "grundschuld": 290000,
-          "zinsbindungBis": "2022-06-30",
-          "laufzeitende": "2040-09-30",
-          "restschuld": {
-            "aktuell": 245879.81,
-            "zumAbloeseTermin": 232410,30
-          },
-          "darlehenskontonummer": "0815-4711"
-        }
-     ]
-```
-
-
-Beispiel Request für eine Prolongations-Anfrage mit reduziertem Datenset
-
-```http
-POST /vorschlaege HTTP/1.1
+example request:
+``` http
+POST /v1/vorschlaege/ HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer [access_token]
+Content-Length: 1332
 
 {
-  "metadaten": {
-    "datenkontext": "TEST_MODUS",
-    "extKundenId": "PartnerBank",
-    "extClientId": "prolo-demo-test-dummy-001",
-    "gewuenschteAnzahlVorschlaege": 5
-  },
-  "kundenangaben": {
-    "haushalte": [
-      {
-        "kunden": [
-          {
-            "einkommenNetto": 3500
-          }
-        ],
-        "finanzielleSituation": {
-         }
-      }
-    ],
-    "finanzierungsbedarf": {
-      "finanzierungszweck": "ANSCHLUSSFINANZIERUNG",
-      "praeferenzen": {
-        "tilgung": 2
-       },
-      "darlehenswunsch": 230000
-    },
-    "finanzierungsobjekt": {
-      "objektArt": "EINFAMILIENHAUS",
-        "anschrift": {
-        "plz": "01855"
-       },
-      "marktwert": 255800,
-      "darlehensliste": [
-        {
-          "wirdAbgeloest": true,
-          "darlehensgeber": "SPARDA_BW",
-          "grundschuld": 290000,
-          "zinsbindungBis": "2022-06-30",
-          "laufzeitende": "2044-09-30",
-          "restschuld": {
-            "aktuell": 245879.81,
-            "zumAbloeseTermin": 230000
-          },
-          "darlehenskontonummer": "0815-4711"
-        }
-      ]
-    }
-  }
-}
-```
-
-#### Verwendung der API für Lead Rating
-Wird die API verwendet um ein LeadRating zur Bewertung der Anfrage zu erzeugen, sind weitere Daten zum Verbraucher und zur Immobilie wichtig aber nicht zwingend notwendig. Damit wird eine exakte Bewertung möglich (Daten zur finanziellen Situation sofern vorhanden).
-
-```http
-"kunden": [
-           {
-              "beschaeftigtSeit": "2021-12-01",
-              "arbeitBefristet": false,
-              "beschaeftigungsArt": "ANGESTELLTER"
-           }
-          ],
-"finanzielleSituation":
-          {
-              "sonstigeEinnahmen": 0,
-              "nichtAbgeloesteRatenkrediteRestschuld": 0
-          },
- "finanzierungsobjekt":
-          {
-              "vermietet": false,
-              "baujahr": 2014,
-              "gewerblicheNutzung": false,       
-              "wohnflaeche": 158.5
-           }
-``` 
-
-Ein Beispiel-Request für eine Erwerbs-Finanzierung mit den relevanten Daten zur Lead-Bewertung, besonders relevant sind die Informationen zu Einkommen, Eigenkapital, Beschäftigungsart und -Dauer sowie Objekteigenschaften wie Wohnfläche und Baujahr. Auch wenn es keine Pflichtfelder sind, haben sie signifikanten Einfluss auf die Lead-Bewertung:
-
-```http
-POST /vorschlaege HTTP/1.1
-Host: baufinanzierung.api.europace.de
-Content-Type: application/json
-Authorization: Bearer [access_token]
-
-    {
     "metadaten": {
         "datenkontext": "TEST_MODUS",
-        "extKundenId": "github-partner",
-        "extClientId": "PostmanRuntime-github-partner",
-        "gewuenschteAnzahlVorschlaege": 1,
-        "stage":  "default"
+        "extKundenId": "",
+        "extClientId": "",
+        "gewuenschteAnzahlVorschlaege": 2
     },
     "kundenangaben": {
-        "finanzierungsbedarf": {
-            "finanzierungszweck": "KAUF",
-            "grundstueckKaufpreis": null,
-            "modernisierungsKostenInklEigenleistungen": null,
-            "modernisierungEigenleistung":null,
-            "kaufpreis": 487000,
-            
-            "praeferenzen": { 
-                "faelligkeitsDatum": "2022-08-30",
-                "kreditEntscheidungsZeit": "2022-08-30",
-                "bereitstellungszinsfreieZeit": 3
-            }
-        },
-        "finanzierungsobjekt": {
-            "objektArt": "EINFAMILIENHAUS",
-            "vermietet": false,
-            "baujahr": 2005,
-            "gewerblicheNutzung": false,
-            "anschrift": {
-                "plz": "15711",
-                "ort": "KWH",
-                "strasse": "unbekannt",
-                "hausnummer": "unbekannt"
-            },
-            "wohnflaeche": 150
-        },
         "haushalte": [
             {
                 "kunden": [
                     {
-                        "einkommenNetto": 2684,
-                        "beschaeftigtSeit": "2008-01-01",
+                        "beschaeftigtSeit": "2010-01-26",
                         "arbeitBefristet": false,
-                        "geburtsdatum": "1983-05-29",
-                        "beschaeftigungsArt": "ANGESTELLTER"
-                    },
-                    {
-                        "einkommenNetto": 3300,
-                        "beschaeftigtSeit": "2005-05-01",
-                        "arbeitBefristet": false,
-                        "geburtsdatum": "1990-03-08",
+                        "einkommenNetto": 5000,
+                        "geburtsdatum": "1999-05-26",
                         "beschaeftigungsArt": "ANGESTELLTER"
                     }
                 ],
                 "finanzielleSituation": {
-                    "eigenKapital": 70000,
+                    "eigenKapital": 100000,
                     "sonstigeEinnahmen": 0,
                     "nichtAbgeloestePrivateDarlehenRestschuld": 0,
                     "nichtAbgeloesteRatenkrediteRestschuld": 0
                 }
             }
-           
-        ]
+        ],
+        "finanzierungsbedarf": {
+            "finanzierungszweck": "KAUF",
+            "grundstueckKaufpreis": 380000,
+            "kaufpreis": 250000,
+            "modernisierungsKostenInklEigenleistungen": 25000,
+            "modernisierungEigenleistung": 15000,
+            "praeferenzen": {
+                "rate": 900,
+                "faelligkeitsdatum": "2023-01-04T06:54:56.747Z",
+                "kreditEntscheidungsZeit": "2022-11-01T06:54:56.747Z",
+                "laufzeit": 60
+            }
+        },
+        "finanzierungsobjekt": {
+            "objektArt": "EINFAMILIENHAUS",
+            "vermietet": false,
+            "baujahr": 2000,
+            "gewerblicheNutzung": false,
+            "anschrift": {
+                "plz": "10179",
+                "ort": "Berlin",
+                "strasse": "Klosterstrasse",
+                "hausnummer": "8"
+            },
+            "wohnflaeche": 150
+        }
     }
 }
 ```
 
-#### Präferenzen in der Anfrage bestimmen das Verhalten des Finanzierungswunschbestimmers
-
-Werden in der Anfrage konkrete Finanzierungswünsche angegeben, so werden die Wünsche bei der Angebotsermittlung berücksichtigt.
-
-```http
-     "praeferenzen": {
-        "rate": 900,
-        "faelligkeitsdatum": "2022-06-30",
-        "kreditEntscheidungsZeit": "2022-05-26",
-        "laufzeit": 30,
-        "zinsbindungInJahren": 15,
-        "sonderzahlung": 20000,
-        "bereitstellungszinsfreieZeit": 3,
-        "tilgung": 2
-      },
-      "darlehenswunsch": 200000
+example response:
+``` json
+{
+    "anfrageId": "passende-vorschlaege-71e2faa9-4094-4f66-8909-02677e5e9d7f"
+}
 ```
 
-### HTTP Status Codes des Response
+### Query financial proposals
 
-Response bei Ermittlung in Arbeit:
+The `anfrageId` can be used to retrieve the appropriate financing proposals.
 
-```http
+example request:
+``` http
+GET /v1/vorschlaege/{anfrageId} HTTP/1.1
+Host: baufinanzierung.api.europace.de
+Content-Type: application/json
+Authorization: Bearer [access_token]
+```
+
+example response:
+
+If finding appropriate financing proposals is already in progress, please try again until code 200.
+
+``` http
 202 - Accepted
 ```
 
-Response nach Ermittlung:
-
-```http
+If determination is finished, the financing proposals will be delivered:
+``` http
 200 - OK
 ```
-
-```json
+``` json
 {
-  "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef"
+    "vorschlaege": [
+        {
+            "finanzierungsVorschlagId": "6c8f8357b6ace5c6bce4047524fb3348",
+            "annahmeFrist": "2022-10-06",
+            "finanzierungsbausteine": [
+                {
+                    "@type": "ANNUITAETENDARLEHEN",
+                    "restschuldNachZinsbindungsEnde": 113128.34,
+                    "schlussrate": 667.66,
+                    "datumLetzteRate": "2057-05-31",
+                    "anzahlRaten": 426,
+                    "tilgungssatzInProzent": 1.25,
+                    "darlehensbetrag": 189000.0,
+                    "annuitaetendetails": {
+                        "zinsbindungInJahren": 20,
+                        "tilgung": {
+                            "@type": "RATE",
+                            "rate": 888.3,
+                            "tilgungsbeginn": "2023-02-27"
+                        },
+                        "sondertilgungJaehrlich": 5.0
+                    },
+                    "bereitstellungszinsfreieZeitInMonaten": 6,
+                    "sollZins": 4.39,
+                    "effektivZins": 4.5,
+                    "rateMonatlich": 888.3,
+                    "produktAnbieter": "Musterbank"
+                }
+            ],
+            "darlehensSumme": 189000.00,
+            "sollZins": 4.390,
+            "effektivZins": 4.500,
+            "machbarkeit": 0,
+            "rank": 0,
+            "gesamtRateProMonat": 888.3,
+            "zinsbindungInJahrenMinMax": "20"
+        },
+        {
+            "finanzierungsVorschlagId": "20bbd098eeb050dd44e28b6c088e3f1f",
+            "annahmeFrist": "2022-10-06",
+            "finanzierungsbausteine": [
+                {
+                    "@type": "ANNUITAETENDARLEHEN",
+                    "restschuldNachZinsbindungsEnde": 98983.13,
+                    "schlussrate": 558.94,
+                    "datumLetzteRate": "2054-07-31",
+                    "anzahlRaten": 392,
+                    "tilgungssatzInProzent": 1.5,
+                    "darlehensbetrag": 189000.0,
+                    "annuitaetendetails": {
+                        "zinsbindungInJahren": 20,
+                        "tilgung": {
+                            "@type": "RATE",
+                            "rate": 911.93,
+                            "tilgungsbeginn": "2023-02-27"
+                        },
+                        "sondertilgungJaehrlich": 5.0
+                    },
+                    "bereitstellungszinsfreieZeitInMonaten": 6,
+                    "sollZins": 4.29,
+                    "effektivZins": 4.4,
+                    "rateMonatlich": 911.93,
+                    "produktAnbieter": "Musterbank"
+                }
+            ],
+            "darlehensSumme": 189000.00,
+            "sollZins": 4.290,
+            "effektivZins": 4.400,
+            "kennung": "Superzins",
+            "machbarkeit": 0,
+            "rank": 1,
+            "gesamtRateProMonat": 911.93,
+            "zinsbindungInJahrenMinMax": "20"
+        }
+    ],
+    "leadRating": {
+        "successRating": "D",
+        "effortRating": {
+            "rating": false,
+            "explanations": []
+        },
+        "feasibilityRating": 0
+    }
 }
 ```
 
-### Finanzierungsvorschläge abrufen
+When finding the appropriate proposals, we attach importance to being able to deliver quickly. It can therefore happen that the lead rating is not returned directly with the matching proposal and is therefore not included in the response. A lead rating is always determined for each matching proposal. It can therefore, can be retrieved with a further request if necessary.
 
-Mit der `anfrageId` können die passenden Finanzierungsvorschläge abgerufen werden.
+## Bookmark financial proposals
 
-Request:
+### Create bookmark
 
-```http
-GET /vorschlaege/passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef HTTP/1.1
-Host: baufinanzierung.api.europace.de
-Content-Type: application/json
-Authorization: Bearer [access_token]]
-```
+As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.
 
-Response:
+You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case. 
 
-> Hinweis: Banken und Konditionen sind nur Beispiele
-
-```json
-{
-  "vorschlaege": [
-    {
-      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "annahmeFrist": "2022-01-14",
-      "finanzierungsbausteine": [
-        {
-          "@type": "ANNUITAETENDARLEHEN",
-          "darlehensbetrag": 189000.0,
-          "annuitaetendetails": {
-            "zinsbindungInJahren": 15,
-            "tilgung": {
-              "@type": "TILGUNG_IN_PROZENT",
-              "tilgungssatzInProzent": 2.5,
-              "tilgungsbeginn": "2022-02-27"
-            },
-            "sondertilgungJaehrlich": 5.0,
-            "auszahlungszeitpunkt": "2022-02-27"
-          },
-          "bereitstellungszinsfreieZeitInMonaten": 12,
-          "sollZins": 1.53,
-          "effektivZins": 1.56,
-          "rateMonatlich": 634.73,
-          "produktAnbieter": "Deutsche Kreditbank AG"
-        }
-      ],
-      "darlehensSumme": 189000.00,
-      "sollZins": 1.530,
-      "effektivZins": 1.560,
-      "machbarkeit": 100,
-      "rank": 0,
-      "gesamtRateProMonat": 634.73,
-      "zinsbindungInJahrenMinMax": "15"
-    },
-    {
-      "annahmeFrist": "2022-01-17",
-      "finanzierungsbausteine": [
-        {
-          "@type": "ANNUITAETENDARLEHEN",
-          "darlehensbetrag": 189000.0,
-          "annuitaetendetails": {
-            "zinsbindungInJahren": 15,
-            "tilgung": {
-              "@type": "TILGUNG_IN_PROZENT",
-              "tilgungssatzInProzent": 2.5,
-              "tilgungsbeginn": "2022-02-27"
-            },
-            "sondertilgungJaehrlich": 5.0,
-            "auszahlungszeitpunkt": "2022-02-27"
-          },
-          "bereitstellungszinsfreieZeitInMonaten": 12,
-          "sollZins": 1.54,
-          "effektivZins": 1.57,
-          "rateMonatlich": 636.3,
-          "produktAnbieter": "Allianz Lebensversicherung AG"
-        }
-      ],
-      "darlehensSumme": 189000.00,
-      "sollZins": 1.540,
-      "effektivZins": 1.570,
-      "machbarkeit": 100,
-      "rank": 1,
-      "gesamtRateProMonat": 636.3,
-      "zinsbindungInJahrenMinMax": "15"
-    },
-    {
-      "annahmeFrist": "2022-01-13",
-      "finanzierungsbausteine": [
-        {
-          "@type": "ANNUITAETENDARLEHEN",
-          "darlehensbetrag": 189000.0,
-          "annuitaetendetails": {
-            "zinsbindungInJahren": 15,
-            "tilgung": {
-              "@type": "TILGUNG_IN_PROZENT",
-              "tilgungssatzInProzent": 2.5,
-              "tilgungsbeginn": "2022-02-27"
-            },
-            "sondertilgungJaehrlich": 5.0,
-            "auszahlungszeitpunkt": "2022-02-27"
-          },
-          "bereitstellungszinsfreieZeitInMonaten": 12,
-          "sollZins": 1.33,
-          "effektivZins": 1.36,
-          "rateMonatlich": 603.23,
-          "produktAnbieter": "Commerzbank AG"
-        }
-      ],
-      "darlehensSumme": 189000.00,
-      "sollZins": 1.330,
-      "effektivZins": 1.360,
-      "kennung": "Regional BaufiBest",
-      "machbarkeit": 100,
-      "rank": 2,
-      "gesamtRateProMonat": 603.23,
-      "zinsbindungInJahrenMinMax": "15"
-    }
-  ],
-  "leadRating": {
-    "successRating": "C",
-    "effortRating": {
-      "rating": false,
-      "explanations": []
-    }
-  }
-}
-```
-
-## Passende Finanzierungsvorschläge bookmarken
-
-Um einen Lead zu einem erfolgreichen Abschluss zu bringen, können bis zu 10 Finanzierungsvorschläge in der Europace Platform gebookmarked werden, um diese zu einem späteren Zeitpunkt
-über BaufiSmart beraten zu können.
-
-Der zu bookmarkende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
-gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
-
-Ein bereits gebookmarkter Finanzierungsvorschlag wird überschrieben. Wurden bereits 10
-Finanzierungsvorschläge gebookmarked, wird jeder weitere Finanzierungsvorschlag ignoriert.
-
-### Beispiel: Bis zu 10 der passenden Finanzierungsvorschläge bookmarken
-
-Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
-Finanzierungsvorschlag gebookmarked werden.
-
-Request:
+example request:
 
 ```http
 POST /vorschlag/bookmark HTTP/1.1
@@ -466,7 +288,7 @@ Authorization: Bearer [access_token]
     {
       "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
       "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "TESTID"
+      "vorgangId": "ABC123"
     }
 ```
 
@@ -482,73 +304,24 @@ Response:
 }
 ```
 
-## Passende Finanzierungsvorschläge akzeptieren
+### List bookmarks
 
-Um einen Lead zu einem erfolgreichen Abschluss zu bringen, kann maximal ein Finanzierungsvorschlag in der Europace Platform akzeptiert werden, um diese zu einem späteren Zeitpunkt
-über BaufiSmart beraten zu können. Der Finanzierungsvorschlag kann so einer sein, der vorher schon gebookmarked wurde oder auch ein neuer.
+As consumer, I get all bookmarked financial proposals to get an overview of my suitable solutions.
 
-Der zu akzeptierende Finanzierungsvorschlag wird einem existierenden Vorgang in der Europace Plattform zugeordnet. Du kannst über die Kundenangaben API einen Vorgang anlegen und den
-gelieferten Identifier des Vorgangs für das Ablegen des Finanzierungsvorschlages verwenden.
-
-Ein akzeptierter Finanzierungsvorschlag kann mit delete gelöscht werden. So könnte ein anderer Finanzierungsvorschlag akzeptiert werden.
-
-### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
-
-Mit der `vorgangId` zu einem vorhandenen Vorgang, der `anfrageId` aus der Ermittlung der Finanzierungsvorschläge und der `finanzierungsVorschlagId` kann ein passender
-Finanzierungsvorschlag akzeptiert werden. Sollte der Finanzierungsvorschlag bereits gebookmarked sein, ist die `anfrageId` optional.
-
-Request:
-
+example request:
 ```http
-POST /vorschlag/accept HTTP/1.1
-Host: baufinanzierung.api.europace.de
-Content-Type: application/json
-Authorization: Bearer [access_token]
-
-    {
-      "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
-      "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "TESTID"
-    }
-```
-
-Response:
-
-```http
-200 - OK
-```
-
-```json
-{
-  "message": "Vorschlag akzeptiert."
-}
-```
-
-## Finanzierungsvorschläge, welche gebookmarked oder akzeptiert worden sind, auflisten
-
-Um zu sehen welche Finanzierungsvorschläge man gebookmarked oder akzeptiert hat, kann man list verwenden. 
-
-### Beispiel: 
-
-Mit der `vorgangId` zu einem vorhandenen Vorgang können alle Vorschläge aufgelistet werden
-
-Request:
-
-```http
-GET /vorschlaege/list/TESTID HTTP/1.1
+GET /vorschlaege/list/ABC123 HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer [access_token]
 
 ```
 
-Response:
-
+example response with 3 bookmarks:
 ```http
 200 - OK
 ```
 
-> Hinweis: Banken und Konditionen sind nur Beispiele
 ```json
 {
   "vorschlaege": [
@@ -578,7 +351,7 @@ Response:
           "sollZins": 3.69,
           "effektivZins": 3.78,
           "rateMonatlich": 900.9,
-          "produktAnbieter": "Deutsche Kreditbank AG"
+          "produktAnbieter": "Musterbank"
         }
       ],
       "darlehensSumme": 189000.00,
@@ -612,7 +385,7 @@ Response:
           "sollZins": 4.57,
           "effektivZins": 4.69,
           "rateMonatlich": 1253.25,
-          "produktAnbieter": "ING-DiBa AG"
+          "produktAnbieter": "Musterbank 2"
         }
       ],
       "darlehensSumme": 270000.00,
@@ -647,7 +420,7 @@ Response:
           "sollZins": 1.45,
           "effektivZins": 1.48,
           "rateMonatlich": 589.21,
-          "produktAnbieter": "Commerzbank AG"
+          "produktAnbieter": "Musterbank 3"
         }
       ],
       "darlehensSumme": 179000.00,
@@ -661,16 +434,10 @@ Response:
 }
 ```
 
-## Passende Finanzierungsvorschläge löschen
+### Delete bookmark
+As consumer, I delete bookmarked financial proposals to disqualify them and get a better overview. 
 
-Zum Löschen von gebookmarkten oder akzeptierten Finanzierungsvorschlägen.
-
-### Beispiel: Bis zu einem der passenden Finanzierungsvorschläge akzeptieren
-
-Mit der `vorgangId` zu einem vorhandenen Vorgang und der `finanzierungsVorschlagId` kann der passende
-Finanzierungsvorschlag gelöscht werden. 
-Request:
-
+example request:
 ```http
 POST /vorschlag/delete HTTP/1.1
 Host: baufinanzierung.api.europace.de
@@ -679,60 +446,37 @@ Authorization: Bearer [access_token]
 
     {
       "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "TESTID"
+      "vorgangId": "ABC123"
     }
 ```
 
-Response:
-
+example response:
 ```http
 200 - OK
 ```
-
 ```json
 {
   "message": "Vorschlag d550a975da78f73d9e3256352ce0f366 erfolgreich gelöscht."
 }
 ```
 
-## Client generieren
+## Usage without privacy statement
+In the sales journey it can be a problem to hit the consumer to early with privacy statements.
+With the Vorschlaege-API it is possible to find appropriate financial proposals without personell information but the same results. 
+The solution is to pseudonominate the input values in a following way:
 
-Ein Client kann mit Hilfe der [.yaml-Datei](api/baufi-passende-vorschlaege-api.yaml) über entsprechende Libraries generiert werden. z.B. :
-
-- [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
-- [Swagger Codegen](https://github.com/swagger-api/swagger-codegen)
-- Plugins, wie dem [OpenAPI Generator für Gradle](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin)
-
-In der [build.gradle](build.gradle) ist exemplarisch der Task `openApiGenerate` für JavaScript konfiguriert.
-
-Nach Ausführung via `./gradlew openApiGenerate` finden sich im Ordner `/build/generated/src/` die generierten Modelle und Client.
-
-## Postman Collection
-
-Mit der [Postman Collection](https://github.com/europace/passende-vorschlaege-service/blob/02ac924c829679905090138891ad2f38479d4148/docs/passende-vorschlaege-europace.postman_collection.json) wurde eine Möglichkeit bereitgestellt, die einzelnen Schritte zu testen.
+- Date of birth as any day in the year (ex.: 1991-01-01)
+- Nettoeinkommen rounded to 100€
+- BeschäftigtSeit at least rounded to month (the longer in the past, the less accurate the value can be)
+- Eigenkapital round to 1000€, for values from 1 Mio also to 10.000€.
+- Kredit-Restschuld round to 1000€
+- sontige Einnahmen round to 100€
+- Detailed address data for the property are not required for the calculation, only the zip code or alternatively the selection of a federal state is required to calculate realistic ancillary costs and to enable regional offers.
+- Technical parameters of the object (living space, year of construction) can be rounded, but are not relevant for the consumer's personal relationship, because at the time of the request there is no relationship between the consumer and the object.
 
 ## Support
+If you have any questions or problems, please contact helpdesk@europace2.de.
 
-Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
+## Terms of use
+The APIs are provided under the following [Terms of Use](https://docs.api.europace.de/terms/).
 
-## Nutzungsbedingungen
-
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
-
-## Datenschutz
-
-Die Passende-Vorschläge-API ist fachlich darauf ausgelegt, DSGVO konform ohne personenbezogene Daten auszukommen. Dazu sind folgende Bedingungen auf Seiten des Senders einzuhalten um eine Rückverfolgbarkeit oder ein Tracking prinzipiell auszuschließen. Europace prüft die Anfragen stichprobenartig auf Einhaltung der Bedingungen. Da Europace von der Nicht-Nachverfolgbarkeit der Verbraucher ausgeht, finden auch keine entsprechenden Tracking-Verfahren statt.
-
-### Fachliche Bedingungen für nicht-personenbeziehbare Anfragen
-
-- Metadaten sollen keine Tracking Ids enthalten, technische Ids (Session-Marker) werden nach max. 24h ungültig.
-- Grundsätzlich werden die Content-Daten der Requests nur max. 24h gespeichert, es erfolgt keine Archivierung der Anfragen
-- Personenbeziehbare Daten der Verbraucher sollen durch Rundung zusätzlich pseudonymisiert werden, dabei sind folgende Mindestanforderungen einzuhalten
-- Geburtsdatum als beliebiger Tag im Jahr (Bsp.: 1991-01-01)
-- Nettoeinkommen auf 100€ gerundet
-- BeschäftigtSeit mindestens auf Monat runden (je länger zurückliegend umso ungenauer kann der Wert sein)
-- Eigenkapital auf 1000€ runden, bei Werten ab 1 Mio auch auf 10.000€
-- Kredit-Restschuld auf 1000€ runden
-- sontige Einnahmen auf 100€ runden
-- Detaillierte Adressdaten zur Immobilie werden für die Berechnung nicht benötigt, lediglich die Postleitzahl oder alternativ die Auswahl eines Bundeslandes wird benötigt um realistische Nebenkosten zu berechnen und regionale Angebote zu ermöglichen
-- Technische Parameter des Objektes (Wohnfläche, Baujahr) können gerundet werden, sind aber für die Personenbeziehbarkeit des Verbrauchers nicht relevant, da zum Zeitpunkt der Anfrage keine Beziehung zwischen Verbraucher und Objekt besteht.
