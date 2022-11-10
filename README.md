@@ -61,7 +61,7 @@ sequenceDiagram
 ```
 ### Request financial proposals
 
-To find the right financial proposals we need some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be. Please note [using without privacy statement](#usage-without-privacy-statement).
+To find the right financial proposals we need some data. There are no mandatory-fields, but the more data we get, the more accurate the results will be. If you do not have explicit data in a field, please send "null", so we recognize that there is no known data to this specific field and our systems can work on that correctly. Please note [using without privacy statement](#usage-without-privacy-statement).
 
 We recommend the following fields for buying or build with Bauträger to get relevant financial proposals:
 - einkommenNetto
