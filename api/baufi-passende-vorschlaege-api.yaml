@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.57
+  version: 0.0.63
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -11,13 +11,13 @@ servers:
   - url: 'https://baufismart.api.europace.de'
     description: Production server
 tags:
-  - name: financial proposals
+  - name: Finanzierungsvorschlaege
     description: determine appropriate financing proposals
 paths:
   /v1/vorschlaege/ermitteln:
     post:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: determine financial proposals
       operationId: vorschlaegeErmittelnSync
       requestBody:
@@ -46,7 +46,7 @@ paths:
   /v1/vorschlaege:
     post:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: determine financial proposals
       operationId: ermittleVorschlaege
       requestBody:
@@ -76,7 +76,7 @@ paths:
   '/v1/vorschlaege/{anfrageId}':
     get:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: get financial proposals
       operationId: getVorschlaege
       parameters:
@@ -100,14 +100,14 @@ paths:
         '401':
           description: Authorization information is missing or invalid.
         '404':
-          description: No determination triggered for this ID or result no longer available
+          description: No determination triggered for this ID or result no longer available.
         '500':
           description: Internal server error
       description: 'As consumer, I get the determined financial proposals to compare and pick suitable solutions for my mortage.'
   '/v1/vorschlaege/list/{vorgangId}':
     get:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: list bookmarked financial proposals
       operationId: listVorschlaege
       parameters:
@@ -137,7 +137,7 @@ paths:
   /v1/vorschlag/bookmark:
     post:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: bookmark financial proposal
       operationId: bookmarkVorschlag
       requestBody:
@@ -165,7 +165,7 @@ paths:
   /v1/vorschlag/accept:
     post:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: accept financial proposal
       operationId: acceptVorschlag
       requestBody:
@@ -193,7 +193,7 @@ paths:
   /v1/vorschlag/delete:
     post:
       tags:
-        - financial proposals
+        - Finanzierungsvorschlaege
       summary: delete bookmarked financial proposal
       operationId: deleteVorschlag
       requestBody:
@@ -217,7 +217,7 @@ paths:
           description: Financial proposals could not deleted
       description: 'As consumer, I delete bookmarked financial proposals to disqualify them and get a better overview.'
 security:
-  - bearerAuth: []
+  - bearerAuth: [ ]
 components:
   schemas:
     ErmittlungsLinks:
@@ -250,7 +250,7 @@ components:
             - ECHT_GESCHAEFT
         kundenId:
           type: string
-          description: 'Deprecated, wird durch extKundenId ersetzt! Identifikator für den Nutzer/Partner der API, Bsp. ImmoFin AG'
+          description: 'Deprecated, will be renamed to extKundenId! Identifier for the user/partner of the API, e.g. ImmoFin AG'
           deprecated: true
         extKundenId:
           type: string
@@ -262,14 +262,17 @@ components:
           deprecated: true
         extClientId:
           type: string
-          description: Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32
+          description: 'Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32'
         gewuenschteAnzahlVorschlaege:
           type: integer
           default: 2
           minimum: 1
           maximum: 10
         stage:
-          default: default
+          default: "default"
+          type: string
+        feature:
+          default: "default"
           type: string
     Kundenangaben:
       type: object
@@ -307,7 +310,7 @@ components:
         eigenKapital:
           type: number
           example: 34500
-          description: Total of all assets to be contributed. In euros
+          description: 'Total of all assets to be contributed. In euros'
           minimum: 0
           maximum: 10000000
         sonstigeEinnahmen:
@@ -319,13 +322,13 @@ components:
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 4000
-          description: Total of all unredeemed liabilities from private loans. In euros
+          description: 'Total of all unredeemed liabilities from private loans. In euros'
           minimum: 0
           maximum: 10000000
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
-          description: Total of all unredeemed liabilities from installment loans. In euros
+          description: 'Total of all unredeemed liabilities from installment loans. In euros'
           minimum: 0
           maximum: 10000000
     Kunde:
@@ -342,8 +345,8 @@ components:
           description: 'true, if employment relationship is temporary, otherwise false'
         einkommenNetto:
           type: number
-          description: 'Monthly net income according to salary statement without special payments, in EuroMonthly net income according to salary statement without special payments, in Euro'
-          example: 3500
+          description: 'Monthly net income according to salary statement without special payments, in EuroMonthly net income according to salary statement without special payments, in euros'
+          example: 3500.00
           minimum: 0
           maximum: 100000
         geburtsdatum:
@@ -385,7 +388,7 @@ components:
         baujahr:
           type: integer
           example: 1952
-          description: Year of construction of the building or last complete renovation
+          description: 'Year of construction of the building or last complete renovation'
         gewerblicheNutzung:
           type: boolean
           description: 'true, if the property is used predominantly or exclusively for commercial purposes, otherwise false'
@@ -395,13 +398,13 @@ components:
         wohnflaeche:
           type: number
           description: 'Living or usable space in square meters, irrelevant for objektArt = GRUNDSTUECK'
-          example: 120.5
+          example: 120.50
           minimum: 20
           maximum: 1000
         marktwert:
           type: number
           description: 'Mortgage lending value (if applicable, also market value or purchase price) in euros'
-          example: 250000
+          example: 250000.00
         darlehensliste:
           type: array
           items:
@@ -424,38 +427,42 @@ components:
           example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: Share of land value (if known) In euros
-          example: 38000
+          description: 'Share of land value (if known) In euros'
+          example: 38000.00
           minimum: 0
           maximum: 1000000
         kaufpreis:
           type: number
           description: 'Primary costs to acquire / create the property excluding grundstueckKaufpreis and incidental costs (notary fees, land transfer tax, ...). In euros'
-          example: 250000
+          example: 250000.00
           minimum: 0
           maximum: 10000000
         modernisierungsKostenInklEigenleistungen:
           type: number
           description: 'Cost of the modernization planned in the course of the acquisition, including own contribution. In euros'
-          example: 50000
+          example: 50000.00
           minimum: 0
           maximum: 1000000
         modernisierungEigenleistung:
           type: number
-          description: Proportion of own contribution to modernization costs. In euros
-          example: 25000
+          description: 'Proportion of own contribution to modernization costs. In euros'
+          example: 25000.00
           minimum: 0
           maximum: 1000000
+        sonderzahlungZumZinsbindungsEnde:
+          type: number
+          description: 'Amount of the planned special payment at the end of the fixed-interest period in euros'
+          example: 20000.00
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
         darlehenswunsch:
           type: number
-          description: Desired loan amount
-          example: 250000
+          description: 'Desired loan amount'
+          example: 250000.00
         herstellungskostenInklusiveEigenleistungen:
           type: number
-          description: Production costs for new construction
-          example: 250000
+          description: 'Production costs for new construction'
+          example: 250000.00
         grundstueckBereitsBezahlt:
           type: boolean
           description: 'True, if property already paid'
@@ -468,17 +475,17 @@ components:
           pattern: '[0-9]{5}'
           type: string
           example: 10117
-          description: zip code
+          description: 'zip code'
         ort:
           type: string
           example: Berlin
         strasse:
           type: string
-          description: street without house number (see field 'hausnummer')
+          description: 'street without house number (see field ''hausnummer'')'
         hausnummer:
           type: string
           example: 17a
-          description: house number
+          description: 'house number'
     Darlehen:
       type: object
       properties:
@@ -511,47 +518,53 @@ components:
         rate:
           type: number
           description: 'In Euro, monthly'
-          example: 850
+          example: 850.00
           minimum: 10
           maximum: 10000
         faelligkeitsdatum:
           type: string
           format: date
-          description: When is the disbursement / redemption of the loan planned?
+          description: 'When is the disbursement / redemption of the loan planned?'
           example: '2022-06-30'
         kreditEntscheidungsZeit:
           type: string
           format: date
-          description: By when is a decision on the part of the product provider desired?
+          description: 'By when is a decision on the part of the product provider desired?'
           example: '2021-04-21'
         laufzeit:
           type: integer
           format: int32
-          description: By when should the financing be fully repaid? Indication of the term in years
+          description: 'By when should the financing be fully repaid? Indication of the term in years'
           example: 25
           minimum: 0
           maximum: 70
         zinsbindungInJahren:
           type: integer
           format: int32
-          description: Desired fixed interest rate of the loan to be taken out in years
+          description: 'Desired fixed interest rate of the loan to be taken out in years'
           example: 10
-        sonderzahlung:
-          type: number
-          description: Amount of the planned special payment at the end of the fixed-interest period in euros
-          example: 20000
         tilgung:
           type: number
-          description: Desired initial repayment of the loan to be concluded in percent
-          example: 2.5
+          description: 'Desired initial repayment of the loan to be concluded in percent'
+          example: 2.50
         sondertilgung:
           type: number
-          description: Amount of the desired optional unscheduled repayment during the fixed-interest period in percent
-          example: 5
+          description: 'Deprecated! please use optionaleSondertilgung'
+          example: 5.0
+          deprecated: true
+        sonderzahlung:
+          type: number
+          description: "Deprecated! Please use sonderzahlungZumZinsbindungsEnde in Finanzierungsbedarf."
+          example: 20000.00
+          deprecated: true
+        optionaleSondertilgung:
+          type: number
+          description: 'Amount of the desired optional unscheduled repayment during the fixed-interest period in percent'
+          example: 5.0
         bereitstellungszinsfreieZeit:
           type: integer
           format: int32
-          description: Desired provision interest-free period in months
+          description: 'Desired provision interest-free period in months'
           example: 6
     Restschuld:
       type: object
@@ -579,21 +592,21 @@ components:
             successRating:
               type: string
               description: 'Rating indicates the probability of a transaction being completed. Categories A, B, C and D indicate the probability that a transaction will be successfully completed. A is the best, i.e. most promising, category.'
-              example: B
+              example: "B"
             effortRating:
               type: object
               properties:
                 rating:
                   type: boolean
-                  description: Indicator whether the operation is associated with a high workload
+                  description: 'Indicator whether the operation is associated with a high workload'
                 explanations:
                   type: array
                   items:
                     type: string
-                  description: Explanations why the process is complex
+                  description: 'Explanations why the process is complex'
             feasibilityRating:
               type: integer
-              description: Displays the feasibility value
+              description: 'Displays the feasibility value'
               example: 50
     FinanzierungsVorschlag:
       type: object
@@ -620,7 +633,7 @@ components:
           type: string
         machbarkeit:
           type: integer
-          description: Probability with which a loan provider will support this project (1=unlikely 100=very likely)
+          description: 'Probability with which a loan provider will support this project (1=unlikely 100=very likely)'
           minimum: 1
           maximum: 100
         rank:
@@ -632,6 +645,20 @@ components:
           type: number
           format: double
         zinsbindungInJahrenMinMax:
+          type: string
+        optimierungsMeldungen:
+          type: object
+          properties:
+            machbarkeit:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meldung'
+    Meldung:
+      type: object
+      properties:
+        code:
+          type: string
+        text:
           type: string
     Finanzierungsbaustein:
       required:
@@ -654,6 +681,9 @@ components:
           type: integer
           format: int32
         tilgungssatzInProzent:
+          type: number
+          format: double
+        kostenUeberGesamtlaufzeit:
           type: number
           format: double
       description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
@@ -679,7 +709,7 @@ components:
               format: int32
             provision:
               type: number
-              description: Percentage
+              description: 'Percentage'
               format: double
             sollZins:
               type: number
@@ -706,7 +736,7 @@ components:
               format: int32
             provision:
               type: number
-              description: Percentage
+              description: 'Percentage'
               format: double
             zinsbindungInJahren:
               type: integer
@@ -732,7 +762,7 @@ components:
           $ref: '#/components/schemas/Tilgung'
         sondertilgungJaehrlich:
           type: number
-          description: Percentage
+          description: 'Percentage'
           format: double
         auszahlungszeitpunkt:
           type: string
@@ -969,13 +999,13 @@ components:
       properties:
         anfrageId:
           type: string
-          description: The supplied anfrageId from the determination of the proposals
+          description: 'The supplied anfrageId from the determination of the proposals'
         vorgangId:
           type: string
-          description: The Id of an existing case
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: The identifier of a determined proposal
+          description: 'The identifier of a determined proposal'
     VorschlagResponse:
       type: object
       properties:
@@ -989,13 +1019,13 @@ components:
       properties:
         anfrageId:
           type: string
-          description: The supplied anfrageId from the determination of the proposals
+          description: 'The supplied anfrageId from the determination of the proposals'
         vorgangId:
           type: string
-          description: The Id of an existing case
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: The identifier of a determined proposal
+          description: 'The identifier of a determined proposal'
     VorschlagDeleteRequest:
       type: object
       required:
@@ -1004,10 +1034,10 @@ components:
       properties:
         vorgangId:
           type: string
-          description: The Id of an existing case
+          description: 'The Id of an existing case'
         finanzierungsVorschlagId:
           type: string
-          description: The identifier of a bookmarked proposal
+          description: 'The identifier of a bookmarked proposal'
   securitySchemes:
     bearerAuth:
       type: http
