@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.63
+  version: 0.0.64
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -117,6 +117,16 @@ paths:
             type: string
           required: true
           description: Vorgangsnummer as result of Kundenangaben-API
+        - in: query
+          name: vorschlagStatus
+          schema:
+            type: string
+            default: "all"
+          required: false
+          description: Allowed Values |
+            - all
+            - bookmarked
+            - accepted
       responses:
         '200':
           description: Success
