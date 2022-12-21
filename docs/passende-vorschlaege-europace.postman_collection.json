@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "fe209ea8-5c66-40d0-af58-543ee8157365",
+    "_postman_id": "44efa15f-07ca-478b-82c1-1c2d946f6711",
     "name": "passende-vorschlaege-europace",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -14,16 +14,16 @@
             "exec": [
               "var jsonData = JSON.parse(responseBody);",
               "postman.setGlobalVariable(\"ps_jwt_access_token\", jsonData.access_token);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
 							"key": "password",
 							"value": "{{ps-client-secret}}",
 							"type": "string"
@@ -425,18 +425,18 @@
 			},
 			"response": []
 		},
-		{
-			"name": "GET bookmarked Vorschlaege",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				},
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
+    {
+      "name": "GET list all Vorschlaege",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
 				"method": "GET",
 				"header": [
 					{
@@ -463,26 +463,136 @@
 					"raw": "{{psUrlGateway}}v1/vorschlaege/list/{{vorgangId}}",
 					"host": [
 						"{{psUrlGateway}}v1"
-					],
-					"path": [
-						"vorschlaege",
-						"list",
-						"{{vorgangId}}"
-					]
-				},
-				"description": "Holt die bookmarked Vorschlaege für die gegebene VorgangId"
-			},
-			"response": []
-		},
-		{
-			"name": "Accept Vorschlag",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
+          ],
+          "path": [
+            "vorschlaege",
+            "list",
+            "{{vorgangId}}"
+          ]
+        },
+        "description": "Holt die bookmarked Vorschlaege für die gegebene VorgangId"
+      },
+      "response": []
+    },
+    {
+      "name": "GET list bookmarked Vorschlaege",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ps_jwt_access_token}}",
+            "type": "text"
+          },
+          {
+            "key": "User-Agent",
+            "value": "{{passt_user_agent}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{psUrlGateway}}v1/vorschlaege/list/{{vorgangId}}?vorschlagStatus=bookmarked",
+          "host": [
+            "{{psUrlGateway}}v1"
+          ],
+          "path": [
+            "vorschlaege",
+            "list",
+            "{{vorgangId}}"
+          ],
+          "query": [
+            {
+              "key": "vorschlagStatus",
+              "value": "bookmarked"
+            }
+          ]
+        },
+        "description": "Holt die bookmarked Vorschlaege für die gegebene VorgangId"
+      },
+      "response": []
+    },
+    {
+      "name": "GET list accepted Vorschlaege",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{ps_jwt_access_token}}",
+            "type": "text"
+          },
+          {
+            "key": "User-Agent",
+            "value": "{{passt_user_agent}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{psUrlGateway}}v1/vorschlaege/list/{{vorgangId}}?vorschlagStatus=accepted",
+          "host": [
+            "{{psUrlGateway}}v1"
+          ],
+          "path": [
+            "vorschlaege",
+            "list",
+            "{{vorgangId}}"
+          ],
+          "query": [
+            {
+              "key": "vorschlagStatus",
+              "value": "accepted"
+            }
+          ]
+        },
+        "description": "Holt die bookmarked Vorschlaege für die gegebene VorgangId"
+      },
+      "response": []
+    },
+    {
+      "name": "Accept Vorschlag",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
 						"type": "text/javascript"
 					}
 				},
