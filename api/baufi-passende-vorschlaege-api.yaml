@@ -658,7 +658,7 @@ components:
         beschreibung:
           type: string
           nullable: true
-          description: 'A custom name for the proposal'
+          description: 'The headline or description given via bookmarking for this proposal'
         kennung:
           type: string
         machbarkeit:
@@ -1041,7 +1041,7 @@ components:
           type: string
           nullable: true
           maxLength: 66
-          description: 'A custom name for the proposal'
+          description: 'A heading or description for the proposal'
     VorschlagResponse:
       type: object
       properties:

@@ -256,6 +256,11 @@ If determination is finished, the financing proposals will be delivered:
             "zinsbindungInJahrenMinMax": "20"
         }
     ],
+    "nebenkosten": {
+        "maklergebuehr": 9639.00,
+        "notargebuehr": 5400.00,
+        "grunderwerbsteuer": 9450.00
+    },
     "leadRating": {
         "successRating": "D",
         "effortRating": {
@@ -275,7 +280,9 @@ When finding the appropriate proposals, we attach importance to being able to de
 
 As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.
 
-You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case. 
+With `beschreibung`, a description or heading can be given to the proposal, which can be seen both when reviewing the proposal via `/list` or in a later discussion with an advisor.
+
+You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case.
 
 example request:
 
@@ -288,7 +295,8 @@ Authorization: Bearer [access_token]
     {
       "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
       "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "ABC123"
+      "vorgangId": "ABC123",
+      "beschreibung": "Beschreibungstext für diesen Vorschlag."
     }
 ```
 
@@ -358,7 +366,8 @@ example response with 3 bookmarks:
       "sollZins": 3.690,
       "effektivZins": 3.780,
       "gesamtRateProMonat": 900.9,
-      "zinsbindungInJahrenMinMax": "15"
+      "zinsbindungInJahrenMinMax": "15",
+      "beschreibung": "Beim Bookmarken angegebener Beschreibungstext für diesen Vorschlag."
     },
     {
       "finanzierungsVorschlagId": "c2d526946ad73efcf27385a363bdbafc",
