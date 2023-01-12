@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.64
+  version: 0.0.68
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -447,9 +447,13 @@ components:
           example: 250000.00
           minimum: 0
           maximum: 10000000
+        maklergebuehr:
+          type: number
+          description: 'Costs for custom brokerage fee. In euros. If there is no brokerage fee for the service received, please send 0 Euro. If the standard fees are to be taken into account, please leave the field blank.'
+          example: 200.00
         modernisierungsKostenInklEigenleistungen:
           type: number
-          description: 'Cost of the modernization planned in the course of the acquisition, including own contribution. In euros'
+          description: 'Costs of the modernization planned in the course of the acquisition, including own contribution. In euros'
           example: 50000.00
           minimum: 0
           maximum: 1000000
@@ -461,7 +465,7 @@ components:
           maximum: 1000000
         sonderzahlungZumZinsbindungsEnde:
           type: number
-          description: 'Amount of the planned special payment at the end of the fixed-interest period in euros'
+          description: 'Amount of the planned special payment at the end of the fixed-interest period. In euros'
           example: 20000.00
         praeferenzen:
           $ref: '#/components/schemas/Praeferenzen'
@@ -618,6 +622,18 @@ components:
               type: integer
               description: 'Displays the feasibility value'
               example: 50
+        nebenkosten:
+          type: object
+          properties:
+            maklergebuehr:
+              type: number
+              description: 'In euro.'
+            notargebuehr:
+              type: number
+              description: 'In euro.'
+            grunderwerbsteuer:
+              type: number
+              description: 'In euro.'
     FinanzierungsVorschlag:
       type: object
       properties:
@@ -639,6 +655,10 @@ components:
           type: number
         effektivZins:
           type: number
+        beschreibung:
+          type: string
+          nullable: true
+          description: 'A custom name for the proposal'
         kennung:
           type: string
         machbarkeit:
@@ -1016,6 +1036,10 @@ components:
         finanzierungsVorschlagId:
           type: string
           description: 'The identifier of a determined proposal'
+        beschreibung:
+          type: string
+          maxLength: 66
+          description: 'A custom name for the proposal'
     VorschlagResponse:
       type: object
       properties:
