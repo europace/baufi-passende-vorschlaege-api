@@ -22,7 +22,15 @@ Eine Vorgabe von Tilgungssätzen für die Optionsermittlung ist nicht empfehlens
 ## Antwort
 
 Im Modus "exploration-matrix" wird immer versucht, 9 Vorschläge zu generieren und in einer 3x3 Matrix anzuordnen. Die Position in der Ergebnis-Matrix wird über das Feld "vorschlagsOption" definiert:
-|| || Tilg niedrig || Tilg mittel  || Tilg hoch ||
-|| ZiBi kurz || "kurz-niedrig" | "kurz-mittel" | "kurz-hoch" |
-|| ZiBi mittel || "mittel-niedrig" | "mittel-mittel" | "mittel-hoch" |
-|| ZiBi lang || "lang-niedrig" | "lang-mittel" | "lang-hoch" |
+
+| Tilg/ZiBi             | Tilg niedrig          | Tilg mittel           | Tilg hoch |
+| --------------------- | --------------------- | --------------------- | --------------------- |
+|**ZiBi kurz**| "kurz-niedrig" | "kurz-mittel" | "kurz-hoch" |
+|**ZiBi mittel**|"mittel-niedrig"|"mittel-mittel"|"mittel-hoch"|
+|**ZiBi lang**|"lang-niedrig"|"lang-mittel"|"lang-hoch"|
+
+Sollten auf Grund von Showstopper-Beschränkungen in keiner der ProductEngines für bestimmte Positionen Vorschläge generierbar sein (z.B. weil die entsprechende Zinsbindung nicht angeboten wird), bleibt die zugehörige Position leer.
+
+## Ranking
+
+Werden aufgrund der Geschäftsbeziehungen mehrere Vorschläge je Position generiert (Multi Lender), so wird nur der jeweils günstigste machbare Finanzierungsvorschlag für diese Position zurückgeliefert und mit rank: 0 im Response versehen. 
