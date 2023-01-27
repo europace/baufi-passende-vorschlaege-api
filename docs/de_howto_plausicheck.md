@@ -1,9 +1,9 @@
 # Eingabevalidierung und Plausiblitätscheck
 
-Der Großteil der Dokuumentation für die API Grenzwerte ist in der YAML festgehalten:
+Der Großteil der Dokumentation für die API Eingabewerte ist in der YAML festgehalten:
 https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml
 
-Ab ca. Zeile 300 sind die Eingabeparameter mit Grenzwerten, Default-Werten und Beispielen.
+Ab ca. Zeile 300 sind die Eingabeparameter mit Grenzwerten, Default-Werten und Beispielen aufgeführt.
 
 Daneben gibt es weitere Plauliblitätsprüfungen im Quellcode:
 
