@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.71
+  version: 0.0.72
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -482,14 +482,16 @@ components:
           description: 'True, if property already paid'
     Anschrift:
       type: object
-      required:
-        - plz
       properties:
         plz:
           pattern: '[0-9]{5}'
           type: string
           example: 10117
           description: 'zip code'
+        bundesland:
+          type: string
+          example: 10
+          description: 'state code - https://de.wikipedia.org/wiki/Amtlicher_Gemeindeschl%C3%BCssel'
         ort:
           type: string
           example: Berlin
