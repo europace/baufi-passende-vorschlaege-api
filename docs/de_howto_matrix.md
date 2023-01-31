@@ -12,8 +12,6 @@ Zur Aktivierung der Optionsermittlung ist in den Metadaten der dafür notwendige
 }
 ```
 
-Stand 27.01.2023: Aktivierung über "feature": "MINIMAL_SCORING_ENGINE, optionen"
-
 ## Anfrage
 
 Die Anfrage muss neben dem Mode keine weiteren besonderen Bedingungen erfüllen. Durch Vorgabe der Präferenzen "zinsbindungInJahren" oder "tilgung" kann der Rahmen der Optionsermittlung vorgegeben werden. Eine Präferenz Zinsbindung von 10 Jahren erzeugt Optionen von 5, 10 und 15 Jahren Zinsbindung. Wird eine Zinsbindung größer 15 Jahre vorgegeben, z.B. 20 Jahre, werden Optionen zu 10, 15 und 20 Jahre erzeugt. 
