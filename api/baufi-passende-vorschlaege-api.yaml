@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.72
+  version: 0.0.74
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -284,6 +284,9 @@ components:
         feature:
           default: "default"
           type: string
+        mode:
+          type: string
+          description: 'Identifier for usage of different modes'
     Kundenangaben:
       type: object
       required:
@@ -636,6 +639,10 @@ components:
             grunderwerbsteuer:
               type: number
               description: 'In euro.'
+        maximalKaufpreis:
+          type: number
+          description: 'Calculated maximum purchase price in euros'
+          example: 250000.00
     FinanzierungsVorschlag:
       type: object
       properties:
