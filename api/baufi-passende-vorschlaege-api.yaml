@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.72
+  version: 0.0.75
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -284,6 +284,9 @@ components:
         feature:
           default: "default"
           type: string
+        mode:
+          type: string
+          description: 'Identifier for usage of different modes'
     Kundenangaben:
       type: object
       required:
@@ -508,6 +511,10 @@ components:
         wirdAbgeloest:
           type: boolean
           description: 'true, if loan is to be paid off with financing, otherwise false'
+        referenzId:
+          type: string
+          description: 'if loan is to be paid off, you can specify the id of the existing loan. You get the id from the KundenangabenAPI. Read it from the field ''referenzId'' in the object ''BestehendesDarlehenDesFinanzierungsobjektes''.'
+          example: 'eb2f1288-43c6-4ead-82d4-d63889a8d827'
         darlehensgeber:
           type: string
           description: Produktanbieter-ID of the loan provider
@@ -636,6 +643,10 @@ components:
             grunderwerbsteuer:
               type: number
               description: 'In euro.'
+        maximalKaufpreis:
+          type: number
+          description: 'Calculated maximum purchase price in euros'
+          example: 250000.00
     FinanzierungsVorschlag:
       type: object
       properties:
