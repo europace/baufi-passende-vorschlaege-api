@@ -64,7 +64,7 @@ Die Angabe des kalkulierten Ende der Gesamtlaufzeit ist notwendig, um regulatori
 
 In Kombination mit der Kundenangaben-API besteht die Möglichkeit der direkten Zuordnung von Alt- und Neudarlehen. Diese Zuordnung ist Voraussetzung für eine automatisierte Weiterverarbeitung der Vorgänge in BaufiSmart.
 
-Zuerst muss ein Vorgang über die Kundenangaben-API in BaufiSmart angelegt werden. Dabei sind die Daten für alle Bestandsdarlehen zu übermitteln. In der Antwort auf die Vorgangs-Anlage werden die in der Datenbank angelegten Ids an den Client unter 'referenzId' im Knoten 'BestehendesDarlehenDesFinanzierungsobjektes' zurück übermittelt. Diese Ids sind anschließend in der #passt Vorschlags API als Bestandteil der Darlehensliste zu übergeben.
+Zuerst muss ein Vorgang über die Kundenangaben-API in BaufiSmart angelegt werden. Dabei sind die Daten für alle Bestandsdarlehen zu übermitteln. In der Antwort auf die Vorgangs-Anlage werden die in der Datenbank angelegten Ids an den Client unter _referenzId_ im Knoten _BestehendesDarlehenDesFinanzierungsobjektes_ zurück übermittelt. Diese Ids sind anschließend in der #passt Vorschlags API als Bestandteil der Darlehensliste zu übergeben.
 
 ```
 "referenzId": "eb2f1288-43c6-4ead-82d4-d63889a8d827"
