@@ -59,3 +59,41 @@ Die Angabe des kalkulierten Ende der Gesamtlaufzeit ist notwendig, um regulatori
     }
 }
 ```
+
+## Bestandsdarlehen und Verknüpfung zwischen Alt- und Neu-Darlehen
+
+In Kombination mit der Kundenangaben-API besteht die Möglichkeit der direkten Zuordnung von Alt- und Neudarlehen. Diese Zuordnung ist Voraussetzung für eine automatisierte Weiterverarbeitung der Vorgänge in BaufiSmart.
+
+Zuerst muss ein Vorgang über die Kundenangaben-API in BaufiSmart angelegt werden. Dabei sind die Daten für alle Bestandsdarlehen zu übermitteln. In der Antwort auf die Vorgangs-Anlage werden die in der Datenbank angelegten Ids an den Client unter 'referenzId' im Knoten 'BestehendesDarlehenDesFinanzierungsobjektes' zurück übermittelt. Diese Ids sind anschließend in der #passt Vorschlags API als Bestandteil der Darlehensliste zu übergeben.
+
+```
+"referenzId": "eb2f1288-43c6-4ead-82d4-d63889a8d827"
+````
+
+Bsp. der Darlehensliste der Vorschläge-API mit Referenz zu den Bestandsdarlehen aus der Kundenangaben API
+```
+ "darlehensliste": [
+                {
+                    "wirdAbgeloest": true,
+                    "referenzId": "eb2f1288-43c6-4ead-82d4-d63889a8d827",
+                    "darlehensgeber": "PROLOSMART",
+                    "grundschuld": 142323.35,
+                    "restschuld": {
+                        "zumAbloeseTermin": 132323.35
+                    },
+                    "darlehenskontonummer": "Darlehen_1"
+                },
+                {
+                    "wirdAbgeloest": true,
+                    "referenzId": "ac5f458-48c7-8541-82d4-c4388d38d452",
+                    "darlehensgeber": "PROLOSMART",
+                    "grundschuld": 142323.35,
+                    "restschuld": {
+                        "zumAbloeseTermin": 45482.80
+                    },
+                    "darlehenskontonummer": "Darlehen_2"
+                }]
+```
+
+
+
