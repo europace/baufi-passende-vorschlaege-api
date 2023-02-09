@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.75
+  version: 0.0.76
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -393,7 +393,8 @@ components:
             - MEHRFAMILIENHAUS
             - REIHENHAUS
             - ZWEIFAMILIENHAUS
-            - GRUNDSTUECK
+            - GRUNDSTUECK (deprecated, use BAUGRUNDSTUECK)
+            - BAUGRUNDSTUECK
             - EIGENTUMSWOHNUNG
         vermietet:
           type: boolean
@@ -410,7 +411,7 @@ components:
           $ref: '#/components/schemas/Anschrift'
         wohnflaeche:
           type: number
-          description: 'Living or usable space in square meters, irrelevant for objektArt = GRUNDSTUECK'
+          description: 'Living or usable space in square meters, irrelevant for objektArt = BAUGRUNDSTUECK'
           example: 120.50
           minimum: 20
           maximum: 1000
