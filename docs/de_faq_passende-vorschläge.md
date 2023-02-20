@@ -5,7 +5,7 @@ FAQ zur Anbindung und Nutzung der #passt Vorschläge API
    >- In BaufiSmart API Credentials generieren
 
 - Wie erfahre ich wenn die API planmäßig oder unplanmäßig down ist bzw. einige Funktionalitäten nicht verfügbar sind. 
-   >- ?? 
+   >- Entweder du besuchst unsere Statusseite https://status.europace2.de/ oder du abonnierst einfach unser Status-Update (auch unter https://status.europace2.de/) und bekommst automatisch E-Mails von uns, wenn etwas nicht läuft, wie es soll.
    
 - Darf ich Bank-Logos anzeigen und wie erhalte ich die Logos.
    >- ja.
