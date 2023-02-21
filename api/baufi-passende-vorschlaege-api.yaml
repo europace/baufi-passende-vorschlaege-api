@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.75
+  version: 0.0.77
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -393,7 +393,8 @@ components:
             - MEHRFAMILIENHAUS
             - REIHENHAUS
             - ZWEIFAMILIENHAUS
-            - GRUNDSTUECK
+            - GRUNDSTUECK (deprecated, use BAUGRUNDSTUECK)
+            - BAUGRUNDSTUECK
             - EIGENTUMSWOHNUNG
         vermietet:
           type: boolean
@@ -410,7 +411,7 @@ components:
           $ref: '#/components/schemas/Anschrift'
         wohnflaeche:
           type: number
-          description: 'Living or usable space in square meters, irrelevant for objektArt = GRUNDSTUECK'
+          description: 'Living or usable space in square meters, irrelevant for objektArt = BAUGRUNDSTUECK'
           example: 120.50
           minimum: 20
           maximum: 1000
@@ -731,6 +732,10 @@ components:
         kostenUeberGesamtlaufzeit:
           type: number
           format: double
+        referenzId:
+          type: string
+          description: 'if loan is to be paid off, you can specify the id of the existing loan. You get the id from the KundenangabenAPI. Read it from the field ''referenzId'' in the object ''BestehendesDarlehenDesFinanzierungsobjektes''.'
+          example: 'eb2f1288-43c6-4ead-82d4-d63889a8d827'
       description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
       discriminator:
         propertyName: '@type'
