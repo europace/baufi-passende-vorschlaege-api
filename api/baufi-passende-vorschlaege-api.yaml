@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.77
+  version: 0.0.78
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -742,6 +742,8 @@ components:
         mapping:
           ANNUITAETENDARLEHEN: '#/components/schemas/Annuitaetendarlehen'
           PRIVATDARLEHEN: '#/components/schemas/Privatdarlehen'
+          FORWARDDARLEHEN: '#/components/schemas/Forwarddarlehen'
+          VARIABLESDARLEHEN: '#/components/schemas/Variablesdarlehen'
           KFW_DARLEHEN: '#/components/schemas/KfwDarlehen'
     Annuitaetendarlehen:
       type: object
@@ -772,6 +774,38 @@ components:
               format: double
             produktAnbieter:
               type: string
+    Forwarddarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            forwarddetails:
+              $ref: '#/components/schemas/Annuitaetendetails'
+            bereitstellungszinsfreieZeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: 'Percentage'
+              format: double
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
+            forwardPeriodeInMonaten:
+              type: integer
+              format: int32
     Privatdarlehen:
       type: object
       allOf:
@@ -802,6 +836,61 @@ components:
               format: double
             produktAnbieter:
               type: string
+    Variablesdarlehen:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Finanzierungsbaustein'
+        - type: object
+          properties:
+            darlehensbetrag:
+              type: number
+              format: double
+            zinsZahlungsBeginn:
+              type: string
+              format: date
+              example: '2021-05-21'
+            laufzeitInMonaten:
+              type: integer
+              format: int32
+            provision:
+              type: number
+              description: 'Percentage'
+              format: double
+            zinsbindungInJahren:
+              type: integer
+              format: int32
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            produktAnbieter:
+              type: string
+            tilgungsErsatzProduktId:
+              type: string
+            bereitstellungsZins:
+              type: number
+              format: double
+            bereitstellungszinsfreieZeitInMonaten:
+              type: integer
+              format: int32
+            bereitstellungsZinsZahlungen:
+              type: array
+              items:
+                $ref: '#/components/schemas/BereitstellungsZinsZahlung'
+    BereitstellungsZinsZahlung:
+      type: object
+      properties:
+        datum:
+          type: string
+          format: date
+        zahlung:
+          type: number
+          format: double
     Annuitaetendetails:
       type: object
       properties:
@@ -821,7 +910,6 @@ components:
       type: object
       required:
         - darlehensbetrag
-        - kfwEndfaellig
         - programm
       allOf:
         - $ref: '#/components/schemas/Finanzierungsbaustein'
