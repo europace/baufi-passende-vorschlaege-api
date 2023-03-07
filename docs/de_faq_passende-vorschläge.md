@@ -56,3 +56,5 @@ FAQ zur Anbindung und Nutzung der #passt Vorschläge API
  
 - Die Schnittstellenanbindung funktioniert nicht. Die Angebote aus Starpool werden nicht überspielt.
    >- Starte zunächst den Prozess in deinem Frontend-Tool. Wenn du in dem Anmeldeprozess auf der Europace-Loginseite ankommst und nach deinem Benutzernamen gefragt wirst, gib bitte deine PartnerId ein, mit der du bei Starpool registriert bist. Danach wirst du zum Starpool Portal weitergeleitet, wo du das Starpool-Passwort eingeben musst. Der Benutzername sollte nicht geändert werden. Anschließend kannst du der Nutzung von deinem Frontend-Tool zustimmen und du wirst weitergeleitet.
+
+Noch mehr Informationen rund um die passende-vorschlaege-API findest du in unseren How To´s: https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs
