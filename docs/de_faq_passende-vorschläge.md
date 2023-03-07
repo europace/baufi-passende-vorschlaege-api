@@ -19,7 +19,7 @@ FAQ zur Anbindung und Nutzung der #passt Vorschläge API
    >- Innerhalb unseres Hypoport-Netzwerks arbeiten wir daran, dir für jeden Use Case eine Lösung anbieten zu können. Sprich uns gern einfach über passt@europace.de an.
 
 - Wie kann ich Leads innerhalb meines Vertriebes / Netzwerks verteilen?
-   >- ?
+   >- Hier helfen wir dir gern individuell weiter. Kontaktiere uns einfach unter sales@europace.de
 
 - Muss ich ein 34i-Nachweis vorweisen um #passt auf meiner Landingpage einzusetzen?
    >- Nein. #passt-Technologie ersetzt die Beratung nicht, sondern dient vielmehr als self enabling Tool für Verbraucher:innen, sodass für die Anzeige der passenden Vorschläge keine 34i-Zertifikate notwendig sind.
@@ -28,7 +28,7 @@ FAQ zur Anbindung und Nutzung der #passt Vorschläge API
    >- Ja, Datenschutz ist enorm wichtig. Du solltest immer darauf achten, deine Datenschutzhinweise für Verbraucher:innen verfügbar zu machen. Bei Nutzung der #passt-Technologie ist es für die reine Ermittlung von Vorschlägen noch nicht notwendig die Europace-Datenschutzhinweise anzuzeigen, da wir nur mit nicht personenbezogenen Daten arbeiten und diese Daten nach sehr kurzer Zeit bereits wieder gelöscht werden. Sobald ein Vorgang auf Europace angelegt wird, muss du VOR Anlage des Vorgangs deine und unsere Datenschutzhinweise bereitstellen.
 
 - Ich möchte eine Zustimmung für Werbezwecke/Beratungen außerhalb der Baufinanzierung einholen. Wie mache ich das?
-   >-
+   >- Melde dich dazu am besten einfach unter sales@europace.de bei uns.
 
 - Was kostet die API Nutzung?
    >- Aktuell berechnen wir für die Nutzung der #passt-Technologie nichts. Einzige Bedingung ist die Vorgangsanlage auf Europace und der Abschluss über uns.
