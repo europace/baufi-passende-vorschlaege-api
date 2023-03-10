@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.80
+  version: 0.0.81
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -929,6 +929,25 @@ components:
               $ref: '#/components/schemas/Tilgung'
             programm:
               $ref: '#/components/schemas/KfwProgramm'
+            zinsbindungInJahren:
+              type: integer
+              format: int32
+            sollZins:
+              type: number
+              format: double
+            effektivZins:
+              type: number
+              format: double
+            rateMonatlich:
+              type: number
+              format: double
+            tilgungsBeginn:
+              type: string
+              format: date
+              example: '2021-05-21'
+            rateMonatlichInDerTilgungsfreienAnlaufzeit:
+              type: number
+              format: double
     Tilgung:
       required:
         - '@type'
