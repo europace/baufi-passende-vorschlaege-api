@@ -54,4 +54,4 @@ Es ist entweder eine gültige PLZ oder ein Bundesland (01-16) für den Standort 
 
 ## Meldungstexte
 weitere Infos zu den Validierungsmeldungen:
-https://github.com/europace/passende-vorschlaege-service/blob/97afa6f65e97df27e30208edd38c59342a74df87/src/main/resources/messages.properties
+https://github.com/europace/passende-vorschlaege-service/blob/main/src/main/resources/messages.properties
