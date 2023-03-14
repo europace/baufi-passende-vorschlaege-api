@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 0.0.82
+  version: 0.0.83
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -784,7 +784,7 @@ components:
             darlehensbetrag:
               type: number
               format: double
-            forwarddetails:
+            annuitaetendetails:
               $ref: '#/components/schemas/Annuitaetendetails'
             bereitstellungszinsfreieZeitInMonaten:
               type: integer
