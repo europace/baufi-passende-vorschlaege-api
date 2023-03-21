@@ -35,15 +35,23 @@ Anschlussfinanzierung nur mit abzulösendem Darlehen ( wirdabgeloest = true) und
 int MAX_AGE_IN_YEARS = 90;
 int MIN_AGE_IN_YEARS = 16;
 int MIN_JAHR_DER_BESCHAEFTIGUNG = 1950;
-isBeschaeftigungSeit >TODAY;
-isBeschaeftigungSeit < GeburtsDatum;
+
+Fehler wenn
+  isBeschaeftigungSeit >TODAY;
+  isBeschaeftigungSeit < GeburtsDatum;
 ```
 
 ## Immobilie
 ```
 baujahr.minimum: 1600;
-baujahr.maximum: objektBaujahr > naechstesJahr
+
+Fehler wenn
+  baujahr.maximum: objektBaujahr > naechstesJahr
 ```
 Die PLZ der Immobilie muss sich auf der Liste der Dt. Post befinden
-Es ist entweder eine PLZ oder ein Bundesland für den Standort der Immobilie anzugeben.
+Es ist entweder eine gültige PLZ oder ein Bundesland (01-16) für den Standort der Immobilie anzugeben.
 (Die Erwerbsnebenkosten bestimmen zu einem großen Teil den Eigenkapitalbedarf und werden aus dem jeweiligen Bundesland ermittelt.)
+
+## Meldungstexte
+weitere Infos zu den Validierungsmeldungen:
+https://github.com/europace/passende-vorschlaege-service/blob/main/src/main/resources/messages.properties
