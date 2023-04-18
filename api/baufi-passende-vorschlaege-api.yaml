@@ -384,7 +384,7 @@ components:
           type: number
           description: 'Monthly net income according to salary statement without special payments, in EuroMonthly net income according to salary statement without special payments, in euros'
           example: 3500.00
-          minimum: 0
+          minimum: 1
           maximum: 100000
         geburtsdatum:
           type: string
