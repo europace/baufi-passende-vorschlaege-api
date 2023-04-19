@@ -350,7 +350,7 @@ components:
           type: number
           example: 4000
           description: 'Total of all unredeemed liabilities from private loans. In euros'
-          minimum: 0
+          minimum: 1
           maximum: 10000000
         gesamtRatenkrediteRestschuld:
           type: number
