@@ -96,7 +96,7 @@ Content-Length: 1332
         "datenkontext": "TEST_MODUS",
         "extKundenId": "",
         "extClientId": "",
-        "gewuenschteAnzahlVorschlaege": 2
+        "gewuenschteAnzahlVorschlaege": 3
     },
     "kundenangaben": {
         "haushalte": [
@@ -113,8 +113,10 @@ Content-Length: 1332
                 "finanzielleSituation": {
                     "eigenKapital": 100000,
                     "sonstigeEinnahmen": 0,
-                    "nichtAbgeloestePrivateDarlehenRestschuld": 0,
-                    "nichtAbgeloesteRatenkrediteRestschuld": 0
+                    "gesamtPrivateDarlehenRestschuld": 0,
+                    "gesamtRatenkrediteRestschuld": 10000,
+                    "verbleibendeRatenkrediteRestschuld":10000,
+                    "verbleibendeRatenkrediteRateMonatlich":240.50
                 }
             }
         ],
