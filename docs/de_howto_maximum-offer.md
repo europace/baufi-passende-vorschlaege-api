@@ -21,6 +21,13 @@ Die API-Anfrage muss den Verwendungszweck KAUF enthalten. Die minimalen Anforder
 
 Die API-Antwort enthält im Mode "maximum-offer" das zusätzliche Feld _maximalKaufpreis_. Im Knoten _nebenkosten_ werden die für diesen Kaufpreis notwendigen Nebenkosten ausgegeben. Der im Vorschlag verwendete Darlehensbetrag wird aus den maximal-Werten und dem verfügbaren Eigenkapital ermittelt.
 
+
+## Tipps
+
+- Um eine sinnvolle Berechnung der Nebenkosten zu ermöglichen, sollte keine fester Wert für die Maklergebühr übergeben werden. Wir empfehlen die _maklergebuehr = 0_ zu setzen. Daruch verbessert sich das Spektrum der möglichen Finanzierungen, insbesondere bei niedrigem Eigenkapital.
+- Wird keine Beschäftigungsart der Kunden angegeben, rechnen wir mit dem default-Wert "ANGESTELLTER". Da für Selbständige und Freiberufler häufig andere Finanzierungsbedingungen gelten emfehlen wir hier explizit die Beschäftigungsart im Request zu setzen.
+- 
+
 ## Randbedingungen
 
 - Zz. werden maximale Kaufpreise bis zu 1 Mio € ermittelt. Für größere Beträge würde sich die Berechnungsdauer unnötig verlängern. Wir gehen davon aus, dass Objektwerte über 1 Mio € immer individuelle Beratung erfordern. 
