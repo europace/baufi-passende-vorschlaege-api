@@ -6,7 +6,7 @@ Unter folgender URL können Produktanbieter-Logos abgerufen werden:
 https://www.europace2.de/produktanbieter-logos/logo/[PRODUKTANBIETER-BEZEICHNUNG/-ENUM].[png/svg]
 
 Für den Platzhalter [PRODUKTANBIETER-BEZEICHNUNG/-ENUM] können die in der Vorschläge API unter dem Knoten _produktAnbieter_ gelieferten Namen verwendet werden.
-Je nach verwendeter Endung wird entweder die svg-Version des Logos oder ein png-Thumpnail ausgeliefert. Wie empfehlen die svg-Version.
+Je nach verwendeter Endung wird entweder die svg-Version des Logos oder ein png-Thumbnail ausgeliefert. Wie empfehlen die svg-Version.
 
 Bsp: [https://www.europace2.de/produktanbieter-logos/logo/Commerzbank.svg], dabei ist Commerzbank der Wert des Feldes _produktAnbieter_.
 
