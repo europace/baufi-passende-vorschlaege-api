@@ -4,8 +4,9 @@
 
 - Lead Rating: Oberbegriff und Knoten für alle Rating-Konzepte der Vorschläge-API, das Lead Rating bezieht sich immer auf die gesamte Verbraucher-Situation bzw. alle Vorschläge der Ergebnisliste
 
-- successRating (A-D): Klassifizierung der Lead-Qualität nach Abschlusswahrscheinlichkeit (beide unterschreiben)
+- successRating (A-D): Klassifizierung der Lead-Qualität nach Abschlusswahrscheinlichkeit (beide unterschreiben). Die Ratingklassen repräsentieren eine statistische Verteilung der Vorgänge. Die Gruppe der A-Leads hat dabei eine ca. 4x so hohe Wahrscheinlichkeit für einen Vertragsabschluss als die Gruppe der D-Leads. Für die Klassifizierung wir ein Machine Learning Modell eingesetzt, das alle Eingabewerte des Vorgangs berücksichtigt. Dabei ergeben mehr Eingabedaten gewöhnlich ein etwas besseres Rating solange die Werte der eingegebenen Daten gleich sind. Die Eingabewerte haben unterschiedlich starken Einfluss im Rating Modell und sehr selten auftretende Konstellationen lassen sich nur mit einer größeren Unsicherheit in der Vorhersage bestimmen.
 
+  
 - effortRating (true,false): Vorgang abzuschließen wird aufwändig, inkl. Beschreibung warum
 
 - feasibilityRating (0-100): Anteil der machbaren Angebote in der Ergebnisliste, Ausdruck der Wahrscheinlichkeit, dass ein Antrag erstellt werden kann (unabhängig davon ob der Verbraucher wirklich abschließen will). Der Wert feasibilityRating entspricht einem Mittelwert über alle Machbarkeitsergebnisse die in der Market Engine berechnet werden. Das sind im default Mode gewöhnlich 30 Produktanbieter mit all ihren Alternativen die auch in BaufiSmart erzeugt werden. Im Mode _exploration-matrix_ [de_howto_matrix.md](de_howto_matrix.md) sind es 9x30 Angebote, allerdings mit weniger Optionen als im default Mode. Die Machbarkeit wird dabei nach folgenden Werten berechnet: rot = 0, gelb = 50, grün = 100. Eine Vorschlagsliste mit 2x grün, 1x gelb und 1x rot ergibt ein feasibilityRating von 62,5. Die unter _gewuenschteAnzahlVorschlaege_ anforderte Anzahl Vorschläge hat keine Einfluss auf das feasibilityRating.
