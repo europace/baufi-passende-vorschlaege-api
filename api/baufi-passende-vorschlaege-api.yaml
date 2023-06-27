@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.18
+  description: 'As consumer,I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
+  version: 1.0.22
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -325,7 +325,7 @@ components:
           example: 34500
           description: 'Total of all assets to be contributed. In euros'
           minimum: 0
-          maximum: 10000000
+          maximum: 50000000
         sonstigeEinnahmen:
           type: number
           example: 380
@@ -349,13 +349,13 @@ components:
         gesamtPrivateDarlehenRestschuld:
           type: number
           example: 4000
-          description: 'Total of all unredeemed liabilities from private loans. In euros'
+          description: 'Total of all existing liabilities from private loans. In euros'
           minimum: 0
           maximum: 10000000
         gesamtRatenkrediteRestschuld:
           type: number
           example: 8500
-          description: 'Total of all unredeemed liabilities from installment loans. In euros'
+          description: 'Total of all existing liabilities from installment loans. In euros'
           minimum: 0
           maximum: 10000000
         verbleibendeRatenkrediteRestschuld:
@@ -403,6 +403,7 @@ components:
               - RENTNER
               - HAUSFRAU
               - ARBEITSLOSER
+          default: ANGESTELLTER
     Finanzierungsobjekt:
       type: object
       required:
@@ -468,13 +469,13 @@ components:
           description: 'Share of land value (if known) In euros'
           example: 38000.00
           minimum: 0
-          maximum: 1000000
+          maximum: 10000000
         kaufpreis:
           type: number
           description: 'Primary costs to acquire / create the property excluding grundstueckKaufpreis and incidental costs (notary fees, land transfer tax, ...). In euros'
           example: 250000.00
           minimum: 0
-          maximum: 10000000
+          maximum: 50000000
         maklergebuehr:
           type: number
           description: 'Costs for custom brokerage fee. In euros. If there is no brokerage fee for the service received, please send 0 Euro. If the standard fees are to be taken into account, please leave the field blank.'
@@ -678,6 +679,10 @@ components:
         finanzierungsVorschlagId:
           type: string
         annahmeFrist:
+          type: string
+          format: date
+          example: '2021-05-21'
+        angebotsDatum:
           type: string
           format: date
           example: '2021-05-21'
