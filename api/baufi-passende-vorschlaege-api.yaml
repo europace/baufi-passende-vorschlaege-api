@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  description: 'As consumer,I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
+  description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
   version: 1.0.22
   title: Vorschlaege API
   contact:
