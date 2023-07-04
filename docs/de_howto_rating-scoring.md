@@ -17,7 +17,7 @@
 
 - scoring: Sortierung der einzelnen Vorschläge nach 12 Scoring-Kriterien, für die Nutzer unsichtbar, Ergebnis ist ein technischer Score-Wert zum Sortieren. Dieser Wert wird nicht explizit in der Antwort ausgegeben. 
 
-- rank: sichtbares Ergebnis des Scorings für den Nutzer, niedrigster Score = rank 0, im Mode "exploration-matrix" werden immer nur das jeweils am besten gescorte Angebot für jede Matrixposition ausgeliefert (minimaler rank)
+- rank: sichtbares Ergebnis des Scorings für den Nutzer, niedrigster Score = rank 0, im Mode "exploration-matrix" werden immer nur das jeweils am besten gescorte Angebot für jede Matrixposition ausgeliefert (minimaler rank). Die Sortierung erfolgt nach Wert für den Verbraucher (ranking). Dabei relevant sind Zins, Machbarkeit, Rate, Sondertilgung, Bereitsstellungszinsfreie Zeit, Gesamtlaufzeit und Bearbeitungszeit.
 
 - Machbarkeit: Ergebnis der Berechnungsregeln der Market Engine für jeden Finanzierungsvorschlag in numerischer Form (rot=0, gelb=50, grün=100)
   
