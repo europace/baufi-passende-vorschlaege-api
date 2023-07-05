@@ -1,14 +1,14 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.22
+  version: 1.0.23
   title: Vorschlaege API
   contact:
     name: Europace AG
     url: 'https://www.europace2.de'
     email: passt@europace.de
 servers:
-  - url: 'https://baufismart.api.europace.de'
+  - url: 'https://baufinanzierung.api.europace.de/'
     description: Production server
 tags:
   - name: Finanzierungsvorschlaege
@@ -335,14 +335,14 @@ components:
         nichtAbgeloestePrivateDarlehenRestschuld:
           type: number
           example: 4000
-          description: 'Depreacated, will be renamed to gesamtPrivateDarlehenRestschuld! Total of all unredeemed liabilities from private loans. In euros'
+          description: 'Deprecated, will be renamed to gesamtPrivateDarlehenRestschuld! Total of all unredeemed liabilities from private loans. In euros'
           minimum: 0
           maximum: 10000000
           deprecated: true
         nichtAbgeloesteRatenkrediteRestschuld:
           type: number
           example: 8500
-          description: 'Depreacated, will be renamed to gesamtRatenkrediteRestschuld! Total of all unredeemed liabilities from installment loans. In euros'
+          description: 'Deprecated, will be renamed to gesamtRatenkrediteRestschuld! Total of all unredeemed liabilities from installment loans. In euros'
           minimum: 0
           maximum: 10000000
           deprecated: true
