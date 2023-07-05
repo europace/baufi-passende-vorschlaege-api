@@ -150,6 +150,11 @@ Content-Length: 1332
 }
 ```
 
+example curl (repleace access_token)
+```
+curl -X POST https://baufinanzierung.api.europace.de/v1/vorschlaege -H "Content-Type: application/json" -H "Authorization: Bearer {{access_token}}" -d "{ \"metadaten\": { \"datenkontext\": \"TEST_MODUS\", \"extKundenId\": \"\", \"extClientId\": \"\" }, \"kundenangaben\": { \"haushalte\": [ { \"kunden\": [ { \"beschaeftigtSeit\": \"2010-01-26\", \"arbeitBefristet\": false, \"einkommenNetto\": 5000, \"geburtsdatum\": \"1999-05-26\", \"beschaeftigungsArt\": \"ANGESTELLTER\" } ], \"finanzielleSituation\": { \"eigenKapital\": 100000, \"sonstigeEinnahmen\": 0, \"nichtAbgeloestePrivateDarlehenRestschuld\": 0, \"nichtAbgeloesteRatenkrediteRestschuld\": 0 } } ], \"finanzierungsbedarf\": { \"finanzierungszweck\": \"KAUF\", \"grundstueckKaufpreis\": 380000, \"kaufpreis\": 250000, \"modernisierungsKostenInklEigenleistungen\": 25000, \"modernisierungEigenleistung\": 15000, \"praeferenzen\": { \"rate\": 900, \"faelligkeitsdatum\": \"2023-09-20T13:32:09.271Z\", \"kreditEntscheidungsZeit\": \"2023-07-18T13:32:09.271Z\", \"laufzeit\": 60 } }, \"finanzierungsobjekt\": { \"objektArt\": \"EINFAMILIENHAUS\", \"vermietet\": false, \"baujahr\": 2000, \"gewerblicheNutzung\": false, \"anschrift\": { \"plz\": \"10179\", \"ort\": \"Berlin\", \"strasse\": \"Klosterstrasse\", \"hausnummer\": \"8\" }, \"wohnflaeche\": 150 } } }"
+```
+
 example response:
 ``` json
 {
@@ -167,6 +172,11 @@ GET /v1/vorschlaege/{anfrageId} HTTP/1.1
 Host: baufinanzierung.api.europace.de
 Content-Type: application/json
 Authorization: Bearer [access_token]
+```
+
+example curl (repleace access_token):
+```
+curl -X GET https://baufinanzierung.api.europace.de/v1/vorschlaege/passende-vorschlaege-71e2faa9-4094-4f66-8909-02677e5e9d7f -H "Content-Type: application/json" -H "Authorization: Bearer {{access-token}}"
 ```
 
 example response:
