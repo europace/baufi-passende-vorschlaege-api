@@ -3,7 +3,7 @@
 # Notar- und Grundbuchkosten
 Der Standard-Vorgang zum Erwerb einer Immobilie (KAUF, KAUF_NEUBAU_VOM_BAUTRAEGER) wir mit einer Nebenkosten-Pauschale für Notargebühr und Grundbuchkosten von 1,8% vom Kaufpreis berechnet.
 Dabei entfallen ca 1,2% auf Kosten beim Notar (Kaufvertrag, Grundschuldbestellung) und 0,6% auf Kosten beim Amtsgericht. Die Pauschale entspricht den anfallenden Kosten einer Transaktion mit 150.000€ Kaufpreis und 100% Finanzierung.
-Aufgrund der Fixkosten-Anteile in der Kosten läge die reale Kostenpauschale bei Kaufpreisen unter 100.000€ bei ca. 2% und bei Preisen ab 300.000€ bei ca. 1,6%. Wir haben uns für 1,8% als Kompromiss entschieden.
+Aufgrund der Fixkosten-Anteile in der Gebührenrechnung läge die reale Kostenpauschale bei Kaufpreisen unter 100.000€ bei ca. 2% und bei Preisen ab 300.000€ bei ca. 1,6%. Wir haben uns für 1,8% als Kompromiss entschieden.
 
 Beim Verwendungszweck "eigenes Neubauvorhaben" werden die Nebenkosten nur dann auf den Grundstücksanteil der Gesamtkosten berechnet, wenn dieser als noch nicht bezahlt übertragen wird.
 Für den Teile Herstellungskosten, Modernisierung und Eigenleistungen werden keine Nebenkosten angerechnet.
