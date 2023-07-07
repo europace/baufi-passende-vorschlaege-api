@@ -8,14 +8,15 @@
 
 ![Verteilung der Rating Klassen und Auftrittswahrscaheinlichkeit](./successrating.png)
   
-- effortRating (true,false): Vorgang abzuschließen wird aufwändig, inkl. Beschreibung warum
+- effortRating (true,false): Vorgang abzuschließen wird aufwändig, inkl. einer Beschreibung warum
 
 - feasibilityRating (0-100): Anteil der machbaren Angebote in der Ergebnisliste, Ausdruck der Wahrscheinlichkeit, dass ein Antrag erstellt werden kann (unabhängig davon ob der Verbraucher wirklich abschließen will). Der Wert feasibilityRating entspricht einem Mittelwert über alle Machbarkeitsergebnisse die in der Market Engine berechnet werden. Das sind im default Mode gewöhnlich 30 Produktanbieter mit all ihren Alternativen die auch in BaufiSmart erzeugt werden. Im Mode _exploration-matrix_ [de_howto_matrix.md](de_howto_matrix.md) sind es 9x30 Angebote, allerdings mit weniger Optionen als im default Mode. Die Machbarkeit wird dabei nach folgenden Werten berechnet: rot = 0, gelb = 50, grün = 100. Eine Vorschlagsliste mit 2x grün, 1x gelb und 1x rot ergibt ein feasibilityRating von 62,5. Die unter _gewuenschteAnzahlVorschlaege_ anforderte Anzahl Vorschläge hat keine Einfluss auf das feasibilityRating.
+- Interpretation des feasibilityRating: wir empfehlen folgende Klassifizierung: 0-29 es wird schwierig eine passende Finanzierung zu finden, 30-49 Gute Chancen auf eine passende Finanzierung (mind. 1/3 der Produktanbieter bieten machbare Vorschläge an), 50-100 Sehr gute Chancen auf eine passende Finanzierung (mind. die Hälfte aller Produktanbieter bieten machbare Vorschläge an). Je nach Produktanbieter-Portfolio bietet sich im Bereich grö0er 0 bis 10 eine weitere Rating Stufe an, so dass Ratings darunter explizit mit "keine Finanzierung möglich" bewertet werden.
   
 
 ## Scoring
 
-- scoring: Sortierung der einzelnen Vorschläge nach 12 Scoring-Kriterien, für die Nutzer unsichtbar, Ergebnis ist ein technischer Score-Wert zum Sortieren. Dieser Wert wird nicht explizit in der Antwort ausgegeben. 
+- scoring: Sortierung der einzelnen Vorschläge nach 12 Scoring-Kriterien, die für die Nutzer nicht sichtbar sind, Ergebnis ist ein technischer Score-Wert zum Sortieren. Dieser Wert wird nicht explizit in der Antwort ausgegeben. 
 
 - rank: sichtbares Ergebnis des Scorings für den Nutzer, niedrigster Score = rank 0, im Mode "exploration-matrix" werden immer nur das jeweils am besten gescorte Angebot für jede Matrixposition ausgeliefert (minimaler rank). Die Sortierung erfolgt nach Wert für den Verbraucher (ranking). Dabei relevant sind Zins, Machbarkeit, Rate, Sondertilgung, Bereitsstellungszinsfreie Zeit, Gesamtlaufzeit und Bearbeitungszeit.
 
