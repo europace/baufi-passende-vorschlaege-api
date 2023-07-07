@@ -9,7 +9,7 @@ Beim Verwendungszweck "eigenes Neubauvorhaben" werden die Nebenkosten nur dann a
 Für den Teile Herstellungskosten, Modernisierung und Eigenleistungen werden keine Nebenkosten angerechnet.
 
 # Maklergebühren
-Es besteht die Möglichkeit in der API-Anfrage eine Maklergebühr in EUR mitzuschicken. Sobald der Wert _maklergebuehr_ in der Anfrage nicht _null_ ist wird dieser für die Nebenkostenrechnung verwenden. Insbesondere bei Privat-Käufen oder Bauträger Projekten kann hier explizit 0€ übertragen werden um die Einrechnung einer Maklergebühr in die Gesamtkosten zu unterbinden.
+Es besteht die Möglichkeit in der API-Anfrage eine Maklergebühr in EUR mitzuschicken. Sobald der Wert _maklergebuehr_ in der Anfrage nicht _null_ ist wird dieser für die Nebenkostenrechnung verwendet. Insbesondere bei Privat-Käufen oder Bauträger Projekten kann hier explizit 0€ übertragen werden um die Einrechnung einer Maklergebühr in die Gesamtkosten zu unterbinden.
 Ohne Übertragung der _maklergebuehr_ in Erwerbsfällen (KAUF, KAUF_NEUBAU_VOM_BAUTRAEGER) wir hier die Hälfte der für jedes Bundesland typischen Gebühr angesetzt. Bsp. Berlin: 3,57%
 Da die Maklergebühr als signifikanter Anteil der Nebenkosten aus Eigenkapital aufgebracht werden muss, ist insbesondere bei der Maximal-Kaufpreis-Berechnung darauf zu achten ob real Maklergebühren anfallen. Sollte dies nicht der Fall sein, kann mit der Angabe "_maklergebuehr_": 0 der maximal mögliche Kaufpreis aufgrund der Beleihungswertkriterien um bis zu 20% höher ausfallen. 
 
