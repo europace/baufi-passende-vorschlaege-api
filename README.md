@@ -186,7 +186,7 @@ Content-Type: application/json
 Authorization: Bearer [access_token]
 ```
 
-example curl (repleace access_token):
+example curl (repleace access_token and use above response as anfrageId in URL):
 ```
 curl -X GET https://baufinanzierung.api.europace.de/v1/vorschlaege/passende-vorschlaege-71e2faa9-4094-4f66-8909-02677e5e9d7f -H "Content-Type: application/json" -H "Authorization: Bearer {{access-token}}"
 ```
