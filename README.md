@@ -83,6 +83,18 @@ We recommend the following fields to get relevant LeadRating results:
 
 To adjust the financial solution, you can define preferences in `praeferenzen`.
 
+The documentation for the API input values is described in the [YAML file](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml). From approx. line 300 the input parameters are listed with limit values, default values and examples.
+
+example extract from the [YAML file](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml):
+```
+eigenKapital:
+          type: number
+          example: 34500
+          description: 'Total of all assets to be contributed. In euros'
+          minimum: 0
+          maximum: 50000000
+```
+
 example request:
 ``` http
 POST /v1/vorschlaege/ HTTP/1.1
