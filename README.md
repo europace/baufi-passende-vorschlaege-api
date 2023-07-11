@@ -81,7 +81,7 @@ We recommend the following fields to get relevant LeadRating results:
 - gewerblicheNutzung
 - wohnflaeche
 
-To adjust the financial solution, you can define preferences in `praeferenzen`.
+To adjust the financial solution, you can define preferences in [Praeferenzen](\docs\de_howto_praeferenzen).
 
 The documentation for the API input values is described in the [YAML file](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml). From approx. line 300 the input parameters are listed with limit values, default values and examples.
 
