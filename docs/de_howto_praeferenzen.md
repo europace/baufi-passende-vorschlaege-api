@@ -13,7 +13,7 @@ Folgende Präferenzen haben direkten Einfluss auf die Finanzierungswünsche:
 - optionaleSondertilgung
 - bereitstellungszinsfreieZeit
 
-Die folgenden Präferenzen beeinflussen das Ranking der erzeugten Finanzierungswünsche
+Die folgenden Präferenzen beeinflussen das Ranking der erzeugten Finanzierungswünsche:
 - faelligkeitsdatum (Wann wird der Kaufpreis fällig, bis wann sollte die Bereitstellung des Darlehens kostenlos sein? Bei Umschuldungen und Prolongationen ist das Feld _zinsbindungBis_ in der Liste der abzulösenden Darlehen als Umschuldungstermin zu verwenden, auch wenn eine Sonderkündigung nach §489 BGB vorliegt.)
 - kreditEntscheidungsZeit (Bis wann muss die Kreditentscheidung vorliegen? Schnelle Produktanbieter werden hier bevorzugt.)
 - laufzeit (Wie lang ist die Dauer bis zur Rückzahlung des am längsten laufenden Darlehens unter Annahme gleichbleibender Zinsen?)
