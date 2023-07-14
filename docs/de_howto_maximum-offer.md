@@ -2,12 +2,13 @@
 
 Die Vorschläge-API kann für den Verwendungszweck KAUF aus einer beliebigen Konstellation an Verbraucherdaten einen Vorschlag ermitteln, der auf einem maximal machbaren Kaufpreis basiert. 
 
-Zur Aktivierung der Maximal-Preis-Ermittlung ist in den Metadaten der dafür notwendige Modus "maximum-offer" zu aktivieren:
+Zur Aktivierung der Maximal-Preis-Ermittlung ist in den Metadaten der dafür notwendige Modus "maximum-offer" und das Feature zur Verwendung aller möglichen Finanziuerungsbausteine zu aktivieren:
 
 ```
 {
     "metadaten": {
         "datenkontext": "TEST_MODUS",
+        "feature": "enable_extended_loan_types",
         "mode": "maximum-offer"
     }
 }
@@ -26,7 +27,7 @@ Die API-Antwort enthält im Mode "maximum-offer" das zusätzliche Feld _maximalK
 
 - Um eine sinnvolle Berechnung der Nebenkosten zu ermöglichen, sollte keine fester Wert für die Maklergebühr übergeben werden. Wir empfehlen die _maklergebuehr = 0_ zu setzen. Daruch verbessert sich das Spektrum der möglichen Finanzierungen, insbesondere bei niedrigem Eigenkapital.
 - Wird keine Beschäftigungsart der Kunden angegeben, rechnen wir mit dem default-Wert "ANGESTELLTER". Da für Selbständige und Freiberufler häufig andere Finanzierungsbedingungen gelten emfehlen wir hier explizit die Beschäftigungsart im Request zu setzen.
-- 
+
 
 ## Randbedingungen
 
