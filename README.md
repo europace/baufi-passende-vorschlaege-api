@@ -65,10 +65,11 @@ To find the right financial proposals we need some data. There are no mandatory-
 
 We recommend the following fields for buying or build with Bauträger to get relevant financial proposals:
 - einkommenNetto
-- geburtsdatum
+- geburtsdatum / jahr
 - eigenKapital
+- kaufpreis
 - objektArt
-- plz
+- plz oder bundesland
 
 We recommend the following fields to get relevant LeadRating results:
 - beschaeftigtSeit
