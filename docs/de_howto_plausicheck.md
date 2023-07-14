@@ -1,6 +1,6 @@
 # Eingabevalidierung und Plausiblitätscheck
 
-Der Großteil der Dokumentation für die API Eingabewerte ist in der YAML festgehalten:
+Die Dokumentation für die API Eingabewerte ist in der YAML festgehalten:
 https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml
 
 Ab ca. Zeile 300 sind die Eingabeparameter mit Grenzwerten, Default-Werten und Beispielen aufgeführt.
@@ -54,4 +54,4 @@ Es ist entweder eine gültige PLZ oder ein Bundesland (01-16) für den Standort 
 
 ## Meldungstexte
 weitere Infos zu den Validierungsmeldungen:
-https://github.com/europace/passende-vorschlaege-service/blob/main/src/main/resources/messages.properties
+[intern](https://github.com/europace/passende-vorschlaege-service/blob/main/src/main/resources/messages.properties)

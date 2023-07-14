@@ -81,7 +81,19 @@ We recommend the following fields to get relevant LeadRating results:
 - gewerblicheNutzung
 - wohnflaeche
 
-To adjust the financial solution, you can define preferences in `praeferenzen`.
+To adjust the financial solution, you can define preferences in [Praeferenzen](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/docs/de_howto_praeferenzen.md).
+
+The documentation for the API input values is described in the [YAML file](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml). At _#/components/schemas/Kundenangaben_ the input parameters are listed with limit values, default values and examples.
+
+example extract from the [YAML file](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml):
+```
+eigenKapital:
+          type: number
+          example: 34500
+          description: 'Total of all assets to be contributed. In euros'
+          minimum: 0
+          maximum: 50000000
+```
 
 example request:
 ``` http
@@ -174,9 +186,9 @@ Content-Type: application/json
 Authorization: Bearer [access_token]
 ```
 
-example curl (repleace access_token):
+example curl (repleace access_token and use above received response as anfrageId in URL):
 ```
-curl -X GET https://baufinanzierung.api.europace.de/v1/vorschlaege/passende-vorschlaege-71e2faa9-4094-4f66-8909-02677e5e9d7f -H "Content-Type: application/json" -H "Authorization: Bearer {{access-token}}"
+curl -X GET https://baufinanzierung.api.europace.de/v1/vorschlaege/{{anfrageid}} -H "Content-Type: application/json" -H "Authorization: Bearer {{access-token}}"
 ```
 
 example response:
