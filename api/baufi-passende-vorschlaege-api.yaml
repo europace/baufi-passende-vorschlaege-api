@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.23
+  version: 1.0.24
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -382,7 +382,7 @@ components:
           description: 'true, if employment relationship is temporary, otherwise false'
         einkommenNetto:
           type: number
-          description: 'Monthly net income according to salary statement without special payments, in EuroMonthly net income according to salary statement without special payments, in euros'
+          description: 'Monthly net income according to salary statement without special payments, also for self-employed, in Euro'
           example: 3500.00
           minimum: 0
           maximum: 100000
@@ -427,7 +427,7 @@ components:
         baujahr:
           type: integer
           example: 1952
-          description: 'Year of construction of the building or last complete renovation'
+          description: 'Year of construction of the building or last complete renovation, irrelevant for objektArt = BAUGRUNDSTUECK'
         gewerblicheNutzung:
           type: boolean
           description: 'true, if the property is used predominantly or exclusively for commercial purposes, otherwise false'
@@ -766,7 +766,7 @@ components:
           type: string
           description: 'if loan is to be paid off, you can specify the id of the existing loan. You get the id from the KundenangabenAPI. Read it from the field ''referenzId'' in the object ''BestehendesDarlehenDesFinanzierungsobjektes''.'
           example: 'eb2f1288-43c6-4ead-82d4-d63889a8d827'
-      description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen'
+      description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen, Forwarddarlehen, Variablesdarlehen'
       discriminator:
         propertyName: '@type'
         mapping:
