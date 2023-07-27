@@ -25,7 +25,7 @@ Die API-Antwort enthält im Mode "maximum-offer" das zusätzliche Feld _maximalK
 
 ## Tipps
 
-- Um eine sinnvolle Berechnung der Nebenkosten zu ermöglichen, sollte keine fester Wert für die Maklergebühr übergeben werden. Wir empfehlen die _maklergebuehr = 0_ zu setzen. Daruch verbessert sich das Spektrum der möglichen Finanzierungen, insbesondere bei niedrigem Eigenkapital.
+- Um eine sinnvolle Berechnung der Nebenkosten zu ermöglichen, sollte keine fester Wert für die Maklergebühr übergeben werden. Wir empfehlen die _maklergebuehr = 0_ zu setzen. Dadruch verbessert sich das Spektrum der möglichen Finanzierungen, insbesondere bei niedrigem Eigenkapital.
 - Wird keine Beschäftigungsart der Kunden angegeben, rechnen wir mit dem default-Wert "ANGESTELLTER". Da für Selbständige und Freiberufler häufig andere Finanzierungsbedingungen gelten emfehlen wir hier explizit die Beschäftigungsart im Request zu setzen.
 
 
