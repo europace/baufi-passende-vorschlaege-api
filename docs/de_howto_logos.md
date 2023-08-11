@@ -1,7 +1,7 @@
 # Verwendung von Produktanbieter-Logos in Client-Anwendungen
 
 ## Logo API
-Unter folgender URL können Produktanbieter-Logos abgerufen werden:
+Unter folgender URL können Produktanbieter-Logos abgerufen und bei der Anzeige von Finanzierungsvorschlägen verwendet werden:
 
 https://www.europace2.de/produktanbieter-logos/logo/[PRODUKTANBIETER-BEZEICHNUNG/-ENUM].[png/svg]
 
@@ -23,3 +23,6 @@ Die komplettte URL sieht dann folgendermaßen aus: [https://www.europace2.de/pro
 - Bei Kombinations-Vorschlägen (Nachrang, KfW, Verbund-Angebote) hat jeder Baustein einen anderen Produktanbieter, so dass auch alle Bausteine ein separates Logo benötigen.
   Es können bis zu 3 Bausteine in Kombination auftreten, so dass der Client auch bis zu 3 Logos darstellen sollte.
 - Neben der Produktanbieter-Bezeichnung können auch die ENUMS der ProduktanbieterId oder pauschale Kurznamen (Bsp.: spk.svg) als Abrufparameter verwendet werden.
+
+## Rechtliches
+- Die Verwendung der Logos ist im Rahmen der Anzeige von Vorschlägen und Konditionen des jeweiligen Produktanbieters auf den Websites der Partner erlaubt. Die weitere Verarbeitung der Leads und Finanzierungsvorschläge muss auf den Plattformen der Hypoport-Unternehmen erfolgen. Eine Verwendung für andere Zwecke wie Content-Anreicherung oder Marketing ist nicht zulässig.
