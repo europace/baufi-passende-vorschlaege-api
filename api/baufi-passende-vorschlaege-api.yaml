@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.25
+  version: 1.0.27
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -382,7 +382,7 @@ components:
           description: 'true, if employment relationship is temporary, otherwise false'
         einkommenNetto:
           type: number
-          description: 'Monthly net income according to salary statement without special payments, also for self-employed, in Euro'
+          description: 'Monthly net income according to salary statement without special payments, also for self-employed, please divide annual income by 12. In Euros'
           example: 3500.00
           minimum: 0
           maximum: 100000
@@ -439,7 +439,8 @@ components:
           description: 'Living or usable space in square meters, irrelevant for objektArt = BAUGRUNDSTUECK'
           example: 120.50
           minimum: 20
-          maximum: 1000
+          maximum: 2000
+          default: 100.00
         marktwert:
           type: number
           description: 'Mortgage lending value (if applicable, also market value or purchase price) in euros'
@@ -466,7 +467,7 @@ components:
           example: KAUF
         grundstueckKaufpreis:
           type: number
-          description: 'Share of land value (if known) In euros'
+          description: 'Share of land value (if known, else part of kaufpreis) In euros'
           example: 38000.00
           minimum: 0
           maximum: 10000000
@@ -488,7 +489,7 @@ components:
           maximum: 1000000
         modernisierungEigenleistung:
           type: number
-          description: 'Proportion of own contribution to modernization costs. In euros'
+          description: 'Proportion of own contribution to modernization costs, only Labor costs. Must be part of modernisierungsKostenInklEigenleistungen. In euros'
           example: 25000.00
           minimum: 0
           maximum: 1000000
@@ -500,11 +501,11 @@ components:
           $ref: '#/components/schemas/Praeferenzen'
         darlehenswunsch:
           type: number
-          description: 'Desired loan amount'
+          description: 'Desired loan amount. In euros'
           example: 250000.00
         herstellungskostenInklusiveEigenleistungen:
           type: number
-          description: 'Production costs for new construction'
+          description: 'Production costs for new construction. In euros'
           example: 250000.00
         grundstueckBereitsBezahlt:
           type: boolean
