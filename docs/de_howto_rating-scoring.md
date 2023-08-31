@@ -20,9 +20,24 @@
 
 - rank: sichtbares Ergebnis des Scorings für den Nutzer, niedrigster Score = rank 0, im Mode "exploration-matrix" werden immer nur das jeweils am besten gescorte Angebot für jede Matrixposition ausgeliefert (minimaler rank). Die Sortierung erfolgt nach Wert für den Verbraucher (ranking). Dabei relevant sind Zins, Machbarkeit, Rate, Sondertilgung, Bereitsstellungszinsfreie Zeit, Gesamtlaufzeit und Bearbeitungszeit.
 
-- Machbarkeit: Ergebnis der Berechnungsregeln der Market Engine für jeden Finanzierungsvorschlag in numerischer Form (rot=0, gelb=50, grün=100)
+## Machbarkeit
+- Feld Machbarkeit am Vorschlag: Ergebnis der Berechnungsregeln der Market Engine für jeden Finanzierungsvorschlag in numerischer Form (rot=0, gelb=50, grün=100)
+- Feld Optimierungsmeldungen: Es werden je nach Ergebnis bis zu 2 Meldungen geliefert, die genauer erklären warum die Machbarkeit rot bzw. 0 ist. Mit dem Code können auch eigene Meldungstexte in der Client-Anwendung definiert werden.
+```
+"optimierungsMeldungen": {
+  "machbarkeit": [
+    {
+      "code": "finanzierungsloesung.haushaltsueberschuss",
+      "text": "Die monatlichen Einnahmen reichen nicht zur Deckung der monatlichen Kosten aus. Die Gesamtbelastung durch die Darlehensraten ist zu hoch."
+    },
+    {
+      "code": "finanzierungsloesung.beleihungsauslauf",
+      "text": "Das Verhältnis von Darlehenssumme zu Immobilienwert ist zu hoch. Durch Einbringen von mehr Eigenkapital kann der Beleihungsauslauf reduziert werden."
+    }
+  ]
+}
+```
   
-
 ## Machbarkeitsmodell
 
 API Aufrufe von Partnern mit umfangreichen Geschäftsbeziehungen durchlaufen vor der Berechnung in der Market Engine einen Machine Learning Prozess zur Vorhersage der Machbarkeit der konfigurierten Geschäftspartner. Die dabei ermittelten Produktanbieter mit der höchsten Machbarkeits-Wahrscheinlichkeit werden dann in der Market Engine exakt berechnet. Da bei diesem Vorgehen neben dem Machbarkeitsergebnis der Market Engine (Regelwerk) auch eine Machbarkeitswahrscheinlichkeit aus der Vorhersage anfällt, werden wir perspektivisch beide Werte für das feasibilityRating heranziehen.
