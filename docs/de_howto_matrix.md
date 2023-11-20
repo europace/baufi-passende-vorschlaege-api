@@ -15,11 +15,11 @@ Zur Aktivierung der Optionsermittlung ist in den Metadaten der dafür notwendige
 ## Anfrage
 
 Die Anfrage muss neben dem Mode keine weiteren besonderen Bedingungen erfüllen. Durch Vorgabe der Präferenzen "zinsbindungInJahren" oder "tilgung" kann der Rahmen der Optionsermittlung vorgegeben werden. Eine Präferenz Zinsbindung von 10 Jahren erzeugt Optionen von 5, 10 und 15 Jahren Zinsbindung. Wird eine Zinsbindung größer 15 Jahre vorgegeben, z.B. 20 Jahre, werden Optionen zu 10, 15 und 20 Jahre erzeugt. 
-Eine Vorgabe von Tilgungssätzen für die Optionsermittlung ist nicht empfehlenswert, da hier standardmäßig die minimal möglichen Tilgungen (gewöhnlich 1%) als untere Grenze und eine 1/3 des verfügbaren Haushaltsnettoeinkommen entsprechende Rate als obere Grenze verwendet wird. Eine Tilgungsvorgabe muss sich dann innerhalb dieses Rahmens bewegen. Bei entsprechend hohem Einkommen werden automatisch Volltilger-Optionen als Maximal-Tilgungs-Vorschlag generiert.
+Eine Vorgabe von Tilgungssätzen für die Optionsermittlung ist nicht empfehlenswert, da hier standardmäßig die minimal möglichen Tilgungen (gewöhnlich 1%) als untere Grenze und eine 1/3 des verfügbaren Haushaltsnettoeinkommen entsprechende Rate als obere Grenze verwendet wird. Eine Tilgungsvorgabe muss sich dann innerhalb dieses Rahmens bewegen. Bei entsprechend hohem Einkommen oder Anschlussfinanzierungen (Prolongationen) werden automatisch Volltilger-Optionen als Maximal-Tilgungs-Vorschlag generiert.
 
 ## Antwort
 
-Im Modus "exploration-matrix" wird immer versucht, 9 Vorschläge zu generieren und in einer 3x3 Matrix anzuordnen. Die Position in der Ergebnis-Matrix wird über das Feld "vorschlagsOption" definiert:
+Im Modus "exploration-matrix" wird immer versucht, 3 x 9 Vorschläge zu generieren und in einer 3x3x3 Matrix anzuordnen. Die Position in der Ergebnis-Matrix wird über das Feld "vorschlagsOption" definiert, die Position innerhalb der einer vorschlagsOption definiert der Rank (aufsteigend nach Machbarkeit, Sollzins und Rate):
 
 | Tilg/ZiBi             | Tilg niedrig          | Tilg mittel           | Tilg hoch |
 | --------------------- | --------------------- | --------------------- | --------------------- |
@@ -27,11 +27,14 @@ Im Modus "exploration-matrix" wird immer versucht, 9 Vorschläge zu generieren u
 |**ZiBi mittel**|"mittel-niedrig"|"mittel-mittel"|"mittel-hoch"|
 |**ZiBi lang**|"lang-niedrig"|"lang-mittel"|"lang-hoch"|
 
-Sollten auf Grund von Showstopper-Beschränkungen in keiner der ProductEngines für bestimmte Positionen Vorschläge generierbar sein (z.B. weil die entsprechende Zinsbindung nicht angeboten wird), bleibt die zugehörige Position leer.
 
 ## Ranking
+Für jede der 9 Positionen oben werden 3 Vorschläge gerechnet. Das Frontend kann dann entscheiden ob es nur Rank 0 darstellt oder alle 3 Ergebnisse je Rank.
 
-Werden aufgrund der Geschäftsbeziehungen mehrere Vorschläge je Position generiert (Multi Lender), so wird nur der jeweils günstigste machbare Finanzierungsvorschlag für diese Position zurückgeliefert und mit rank: 0 im Response versehen. 
+![Beispiel einer Darstellung der 3 besten Vorschläge der 3x3 Matrix ](3x3x3.png)
+
+Sollten auf Grund von Showstopper-Beschränkungen in keiner der ProductEngines für bestimmte Positionen Vorschläge generierbar sein (z.B. weil die entsprechende Zinsbindung nicht angeboten wird), bleibt die zugehörige Position leer.
+
 
 ## Grenzfälle
 
