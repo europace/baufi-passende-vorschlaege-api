@@ -19,7 +19,7 @@ Eine Vorgabe von Tilgungssätzen für die Optionsermittlung ist nicht empfehlens
 
 ## Antwort
 
-Im Modus "exploration-matrix" wird immer versucht, 3 x 9 Vorschläge zu generieren und in einer 3x3x3 Matrix anzuordnen. Die Position in der Ergebnis-Matrix wird über das Feld "vorschlagsOption" definiert, die Position innerhalb der einer vorschlagsOption definiert der Rank (aufsteigend nach Machbarkeit, Sollzins und Rate):
+Im Modus "exploration-matrix" wird immer versucht, 3 x 9 Vorschläge zu generieren und in einer 3x3x3 Matrix anzuordnen. Die Position in der Ergebnis-Matrix wird über das Feld _vorschlagsOption_ definiert, die Position innerhalb der einer vorschlagsOption definiert der _Rank_ (aufsteigend nach Machbarkeit, Sollzins und Rate):
 
 | Tilg/ZiBi             | Tilg niedrig          | Tilg mittel           | Tilg hoch |
 | --------------------- | --------------------- | --------------------- | --------------------- |
@@ -29,12 +29,20 @@ Im Modus "exploration-matrix" wird immer versucht, 3 x 9 Vorschläge zu generier
 
 
 ## Ranking
-Für jede der 9 Positionen oben werden 3 Vorschläge gerechnet. Das Frontend kann dann entscheiden ob es nur Rank 0 darstellt oder alle 3 Ergebnisse je Rank.
+Für jede der 9 Positionen oben werden 3 Vorschläge gerechnet. Das Frontend kann dann entscheiden ob es nur _Rank_ 0 darstellt oder alle 3 Ergebnisse je _vorschlagsOption_.
 
 ![Beispiel einer Darstellung der 3 besten Vorschläge der 3x3 Matrix ](3x3x3.png)
 
 Sollten auf Grund von Showstopper-Beschränkungen in keiner der ProductEngines für bestimmte Positionen Vorschläge generierbar sein (z.B. weil die entsprechende Zinsbindung nicht angeboten wird), bleibt die zugehörige Position leer.
 
+## Präferierte Produktanbieter
+
+Sind in der API Anfrage unter Präferenzen ein oder mehrere Bankpartner als präferierte Produktanbieter definiert, werden diese aktuell an die API Antwort angehangen. Im Ergebnis erhöht sich die Anzahl der gelieferten Vorschläge je _vorschlagsOption_ um die Menge der präferierten Anbieter. Sollen Vorschläge der präferierte Anbieter immer dargestellt werden, muss das Frontend entsprechend mehr als 3 Anbieter gleichzeitig anzeigen können.
+```
+"praeferenzen": {
+        "produktAnbieterIds": "SPK"
+}
+```
 
 ## Grenzfälle
 
