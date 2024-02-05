@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.27
+  version: 1.0.46
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -116,7 +116,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Vorgangsnummer as result of Kundenangaben-API
+          description: Vorgangsnummer as result of Kundenangaben-API.
         - in: query
           name: vorschlagStatus
           schema:
@@ -135,9 +135,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/FinanzierungsVorschlaege'
         '400':
-          description: Bad request
+          description: Bad request.
         '404':
-          description: No determination triggered for this ID or result no longer available
+          description: No determination triggered for this ID or result no longer available.
         '500':
           description: Internal server error
       security:
@@ -164,11 +164,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/VorschlagResponse'
         '401':
-          description: Authorization information is missing or invalid
+          description: Authorization information is missing or invalid.
         '404':
-          description: No financial proposals found for AnfrageId
+          description: No financial proposals found for AnfrageId.
         '419':
-          description: Max count of bookmarks exceeded
+          description: Max count of bookmarks exceeded.
         '500':
           description: Financial proposals could not bookmarked
       description: 'As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.'
@@ -616,6 +616,16 @@ components:
           format: int32
           description: 'Desired provision interest-free period in months'
           example: 6
+        produktAnbieterIds:
+          type: string
+          description: 'A list of comma seperated produktanbieter ids for which the api will try to generate offers if allowed by the partner management.'
+        finanzierungsBestandteile:
+          type: string
+          description: 'Allowed values are: UNKOMPLIZIERTE_FINANZIERUNG, OEFFENTLICHE_FOERDERUNGEN, WEITERE_PRODUKTE'
+          enum:
+            - UNKOMPLIZIERTE_FINANZIERUNG
+            - OEFFENTLICHE_FOERDERUNGEN
+            - WEITERE_PRODUKTE
     Restschuld:
       type: object
       properties:
@@ -687,6 +697,9 @@ components:
           type: string
           format: date
           example: '2021-05-21'
+        angebotsTyp:
+          type: string
+          example: 'NEUFINANZIERUNG|PROLONGATION|UMSCHULDUNG'
         finanzierungsbausteine:
           maxItems: 2
           minItems: 1
