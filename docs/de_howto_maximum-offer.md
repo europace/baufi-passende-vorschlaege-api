@@ -8,7 +8,6 @@ Zur Aktivierung der Maximal-Preis-Ermittlung ist in den Metadaten der dafür not
 {
     "metadaten": {
         "datenkontext": "TEST_MODUS",
-        "feature": "enable_extended_loan_types",
         "mode": "maximum-offer"
     }
 }
