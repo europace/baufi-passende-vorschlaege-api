@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
   id 'org.openapi.generator' version '7.4.0'
-  id 'java'
+  id 'java-library'
   id 'maven-publish'
   id 'net.researchgate.release' version '3.0.2'
 }
@@ -28,6 +28,12 @@ repositories {
   mavenCentral()
 }
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
 publishing {
   publications {
     mavenJava(MavenPublication) {
@@ -40,7 +46,7 @@ publishing {
 def apiFileName = "$rootDir/api/${property("baufi.passende.vorschlaege.api.file.name")}"
 def apiConfig = new Yaml().load( new File(apiFileName).newInputStream() )
 
-task assertVersions() {
+tasks.register('assertVersions') {
   doLast {
     def openApiConfigVersion = apiConfig.info.version
     def releaseArtifactVersion = "${version}"
