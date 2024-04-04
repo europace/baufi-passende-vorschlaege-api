@@ -1195,6 +1195,9 @@ components:
           type: string
           maxLength: 66
           description: 'A custom name for the proposal'
+        directImport:
+          type: boolean
+          description: 'Should the bookmarked proposal be imported directly'
     VorschlagResponse:
       type: object
       properties:
