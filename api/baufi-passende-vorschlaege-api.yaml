@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.46
+  version: 1.0.51
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -449,6 +449,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Darlehen'
+        endEnergieBedarfAktuell:
+          type: number
+          description: 'Current final energy requirement in KWh/m²a'
+          example: 85.50
     Finanzierungsbedarf:
       type: object
       required:
@@ -510,6 +514,10 @@ components:
         grundstueckBereitsBezahlt:
           type: boolean
           description: 'True, if property already paid'
+        endEnergieGeplant:
+          type: number
+          description: 'Planned final energy requirement after modernization in KWh/m²a'
+          example: 4.50
     Anschrift:
       type: object
       properties:
