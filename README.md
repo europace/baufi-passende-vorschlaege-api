@@ -300,7 +300,7 @@ When finding the appropriate proposals, we attach importance to being able to de
 
 As consumer, I can bookmark suitable financial proposals to review them later or discuss them with the advisor.
 
-You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case. 
+You can bookmark up to 10 financial proposals to review them later and/or discuss them with the advisor directly or later. Financial proposals are always a part of a case in Europace, where they stored. If you want to bookmark them, please create a case with [Kundenangaben-API](https://docs.api.europace.de/baufinanzierung/vorgaenge/kundenangaben-api/) ([test-enviroment](https://docs.api.europace.de/common/various-rest/test-enviroment/)) before, and note the acknowledgement of the [privacy statement](https://docs.api.europace.de/common/privacystatement/). After that, you can bookmark a financial propose into the case. The boolean switch _directimport_ makes it possible to create the proposal directly in BaufiSmart as a _saved financing proposal_ without having to open the case.
 
 example request:
 
@@ -313,7 +313,8 @@ Authorization: Bearer [access_token]
     {
       "anfrageId": "passende-vorschlaege-c5486371-3d1e-43e2-8fc4-db920bde4fef",
       "finanzierungsVorschlagId": "d550a975da78f73d9e3256352ce0f366",
-      "vorgangId": "ABC123"
+      "vorgangId": "ABC123",
+      "directImport": "true"
     }
 ```
 
