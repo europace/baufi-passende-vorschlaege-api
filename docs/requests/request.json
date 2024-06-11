@@ -29,9 +29,15 @@
       }
     },
     "finanzierungsobjekt": {
+      "objektArt": "EINFAMILIENHAUS",
+      "vermietet": false,
+      "baujahr": 2000,
+      "gewerblicheNutzung": false,
       "anschrift": {
         "plz": "45711"
-      }
+      },
+      "wohnflaeche": 150,
+      "endEnergieBedarfAktuell": 80
     }
   }
 }
