@@ -2,7 +2,7 @@
 
 As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.
 
-![Status](https://img.shields.io/badge/Status-preAlpha_Pilot-darkred)
+![Status](https://img.shields.io/badge/Status-productive-darkred)
 
 ![consumer](https://img.shields.io/badge/-consumer-lightblue)
 ![advisor](https://img.shields.io/badge/-advisor-lightblue)
