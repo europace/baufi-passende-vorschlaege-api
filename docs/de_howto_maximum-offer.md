@@ -15,7 +15,7 @@ Zur Aktivierung der Maximal-Preis-Ermittlung ist in den Metadaten der dafür not
 
 ## Anfrage
 
-Die API-Anfrage muss den Verwendungszweck KAUF enthalten. Die minimalen Anforderungen für eine machbare Finanzierung liegen je nach Bundesland zwischen 10.000€ und 15.000€ Eigenkapital sowie 1500€ - 1700€ Nettoeinkommen. Sind diese Bedingungen nicht erfüllt, kann kein Vorschlag generiert werden, da in diesem Mode nur machbare Vorschläge ausgeliefert werden. Weiterhin müssen Geschäftsbeziehungen zu den verwendeten Produktpartnern existieren, zz. wird das Regelwerk der Commerzbank und der ING verwendet. Die Plattform-Plakette NFR60 (default) erfüllt diese Bedingungen. Der unter _finanzierungsbedarf_ eingegebene Kaufpreis wird bei der Berechnung ignoriert. Die Eingabe-Validierung für das Feld _kaufpreis_ wird im Mode "maximum-offer" deaktiviert, dieser kann auch null sein.
+Die API-Anfrage muss den Verwendungszweck KAUF enthalten. Die minimalen Anforderungen für eine machbare Finanzierung liegen je nach Bundesland zwischen 10.000€ und 15.000€ Eigenkapital sowie bei 1500€ - 1700€ Nettoeinkommen. Sind diese Bedingungen nicht erfüllt, kann kein Vorschlag generiert werden, da in diesem Mode nur machbare Vorschläge ausgeliefert werden. Die Angebotsermittlung erfolgt aus Performance-Gründen nicht für alle beim Partner ermittelbaren Produktanbieter, sondern nur für die von einem ML Modell ermittelten Top 3 Produktanbieter nach Kondition und Machbarkeit. Der unter _finanzierungsbedarf_ eingegebene Kaufpreis wird bei der Berechnung ignoriert. Die Eingabe-Validierung für das Feld _kaufpreis_ wird im Mode "maximum-offer" deaktiviert, dieser kann auch null sein.
 
 ## Antwort
 
