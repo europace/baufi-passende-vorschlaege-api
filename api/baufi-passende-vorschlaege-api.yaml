@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.52
+  version: 1.0.56
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -247,17 +247,22 @@ components:
           $ref: '#/components/schemas/VorschlaegeErmittlungPartnerDaten'
         kundenangaben:
           $ref: '#/components/schemas/Kundenangaben'
+    ZinsTableauErmittlungsRequest:
+      type: object
+      required:
+        - metadaten
+      properties:
+        metadaten:
+          $ref: '#/components/schemas/ZinsTableauErmittlungPartnerDaten'
+        kundenangaben:
+          $ref: '#/components/schemas/Kundenangaben'
     VorschlaegeErmittlungPartnerDaten:
       type: object
       required:
         - datenkontext
       properties:
         datenkontext:
-          type: string
-          description: In which context (real business or test mode) is the request processed.
-          enum:
-            - TEST_MODUS
-            - ECHT_GESCHAEFT
+          $ref: '#/components/schemas/Datenkontext'
         kundenId:
           type: string
           description: 'Deprecated, will be renamed to extKundenId! Identifier for the user/partner of the API, e.g. ImmoFin AG'
@@ -275,7 +280,7 @@ components:
           description: 'Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32'
         gewuenschteAnzahlVorschlaege:
           type: integer
-          default: 2
+          default: 3
           minimum: 0
           maximum: 30
         stage:
@@ -287,6 +292,27 @@ components:
         mode:
           type: string
           description: 'Identifier for usage of different modes'
+    ZinsTableauErmittlungPartnerDaten:
+      type: object
+      required:
+        - datenkontext
+      properties:
+        datenkontext:
+          $ref: '#/components/schemas/Datenkontext'
+        extKundenId:
+          type: string
+          description: 'Identifier for the user/partner of the API, e.g. ImmoFin AG'
+          example: ImmoFin
+        gewuenschteZinsbindungen:
+          type: array
+          items:
+            type: integer
+        stage:
+          default: "default"
+          type: string
+        feature:
+          default: "default"
+          type: string
     Kundenangaben:
       type: object
       required:
@@ -304,6 +330,12 @@ components:
           $ref: '#/components/schemas/Finanzierungsbedarf'
         finanzierungsobjekt:
           $ref: '#/components/schemas/Finanzierungsobjekt'
+    Datenkontext:
+      type: string
+      description: In which context (real business or test mode) is the request processed.
+      enum:
+        - TEST_MODUS
+        - ECHT_GESCHAEFT
     Haushalt:
       type: object
       required:
