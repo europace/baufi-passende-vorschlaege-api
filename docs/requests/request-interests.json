@@ -1,7 +1,9 @@
 {
-  "metadaten": {
-    "datenkontext": "TEST_MODUS",
-    "extKundenId": "BGE21",
-    "gegewuenschteZinsbindungen": [5, 10, 15, 20]
+  "metadaten" : {
+    "extKundenId" : "WER03",
+    "gewuenschteZinsbindungen" : [ ],
+    "stage" : "default",
+    "feature" : "default",
+    "datenkontext": "TEST_MODUS"
   }
 }
