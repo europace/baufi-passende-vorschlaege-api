@@ -2,7 +2,7 @@
   "metadaten": {
     "datenkontext": "TEST_MODUS",
     "extKundenId": "BGE21",
-    "gegewuenschteZinsbindungen": [5, 10, 15, 20]
+    "gewuenschteZinsbindungen": [5, 10, 15, 20]
   },
   "kundenangaben": {
     "haushalte": [
