@@ -779,6 +779,14 @@ components:
           type: string
         vorschlagsOption:
           type: string
+        beleihungsAuslauf:
+          type: number
+          format: double
+          description: In Prozent
+        beleihungsWertSumme:
+          type: number
+          format: double
+          description: In Euro
         optimierungsMeldungen:
           type: object
           properties:
@@ -799,6 +807,8 @@ components:
       type: object
       properties:
         '@type':
+          type: string
+        bausteinId:
           type: string
         restschuldNachZinsbindungsEnde:
           type: number
@@ -855,6 +865,9 @@ components:
               type: number
               format: double
             effektivZins:
+              type: number
+              format: double
+            bereitstellungsZins:
               type: number
               format: double
             rateMonatlich:
@@ -951,6 +964,9 @@ components:
               type: number
               format: double
             effektivZins:
+              type: number
+              format: double
+            bereitstellungsZins:
               type: number
               format: double
             rateMonatlich:
