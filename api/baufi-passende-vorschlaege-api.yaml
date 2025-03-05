@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.60
+  version: 1.0.61
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -43,6 +43,34 @@ paths:
           description: Internal server error
       deprecated: true
       description: 'ATTENTION: Temporary implementation for the pilot phase! Synchronous determination of a financing proposal. The calculation can take several seconds.'
+  /v1/interests:
+    post:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: retrieving interest table
+      operationId: interestTableSync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ZinsTableauErmittlungsRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/FinanzierungsVorschlaege'
+        '400':
+          description: Bad request
+        '401':
+          description: Authorization information is missing or invalid.
+        '408':
+          description: 'Request timed out.'
+        '500':
+          description: Internal server error
+      description: 'retrieving the interest table'
   /v1/vorschlaege:
     post:
       tags:
