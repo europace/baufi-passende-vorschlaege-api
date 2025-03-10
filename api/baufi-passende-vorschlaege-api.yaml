@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.61
+  version: 1.0.62
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -254,6 +254,25 @@ paths:
         '500':
           description: Financial proposals could not deleted
       description: 'As consumer, I delete bookmarked financial proposals to disqualify them and get a better overview.'
+  /v1/maintenanceStatus:
+    get:
+      tags:
+        - Finanzierungsvorschlaege
+      summary: get maintenance status
+      operationId: getMaintenanceStatus
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/MaintenanceStatus'
+        '401':
+          description: Authorization information is missing or invalid
+        '500':
+          description: Internal server error
+      description: 'As consumer, I can check the maintenance status of the API.'
+
 security:
   - bearerAuth: [ ]
 components:
@@ -1318,6 +1337,17 @@ components:
         finanzierungsVorschlagId:
           type: string
           description: 'The identifier of a bookmarked proposal'
+    MaintenanceStatus:
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+          description: 'Indicates whether the maintenance mode is active'
+        message:
+          type: string
+          description: 'Message with a description of the maintenance window'
   securitySchemes:
     bearerAuth:
       type: http
