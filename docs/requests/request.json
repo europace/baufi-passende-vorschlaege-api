@@ -1,7 +1,9 @@
 {
   "metadaten": {
     "datenkontext": "TEST_MODUS",
-    "gewuenschteAnzahlVorschlaege": 10
+    "extKundenId": "XUY56",
+    "gewuenschteAnzahlVorschlaege": 1,
+    "mode": "default"
   },
   "kundenangaben": {
     "haushalte": [
@@ -11,13 +13,16 @@
             "beschaeftigtSeit": "2018-08-01",
             "beschaeftigungsArt": "ANGESTELLTER",
             "arbeitBefristet": false,
-            "einkommenNetto": 6500,
+            "einkommenNetto": 3500,
             "geburtsdatum": "1996-03-09"
           }
         ],
         "finanzielleSituation": {
-          "eigenKapital": 5000,
-          "nichtAbgeloesteRatenkrediteRestschuld": 0
+          "eigenKapital": 100000,
+          "sonstigeEinnahmen": 0,
+          "nichtAbgeloesteRatenkrediteRestschuld": 0,
+          "sonstigeAusgaben": 380,
+          "zusatzSicherheitVerkehrswert": 34500
         }
       }
     ],
@@ -25,7 +30,10 @@
       "finanzierungszweck": "KAUF",
       "kaufpreis": 299000,
       "praeferenzen": {
-        "produktAnbieterIds": "DKB,ING_DIBA"
+        "produktAnbieterIds": "PSD_BERLIN",
+        "finanzierungsBestandteile": "UNKOMPLIZIERTE_FINANZIERUNG",
+        "tilgung": 2,
+        "zinsbindungInJahren": 10
       }
     },
     "finanzierungsobjekt": {
@@ -34,10 +42,10 @@
       "baujahr": 2000,
       "gewerblicheNutzung": false,
       "anschrift": {
-        "plz": "45711"
+        "plz": "15711"
       },
       "wohnflaeche": 150,
-      "endEnergieBedarfAktuell": 80
+      "endEnergieBedarfAktuell": 49
     }
   }
 }

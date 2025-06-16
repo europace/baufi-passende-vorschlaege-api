@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.63
+  version: 1.0.66
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -447,6 +447,18 @@ components:
           type: number
           example: 256.23
           description: 'Monthly installment of remaining liabilities from installment loans. In euros'
+        zusatzSicherheitVerkehrswert:
+          type: number
+          example: 34500
+          description: 'Market value of the additional collateral. In euros'
+          minimum: 0
+          maximum: 50000000
+        sonstigeAusgaben:
+          type: number
+          example: 380
+          description: ' In euros, monthly, e.g. spousal or child maintenance payments, ground rent, leasing installments, rental expenses for capital investors'
+          minimum: 0
+          maximum: 100000
     Kunde:
       type: object
       required:
