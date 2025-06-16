@@ -17,7 +17,10 @@
         ],
         "finanzielleSituation": {
           "eigenKapital": 5000,
-          "nichtAbgeloesteRatenkrediteRestschuld": 0
+          "sonstigeEinnahmen": 0,
+          "nichtAbgeloesteRatenkrediteRestschuld": 0,
+          "sonstigeAusgaben": 380,
+          "zusatzSicherheitVerkehrswert": 34500
         }
       }
     ],
@@ -25,7 +28,10 @@
       "finanzierungszweck": "KAUF",
       "kaufpreis": 299000,
       "praeferenzen": {
-        "produktAnbieterIds": "DKB,ING_DIBA"
+        "produktAnbieterIds": "DKB,ING_DIBA",
+        "finanzierungsBestandteile": "UNKOMPLIZIERTE_FINANZIERUNG",
+        "tilgung": 2,
+        "zinsbindungInJahren": 10
       }
     },
     "finanzierungsobjekt": {
