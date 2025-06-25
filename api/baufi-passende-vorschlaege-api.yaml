@@ -350,6 +350,9 @@ components:
           type: string
           description: 'Identifier for the user/partner of the API, e.g. ImmoFin AG'
           example: ImmoFin
+        extClientId:
+            type: string
+            description: 'Identifier for the calling client to distinguish client implementations (web/mobile or A/B). Ex. mobile app ver.2.32'
         gewuenschteZinsbindungen:
           type: array
           items:
