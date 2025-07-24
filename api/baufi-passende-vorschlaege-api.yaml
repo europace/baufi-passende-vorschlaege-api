@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.66
+  version: 1.0.71
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -1151,14 +1151,13 @@ components:
       properties:
         '@type':
           type: string
-      description: 'Possible types: KfwProgramm124, KfwProgramm159,\ \ KfwProgramm261Neubau, KfwProgramm261Sanierung, KfwProgramm262'
+      description: 'Possible types: KfwProgramm124, KfwProgramm159, KfwProgramm261, KfwProgramm262'
       discriminator:
         propertyName: '@type'
         mapping:
           KFW_PROGRAMM_124: '#/components/schemas/KfwProgramm124'
           KFW_PROGRAMM_159: '#/components/schemas/KfwProgramm159'
-          KFW_PROGRAMM_261_NEUBAU: '#/components/schemas/KfwProgramm261Neubau'
-          KFW_PROGRAMM_261_SANIERUNG: '#/components/schemas/KfwProgramm261Sanierung'
+          KFW_PROGRAMM_261: '#/components/schemas/KfwProgramm261'
           KFW_PROGRAMM_262: '#/components/schemas/KfwProgramm262'
     KfwProgramm124:
       required:
@@ -1208,43 +1207,9 @@ components:
               minimum: 1
               type: integer
               format: int32
-    KfwProgramm261Neubau:
+    KfwProgramm261:
       type: object
-      description: 'Energieeffizient Bauen: bauen oder kaufen (Programm-Nr.: 261).\ \ Die Zinsbindung beträgt immer 10 Jahre.'
-      allOf:
-        - $ref: '#/components/schemas/KfwProgramm'
-        - type: object
-          properties:
-            kfwEnergieEffizienzStandard:
-              type: string
-              description: 'Allowed values are: STANDARD_40_PLUS, STANDARD_40, STANDARD_40_EEK,\ \ STANDARD_55, STANDARD_55_EEK'
-              enum:
-                - STANDARD_40
-                - STANDARD_40_PLUS
-                - STANDARD_40_EEK
-                - STANDARD_55
-                - STANDARD_55_EEK
-                - STANDARD_70
-                - STANDARD_70_EEK
-                - STANDARD_85
-                - STANDARD_85_EEK
-                - STANDARD_100
-                - STANDARD_100_EEK
-                - STANDARD_DENKMAL
-                - STANDARD_DENKMAL_EEK
-            laufzeitInJahren:
-              maximum: 30
-              minimum: 4
-              type: integer
-              format: int32
-            tilgungsfreieAnlaufjahre:
-              maximum: 5
-              minimum: 1
-              type: integer
-              format: int32
-    KfwProgramm261Sanierung:
-      type: object
-      description: 'Energieeffizient Sanieren: sanieren oder ein frisch saniertes\ \ Effizienzhaus kaufen (Programm-Nr.: 261). Die Zinsbindung beträgt immer\ \ 10 Jahre.'
+      description: 'Energieeffizient Bauen und Sanieren: Einzelmaßnahmen (Programm-Nr.:\ \ 262). The fixed interest period is always 10 years.'
       allOf:
         - $ref: '#/components/schemas/KfwProgramm'
         - type: object
