@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.71
+  version: 1.0.73
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -732,6 +732,23 @@ components:
             - UNKOMPLIZIERTE_FINANZIERUNG
             - OEFFENTLICHE_FOERDERUNGEN
             - WEITERE_PRODUKTE
+        produktArt:
+          type: string
+          description: 'Possible types: ANNUITAETENDARLEHEN, FORWARDDARLEHEN'
+          enum:
+            - ANNUITAETENDARLEHEN
+            - FORWARDDARLEHEN
+        tilgungsWunschArt:
+          type: string
+          description: 'Allowed values are: ANFAENGLICHE_TILGUNG, VOLLTILGER, RATE'
+          enum:
+            - ANFAENGLICHE_TILGUNG
+            - VOLLTILGER
+            - RATE
+        darlehenProvisionsWunsch:
+          type: number
+          format: double
+          description: In percent
     Restschuld:
       type: object
       properties:
@@ -844,7 +861,7 @@ components:
         beleihungsAuslauf:
           type: number
           format: double
-          description: In Prozent
+          description: In percent
         beleihungsWertSumme:
           type: number
           format: double
@@ -1151,7 +1168,7 @@ components:
       properties:
         '@type':
           type: string
-      description: 'Possible types: KfwProgramm124, KfwProgramm159, KfwProgramm261, KfwProgramm262'
+      description: 'Possible types: KfwProgramm124, KfwProgramm159, KfwProgramm261, KfwProgramm262, UnknownKfwProgramm'
       discriminator:
         propertyName: '@type'
         mapping:
@@ -1159,6 +1176,7 @@ components:
           KFW_PROGRAMM_159: '#/components/schemas/KfwProgramm159'
           KFW_PROGRAMM_261: '#/components/schemas/KfwProgramm261'
           KFW_PROGRAMM_262: '#/components/schemas/KfwProgramm262'
+          UNKNOWN_KFW_PROGRAMM: '#/components/schemas/UnknownKfwProgramm'
     KfwProgramm124:
       required:
         - laufzeitInJahren
@@ -1252,6 +1270,23 @@ components:
           properties:
             kfwSanierungsFahrplanLiegtVor:
               type: boolean
+            laufzeitInJahren:
+              maximum: 30
+              minimum: 4
+              type: integer
+              format: int32
+            tilgungsfreieAnlaufjahre:
+              maximum: 5
+              minimum: 1
+              type: integer
+              format: int32
+    UnknownKfwProgramm:
+      type: object
+      description: 'Unknown KfW program, e.g. if the program is not yet supported by the API.'
+      allOf:
+        - $ref: '#/components/schemas/KfwProgramm'
+        - type: object
+          properties:
             laufzeitInJahren:
               maximum: 30
               minimum: 4
