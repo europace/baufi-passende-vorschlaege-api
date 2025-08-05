@@ -18,3 +18,5 @@ https://baufinanzierung.api.europace.de/v1/interests/
 Alle anderen Requestparameter entsprechen einem Standard-Aufruf.
 Es wird jeweils der günstigste machbare Vorschlag je Zinsbindung geliefert.
 
+Die gewünschen Zinsbindungen können auch eine Auswqahl aus der Liste sein.
+Der Endpunkt liefert kein Rating Ergebnis. 
