@@ -26,7 +26,7 @@ As consumer, I want to determine appropriate financing proposals based on my sit
 - privacy statement acknowledged ([How to get](https://docs.api.europace.de/common/privacystatement/)) 
 
 ## Quick Start
-To test our APIs and your use cases as quickly as possible, we have created a [Postman Collection](https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs) for you.
+To test our APIs and your use cases as quickly as possible, we have created a [some example requests](https://github.com/europace/baufi-passende-vorschlaege-api/tree/main/docs/requests) for you.
 
 ### Authentication
 Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/common/authentifizierung/authorization-api/) to get access to the APIs. The OAuth2 client requires the following scopes:
