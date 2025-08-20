@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.74
+  version: 1.0.75
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -411,7 +411,13 @@ components:
         sonstigeEinnahmen:
           type: number
           example: 380
-          description: 'Income that is not recorded as ''net income''. In euros, monthly, e.g. rental income, part-time job'
+          description: 'Income that is not recorded as ''net income''. In euros, monthly, e.g. part-time job'
+          minimum: 0
+          maximum: 100000
+        mietEinnahmen:
+          type: number
+          example: 700
+          description: 'Rental income that is not recorded as ''net income''. In euros, monthly'
           minimum: 0
           maximum: 100000
         nichtAbgeloestePrivateDarlehenRestschuld:
