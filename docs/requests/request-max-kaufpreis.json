@@ -2,7 +2,8 @@
   "metadaten": {
     "datenkontext": "TEST_MODUS",
     "gewuenschteAnzahlVorschlaege": 1,
-    "mode": "maximum-offer"
+    "mode": "maximum-offer",
+    "feature": "CACHING_DISABLED"
   },
   "kundenangaben": {
     "haushalte": [
