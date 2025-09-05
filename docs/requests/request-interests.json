@@ -4,6 +4,7 @@
     "gewuenschteZinsbindungen" : [ ],
     "stage" : "default",
     "feature" : "default",
-    "datenkontext": "TEST_MODUS"
+    "datenkontext": "TEST_MODUS",
+    "feature": "CACHING_DISABLED"
   }
 }
