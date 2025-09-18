@@ -2,8 +2,7 @@
   "metadaten": {
     "datenkontext": "TEST_MODUS",
     "extKundenId": "",
-    "extClientId": "",
-    "feature": "CACHING_DISABLED"
+    "extClientId": ""
   },
   "kundenangaben": {
     "haushalte": [
