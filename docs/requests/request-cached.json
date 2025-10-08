@@ -2,6 +2,7 @@
   "metadaten": {
     "datenkontext": "TEST_MODUS",
     "gewuenschteAnzahlVorschlaege": 10,
+    "stage": "default",
     "feature": "CACHING_ENABLED"
   },
   "kundenangaben": {
@@ -10,19 +11,20 @@
         "kunden": [
           {
             "beschaeftigtSeit": "2018-08-01",
-            "beschaeftigungsArt": "ANGESTELLTER",
             "arbeitBefristet": false,
             "einkommenNetto": 6500,
-            "geburtsdatum": "1996-03-09"
+            "geburtsdatum": "1996-03-09",
+            "beschaeftigungsArt": "ANGESTELLTER"
           }
         ],
         "finanzielleSituation": {
           "eigenKapital": 5000,
           "sonstigeEinnahmen": 0,
-          "nichtAbgeloesteRatenkrediteRestschuld": 0,
-          "sonstigeAusgaben": 380,
           "mietEinnahmen": 700,
-          "zusatzSicherheitVerkehrswert": 34500
+          "nichtAbgeloesteRatenkrediteRestschuld": 0,
+          "gesamtRatenkrediteRestschuld": 0,
+          "zusatzSicherheitVerkehrswert": 34500,
+          "sonstigeAusgaben": 380
         }
       }
     ],
@@ -30,10 +32,10 @@
       "finanzierungszweck": "KAUF",
       "kaufpreis": 299000,
       "praeferenzen": {
-        "produktAnbieterIds": "DKB,ING_DIBA",
-        "finanzierungsBestandteile": "UNKOMPLIZIERTE_FINANZIERUNG",
+        "zinsbindungInJahren": 10,
         "tilgung": 2,
-        "zinsbindungInJahren": 10
+        "produktAnbieterIds": "DKB,ING_DIBA",
+        "finanzierungsBestandteile": "UNKOMPLIZIERTE_FINANZIERUNG"
       }
     },
     "finanzierungsobjekt": {
@@ -45,6 +47,7 @@
         "plz": "45711"
       },
       "wohnflaeche": 150,
+      "darlehensliste": [],
       "endEnergieBedarfAktuell": 80
     }
   }

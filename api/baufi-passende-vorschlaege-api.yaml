@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.76
+  version: 1.0.81
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -272,6 +272,32 @@ paths:
         '500':
           description: Internal server error
       description: 'As consumer, I can check the maintenance status of the API.'
+  /v1/approval/{anfrageId}:
+    get:
+      tags:
+        - ApprovalProbabilities
+      summary: Returns approval probabilities for a anfrageId
+      operationId: getApprovalProbabilities
+      parameters:
+        - name: anfrageId
+          in: path
+          required: true
+          description: The ID of the suggestion
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of product providers with their approval probabilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApprovalProbabilities'
+        '400':
+          description: Invalid suggestion ID
+        '404':
+          description: Suggestion ID not found
 
 security:
   - bearerAuth: [ ]
@@ -417,7 +443,7 @@ components:
         mietEinnahmen:
           type: number
           example: 700
-          description: 'Rental income that is not recorded as ''net income''. In euros, monthly'
+          description: 'Rental income (financing object and other real estate) that is not recorded as ''net income''. In euros, monthly'
           minimum: 0
           maximum: 100000
         nichtAbgeloestePrivateDarlehenRestschuld:
@@ -465,7 +491,7 @@ components:
         sonstigeAusgaben:
           type: number
           example: 380
-          description: ' In euros, monthly, e.g. spousal or child maintenance payments, ground rent, leasing installments, rental expenses for capital investors'
+          description: 'In euros, monthly, e.g. spousal or child maintenance payments, ground rent, leasing installments, rental expenses for capital investors'
           minimum: 0
           maximum: 100000
     Kunde:
@@ -485,7 +511,7 @@ components:
           description: 'Monthly net income according to salary statement without special payments, also for self-employed, please divide annual income by 12. In Euros'
           example: 3500.00
           minimum: 0
-          maximum: 100000
+          maximum: 1000000
         geburtsdatum:
           type: string
           format: date
@@ -538,8 +564,8 @@ components:
           type: number
           description: 'Living or usable space in square meters, irrelevant for objektArt = BAUGRUNDSTUECK'
           example: 120.50
-          minimum: 20
-          maximum: 2000
+          minimum: 10
+          maximum: 50000
           default: 100.00
         marktwert:
           type: number
@@ -1369,6 +1395,16 @@ components:
         message:
           type: string
           description: 'Message with a description of the maintenance window'
+    ApprovalProbabilities:
+      type: object
+      properties:
+        produktanbieterid:
+          type: string
+          example: "ALLIANZ"
+        zusage:
+          type: number
+          format: double
+          example: 0.27789247035980225
   securitySchemes:
     bearerAuth:
       type: http

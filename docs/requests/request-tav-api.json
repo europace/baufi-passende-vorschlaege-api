@@ -1,0 +1,14 @@
+{
+  "finanzierung": {
+    "finanzierungsZweck": "KAUF",
+    "auszahlungsTermin": "2025-09-01",
+    "zinsBindungInJahren": 5,
+    "kreditbetrag": 350000,
+    "darlehensArt": "ANNUITAET",
+    "tilgungsSatz": 2.0
+  },
+  "immobilie": {
+    "kaufPreis": 480000,
+    "postleitzahl": 10245
+  }
+}
