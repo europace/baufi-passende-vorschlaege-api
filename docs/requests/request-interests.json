@@ -1,10 +1,8 @@
 {
   "metadaten" : {
-    "extKundenId" : "WER03",
     "gewuenschteZinsbindungen" : [ ],
     "stage" : "default",
     "feature" : "default",
-    "datenkontext": "TEST_MODUS",
-    "feature": "CACHING_DISABLED"
+    "datenkontext": "TEST_MODUS"
   }
 }

@@ -1,7 +1,8 @@
 {
   "metadaten": {
     "datenkontext": "TEST_MODUS",
-    "gewuenschteAnzahlVorschlaege": 10
+    "gewuenschteAnzahlVorschlaege": 10,
+    "feature": "CACHING_ENABLED"
   },
   "kundenangaben": {
     "haushalte": [
