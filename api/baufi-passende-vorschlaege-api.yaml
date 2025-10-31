@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.83
+  version: 1.0.84
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -45,6 +45,7 @@ paths:
       description: 'ATTENTION: Temporary implementation for the pilot phase! Synchronous determination of a financing proposal. The calculation can take several seconds.'
   /v1/interests:
     post:
+      deprecated: true
       tags:
         - Finanzierungsvorschlaege
       summary: retrieving interest table
@@ -70,7 +71,7 @@ paths:
           description: 'Request timed out.'
         '500':
           description: Internal server error
-      description: 'retrieving the interest table'
+      description: 'Will be removed. Please use the TAV endpoint instead'
   /v1/vorschlaege:
     post:
       tags:
