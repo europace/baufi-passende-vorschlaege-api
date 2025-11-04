@@ -3,7 +3,7 @@
     "datenkontext": "TEST_MODUS",
     "gewuenschteAnzahlVorschlaege": 10,
     "stage": "default",
-    "feature": "CACHING_ENABLED"
+    "feature": "ENABLE_CACHE"
   },
   "kundenangaben": {
     "haushalte": [
