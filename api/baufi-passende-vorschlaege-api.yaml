@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.84
+  version: 1.0.85
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -840,6 +840,19 @@ components:
           type: number
           description: 'Calculated maximum purchase price in euros'
           example: 250000.00
+        erklaerungen:
+          type: object
+          description: 'Explanatory messages providing additional information or context about the financing proposals, such as warnings, hints, or important notes for the consumer.'
+          properties:
+            matrix:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meldung'
+            bewertungen:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meldung'
+
     FinanzierungsVorschlag:
       type: object
       properties:
@@ -904,6 +917,12 @@ components:
           properties:
             machbarkeit:
               type: array
+              items:
+                $ref: '#/components/schemas/Meldung'
+              nullable: true
+            bewertungen:
+              type: array
+              description: Array of assessment or evaluation messages for the financing proposal.
               items:
                 $ref: '#/components/schemas/Meldung'
     Meldung:
