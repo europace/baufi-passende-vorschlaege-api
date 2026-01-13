@@ -37,6 +37,7 @@ jobs:
       - name: Release with Gradle
         env:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
+          PREPARE_VERSION_BRANCH: ${{ steps.set_branch.outputs.prepare_version_branch }}
         run: |
           ./gradlew release
       - name: Push release branch and tags
