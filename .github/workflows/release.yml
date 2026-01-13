@@ -3,7 +3,7 @@ name: Api Release
 on:
   push:
     branches:
-      - main
+      - prepare-next-version
     paths:
       - 'api/baufi-passende-vorschlaege-api.yaml'
 jobs:
