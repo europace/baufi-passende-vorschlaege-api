@@ -39,7 +39,8 @@ jobs:
           GITHUB_TOKEN: ${{secrets.RELEASE_TOKEN}}
           PREPARE_VERSION_BRANCH: ${{ steps.set_branch.outputs.prepare_version_branch }}
         run: |
-          ./gradlew release
+          echo "Debug: PREPARE_VERSION_BRANCH=$PREPARE_VERSION_BRANCH"
+          ./gradlew release --no-daemon
       - name: Push release branch and tags
         run: |
           git push origin "${{ steps.set_branch.outputs.prepare_version_branch }}"
