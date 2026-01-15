@@ -59,7 +59,7 @@ jobs:
           fetch-depth: 0
       - name: Create PR back to main
         env:
-          GH_TOKEN: ${{secrets.PVS_API_UPDATE}}
+          GH_TOKEN: ${{secrets.RELEASE_TOKEN}}
         run: |
           gh pr create \
             --title "chore(release): version bump" \
@@ -68,7 +68,7 @@ jobs:
             --head "${{ needs.release.outputs.prepare_version_branch }}"
       - name: Enable auto-merge
         env:
-          GH_TOKEN: ${{secrets.PVS_API_UPDATE}}
+          GH_TOKEN: ${{secrets.RELEASE_TOKEN}}
         run: |
           PR_URL="$(gh pr view "${{ needs.release.outputs.prepare_version_branch }}" --json url -q .url)"
           gh pr merge --auto --merge "$PR_URL"
