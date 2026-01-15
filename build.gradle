@@ -73,7 +73,7 @@ openApiGenerate {
 release {
   failOnCommitNeeded = false
   git {
-    requireBranch.set('main')
+    requireBranch.set('/main|release\\/.*/')
     pushToRemote.set('origin')
   }
 }
