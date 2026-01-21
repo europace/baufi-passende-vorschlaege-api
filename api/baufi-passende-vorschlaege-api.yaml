@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.96
+  version: 1.0.97
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -983,6 +983,9 @@ components:
           example: 'eb2f1288-43c6-4ead-82d4-d63889a8d827'
         bearbeitungszeit:
           $ref: '#/components/schemas/Bearbeitungszeit'
+        kontoCheck:
+          type: boolean
+          description: 'Indicates whether the loan is eligible for account-check (Kontocheck).'
       description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen, Forwarddarlehen, Variablesdarlehen'
       discriminator:
         propertyName: '@type'
