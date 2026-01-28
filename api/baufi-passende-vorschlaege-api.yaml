@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.96
+  version: 1.0.100
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -983,6 +983,8 @@ components:
           example: 'eb2f1288-43c6-4ead-82d4-d63889a8d827'
         bearbeitungszeit:
           $ref: '#/components/schemas/Bearbeitungszeit'
+        kontoCheck:
+          $ref: '#/components/schemas/KontoCheck'
       description: 'Possible types: Annuitaetendarlehen, Privatdarlehen, KfwDarlehen, Forwarddarlehen, Variablesdarlehen'
       discriminator:
         propertyName: '@type'
@@ -1024,6 +1026,8 @@ components:
               format: double
             produktAnbieter:
               type: string
+            produktAnbieterId:
+              type: string
     Forwarddarlehen:
       type: object
       allOf:
@@ -1052,6 +1056,8 @@ components:
               type: number
               format: double
             produktAnbieter:
+              type: string
+            produktAnbieterId:
               type: string
             forwardPeriodeInMonaten:
               type: integer
@@ -1085,6 +1091,8 @@ components:
               type: number
               format: double
             produktAnbieter:
+              type: string
+            produktAnbieterId:
               type: string
     Variablesdarlehen:
       type: object
@@ -1122,6 +1130,8 @@ components:
               type: number
               format: double
             produktAnbieter:
+              type: string
+            produktAnbieterId:
               type: string
             tilgungsErsatzProduktId:
               type: string
@@ -1452,6 +1462,14 @@ components:
         maximalInTagen:
           type: integer
           example: 7
+    KontoCheck:
+      type: object
+      required:
+        - kontoCheckFaehig
+      properties:
+        kontoCheckFaehig:
+          type: boolean
+          description: 'Indicates whether the loan is eligible for account-check (Kontocheck).'
   securitySchemes:
     bearerAuth:
       type: http
