@@ -4,14 +4,41 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Berlin"
+    groups:
+      github-actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: "gh actions"
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 3
+
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Berlin"
+    groups:
+      gradle-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    cooldown:
+      semver-major-days: 21
+      semver-minor-days: 7
+      semver-patch-days: 3
     commit-message:
       prefix: "gradle"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
