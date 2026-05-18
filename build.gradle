@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-  id 'org.openapi.generator' version '7.21.0'
+  id 'org.openapi.generator' version '7.22.0'
   id 'java-library'
   id 'maven-publish'
   id 'net.researchgate.release' version '3.1.0'
@@ -43,8 +43,8 @@ publishing {
   }
 }
 
-def apiFileName = "$rootDir/api/${property("baufi.passende.vorschlaege.api.file.name")}"
-def apiConfig = new Yaml().load( new File(apiFileName).newInputStream() )
+def apiFile = layout.projectDirectory.file("api/${property("baufi.passende.vorschlaege.api.file.name")}")
+def apiConfig = new Yaml().load( apiFile.asFile.newInputStream() )
 
 tasks.register('assertVersions') {
   doLast {
@@ -57,15 +57,15 @@ tasks.register('assertVersions') {
 }
 
 openApiValidate {
-  inputSpec.set apiFileName
+  inputSpec.set apiFile
   recommend.set true
 }
 
 
 openApiGenerate {
   generatorName.set 'javascript'
-  inputSpec.set 'api/baufi-passende-vorschlaege-api.yaml'
-  outputDir.set "$buildDir/generated".toString()
+  inputSpec.set apiFile
+  outputDir.set layout.buildDirectory.dir('generated')
   apiPackage.set 'de.europace.baufi.passende.vorschlaege.api'
   modelPackage.set 'de.hypoport.ep2.baufismart.passende.vorschlaege.model'
 }
