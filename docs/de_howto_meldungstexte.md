@@ -59,9 +59,9 @@ Beispiel:
 ```
 
 # Meldungen zur Erklärung und Verwendung im Mode "exploration-matrix"
-In diesem Modus werden in jeder Antwort zusätzlich Positionsbeschreibungen für jede der 9 Matrix-Positionen mitgeliefert. Diese sollen helfen, die Matrix-Positionen zu interpretieren und geben Hinweise für wen die jeweiligen Vorschläge geeignet sind. Dabei werden für jede matrix-Position neben der Beschreibung bis zu 3 Vor- und Nachteile der jeweiligen Vorschlagsposition aufgelistet.
+In diesem Modus werden in jeder Antwort zusätzlich Positionsbeschreibungen für jede der 9 Matrix-Positionen mitgeliefert. Diese sollen helfen, die Matrix-Positionen zu interpretieren und geben Hinweise für wen die jeweiligen Vorschläge geeignet sind. Dabei werden für jede Matrix-Position neben der Beschreibung bis zu 3 Vor- und Nachteile der jeweiligen Vorschlagsposition aufgelistet. Der der erste Teil des Codes der Matrix-Position referenziert dabei auf den Wert "vorschlagsOption" im Finanzierungsvorschlag, z.B.: "mittel-mittel"
 
-jeweils immmer gleicher Textblox:
+Jeweils immmer gleicher Textblox:
 ```
        "matrix": [
             {
