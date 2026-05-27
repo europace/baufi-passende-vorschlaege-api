@@ -16,6 +16,8 @@ As consumer, I want to determine appropriate financing proposals based on my sit
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufi-passende-vorschlaege-api/docs/swaggerui.html)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/api/baufi-passende-vorschlaege-api.yaml)
 
+- [Herstellungskosten bei Neubau-Anfragen](https://github.com/europace/baufi-passende-vorschlaege-api/blob/main/docs/de_howto_herstellungskosten_neubau.md)
+
 ## Usecases
 
 - determine appropriate financing proposals on the base of the consumer needs
