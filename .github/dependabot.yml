@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-      time: "08:00"
+      time: "06:00"
       timezone: "Europe/Berlin"
     groups:
       github-actions-minor-patch:
@@ -24,7 +24,7 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-      time: "08:00"
+      time: "06:00"
       timezone: "Europe/Berlin"
     groups:
       gradle-minor-patch:
