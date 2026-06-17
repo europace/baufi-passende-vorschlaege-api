@@ -53,5 +53,5 @@ Es ist entweder eine gültige PLZ oder ein Bundesland (01-16) für den Standort 
 (Die Erwerbsnebenkosten bestimmen zu einem großen Teil den Eigenkapitalbedarf und werden aus dem jeweiligen Bundesland ermittelt.)
 
 ## Meldungstexte
-weitere Infos zu den Validierungsmeldungen:
-[intern](https://github.com/europace/passende-vorschlaege-service/blob/main/src/main/resources/messages.properties)
+weitere Infos zu den Validierungsmeldungen (intern):
+([messages.properties](https://github.com/europace/passende-vorschlaege-service/blob/main/pvs/src/main/resources/messages.properties))
