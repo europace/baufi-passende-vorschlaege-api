@@ -589,7 +589,7 @@ components:
             $ref: '#/components/schemas/Darlehen'
         endEnergieBedarfAktuell:
           type: number
-          description: 'Current final energy requirement in KWh/m²a. Accepted values between -100 and 10000'
+          description: 'Current final energy requirement in KWh/m²a. Accepted values between -100 and 10000. If not set, a value of 49 KWh/m²a (Class A) is assumed.'
           example: 85.50
     Finanzierungsbedarf:
       type: object
