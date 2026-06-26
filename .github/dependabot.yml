@@ -4,9 +4,8 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "08:00"
+      interval: "monthly"
+      time: "06:00"
       timezone: "Europe/Berlin"
     groups:
       github-actions-minor-patch:
@@ -24,9 +23,8 @@ updates:
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "08:00"
+      interval: "monthly"
+      time: "06:00"
       timezone: "Europe/Berlin"
     groups:
       gradle-minor-patch:
