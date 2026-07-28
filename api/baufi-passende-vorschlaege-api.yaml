@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.100
+  version: 1.0.101
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -565,7 +565,7 @@ components:
         baujahr:
           type: integer
           example: 1952
-          description: 'Year of construction of the building or last complete renovation, irrelevant for objektArt = BAUGRUNDSTUECK'
+          description: 'Year of construction of the building or last complete renovation. Accepted values between 1600 and next year. Irrelevant for objektArt = BAUGRUNDSTUECK'
         gewerblicheNutzung:
           type: boolean
           description: 'true, if the property is used predominantly or exclusively for commercial purposes, otherwise false'
@@ -629,12 +629,19 @@ components:
           example: 50000.00
           minimum: 0
           maximum: 1000000
-        modernisierungEigenleistung:
+        eigenleistung:
           type: number
-          description: 'Proportion of own contribution to modernization costs, only Labor costs. Must be part of modernisierungsKostenInklEigenleistungen. In euros'
+          description: 'Amount of own contribution, only Labor costs. In euros. Must be part of modernisierungsKostenInklEigenleistungen for KAUF or MODERNISIERUNG_UMBAU_ANBAU or herstellungskostenInklusiveEigenleistungen for NEUBAU. If both eigenleistung and modernisierungEigenleistung are provided, they must contain the same value.'
           example: 25000.00
           minimum: 0
           maximum: 1000000
+        modernisierungEigenleistung:
+          type: number
+          description: 'Deprecated. Please use eigenleistung. Proportion of own contribution to modernization costs, only Labor costs. Must be part of modernisierungsKostenInklEigenleistungen. In euros'
+          example: 25000.00
+          minimum: 0
+          maximum: 1000000
+          deprecated: true
         sonderzahlungZumZinsbindungsEnde:
           type: number
           description: 'Amount of the planned special payment at the end of the fixed-interest period. In euros'
