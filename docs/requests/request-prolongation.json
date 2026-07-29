@@ -29,7 +29,7 @@
       "grundstueckKaufpreis": 380000,
       "kaufpreis": 250000,
       "modernisierungsKostenInklEigenleistungen": 25000,
-      "modernisierungEigenleistung": 15000,
+      "eigenleistung": 15000,
       "sonderzahlungZumZinsbindungsEnde" : 20000,
       "praeferenzen": {
         "rate": 900,
