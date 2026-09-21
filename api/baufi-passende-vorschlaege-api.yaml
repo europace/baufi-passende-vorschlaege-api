@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.101
+  version: 1.0.102
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -799,7 +799,7 @@ components:
         darlehenProvisionsWunsch:
           type: number
           format: double
-          description: In percent
+          description: 'Desired provision. Use percentage as an absolute value (0.015 for 1.5%)'
     Restschuld:
       type: object
       properties:
