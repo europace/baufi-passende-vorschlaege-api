@@ -33,8 +33,8 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 
 | Scope                                | API Usecase                                 |
 | -------------------------------------- | --------------------------------------------- |
-| `baufinanzierung:angebote:ermitteln` | to determine financial proposes |
-| `baufinanzierung:vorgaenge:schreiben` | to create case and bookmark and/or accept offer |
+| `baufinanzierung:angebot:ermitteln` | to determine financial proposes |
+| `baufinanzierung:vorgang:schreiben` | to create case and bookmark and/or accept offer |
 
 ## Find financial proposals
 
