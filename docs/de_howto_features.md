@@ -24,7 +24,6 @@ Beispiel als Ausschnitt eines API-Requests:
 | `ONLY_PREFERRED_TRADE_RELATIONS` | Beschränkt die erlaubten Handelsbeziehungen auf die IDs aus `kundenangaben.finanzierungsbedarf.praeferenzen.produktAnbieterIds`. Überspringt die Modellauswahl für Handelsbeziehungen. |
 | `DISABLE_PREFERRED_PA_PRIORIZATION` | Schaltet die Sonderberücksichtigung präferierter Produktanbieter bei der Auswahl der Ergebnisvorschläge ab. Die Auswahl erfolgt anhand der Scoring-Rangfolge. |
 | `ENABLE_CACHE` | Aktiviert die Wiederverwendung einer vorhandenen Anfrage beim asynchronen Vorschlagsaufruf. Bei einem Cache-Treffer wird deren Anfrage-ID zurückgegeben; bei einem Miss startet eine neue Berechnung. Ergebnisse erhalten die konfigurierte Cache-TTL. |
-| `no-logging` | Unterdrückt die Datenablage-Events für Anfrage, Metadaten, Angebote, Scorings und Vorschläge sowie die damit verbundene Logging-Ablage. Betriebslogs und Laufzeitmetriken bleiben aktiv. |
 | `DISABLE_LEADRATING` | Überspringt die Berechnung des LeadRatings für Erfolg und Aufwand im PostMe-Workflow. Das Angebots-Scoring bleibt aktiv. |
 | `PASST_OPTIONEN` | Aktiviert für unterstützte Anfragen und Anbieter zusätzliche Finanzierungsvarianten mit abweichender Zinsbindung, Tilgung oder deren Kombination. Die Varianten werden im Ergebnis entsprechenden Optionen zugeordnet. |
 | `PASST_ENABLE_EXTENDED_MATRIX` | Aktiviert den Matrixmodus im Scoring. Wird beim Modus `exploration-matrix` gemeinsam mit `PASST_OPTIONEN` ergänzt. |
