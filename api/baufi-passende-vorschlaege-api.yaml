@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: 'As consumer, I want to determine appropriate financing proposals based on my situation and preferences. Analyze my needs and compare and find the best offers which fits my needs.'
-  version: 1.0.102
+  version: 1.0.103
   title: Vorschlaege API
   contact:
     name: Europace AG
@@ -433,7 +433,7 @@ components:
       properties:
         anzahlKinderImHaushalt:
           type: integer
-          description: 'Number of children in the household'
+          description: 'Number of children in the household. Child benefit is automatically included for each child.'
           example: 2
           minimum: 0
           maximum: 20
@@ -650,7 +650,7 @@ components:
           $ref: '#/components/schemas/Praeferenzen'
         darlehenswunsch:
           type: number
-          description: 'Desired loan amount. In euros'
+          description: 'Desired loan amount. In euros. Recommended only if it can be ensured that the financing will remain fully covered.'
           example: 250000.00
         herstellungskostenInklusiveEigenleistungen:
           type: number
@@ -662,7 +662,7 @@ components:
         endEnergieGeplant:
           type: number
           description: 'Planned final energy requirement after modernization in KWh/m²a'
-          example: 4.50
+          example: 44.50
     Anschrift:
       type: object
       properties:
@@ -766,12 +766,12 @@ components:
           deprecated: true
         optionaleSondertilgung:
           type: number
-          description: 'Amount of the desired optional unscheduled repayment during the fixed-interest period in percent'
+          description: 'Amount of the desired optional unscheduled repayment during the fixed-interest period in percent. Default for all usecases 5%'
           example: 5.0
         bereitstellungszinsfreieZeit:
           type: integer
           format: int32
-          description: 'Desired provision interest-free period in months'
+          description: 'Desired provision interest-free period in months. Defaults: KAUF 3 months; NEUBAU and KAUF_NEUBAU_VOM_BAUTRAEGER 12 months; MODERNISIERUNG_UMBAU_ANBAU, ANSCHLUSSFINANZIERUNG and KAPITALBESCHAFFUNG 0 months.'
           example: 6
         produktAnbieterIds:
           type: string
